@@ -1,0 +1,14 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  color: black;
+  text-rendering: optimizelegibility;
+
+  color-scheme: light dark;
+  background-color: white;
+
+  font-synthesis: none;
+}
