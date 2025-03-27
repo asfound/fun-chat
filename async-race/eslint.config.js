@@ -1,18 +1,21 @@
-import globals from 'globals';
 import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import perfectionist from 'eslint-plugin-perfectionist';
 import prettier from 'eslint-config-prettier';
+import perfectionist from 'eslint-plugin-perfectionist';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
-/** @type {import('eslint').Linter.Config[]} */
+/** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} */
 export default [
   { files: ['**/*.{js,mjs,cjs,ts}'] },
+  { ignores: ['dist', 'node_modules', '**/*config.js'] },
   {
-    languageOptions: { globals: globals.browser },
-    parserOptions: {
-      projectService: true,
-      tsconfigRootDir: import.meta.dirname,
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
   },
   {
@@ -20,7 +23,7 @@ export default [
       'import/resolver': {
         alias: {
           extensions: ['.ts', '.js', '.json'],
-          map: [['@', './src']],
+          map: [['~', './src']],
         },
       },
     },
@@ -42,15 +45,25 @@ export default [
         { accessibility: 'explicit', overrides: { constructors: 'off' } },
       ],
       '@typescript-eslint/member-ordering': 'error',
-      'class-methods-use-this': 'error',
-      'unicorn/better-regex': 'warn',
-      'max-lines-per-function': ['error', { max: 40 }],
+      'max-lines-per-function': [
+        'error',
+        { max: 40, skipBlankLines: true, skipComments: true },
+      ],
+      'no-magic-numbers': 'error',
+      'lines-between-class-members': ['error', 'always'],
     },
   },
   pluginJs.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.strictTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
   eslintPluginUnicorn.configs.recommended,
   prettier,
+  {
+    rules: {
+      'unicorn/no-null': 'off',
+      'unicorn/better-regex': 'warn',
+    },
+  },
   {
     linterOptions: {
       noInlineConfig: true,
