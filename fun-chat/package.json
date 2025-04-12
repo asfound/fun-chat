@@ -1,5 +1,5 @@
 {
-  "name": "async-race",
+  "name": "fun-chat",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,12 +7,12 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist -e async-race",
+    "deploy": "npm run build && gh-pages -d dist -e fun-chat",
     "format": "prettier --write . --ignore-unknown",
     "lint": "eslint '**/*.{js,ts}'",
     "lint:fix": "eslint --fix .",
     "stylelint": "stylelint '**/*.css' --fix",
-    "prepare": "cd .. && husky async-race/.husky"
+    "prepare": "cd .. && husky fun-chat/.husky"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
@@ -26,6 +26,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-perfectionist": "^4.9.0",
     "eslint-plugin-unicorn": "^57.0.0",
+    "gh-pages": "^6.3.0",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
