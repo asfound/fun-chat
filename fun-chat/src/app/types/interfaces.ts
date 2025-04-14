@@ -4,6 +4,8 @@ import type { EmitterCallback } from './types';
 
 export interface State {
   currentAppPage: Route;
+
+  isWebsocketOpen: boolean;
 }
 
 export interface Store {

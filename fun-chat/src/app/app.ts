@@ -3,6 +3,7 @@ import { createLoginPage } from './pages/login/login-page';
 import { Route } from './router/route';
 import { initRouter } from './router/router';
 import { WebSocketClient } from './services/websocket/websocket-client';
+import { store } from './store/store';
 import { main, section } from './utils/create-element';
 
 export function initApp(): void {
@@ -14,7 +15,7 @@ export function initApp(): void {
 
   document.body.append(mainElement);
 
-  const client = new WebSocketClient(BASE_URL);
+  const client = new WebSocketClient(BASE_URL, store);
 
   client.open();
 

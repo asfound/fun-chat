@@ -24,6 +24,8 @@ export function createStore(initialState: State): Store {
 
 const defaultState: State = {
   currentAppPage: Route.LOGIN,
+
+  isWebsocketOpen: false,
 };
 
 export const store = createStore(defaultState);
