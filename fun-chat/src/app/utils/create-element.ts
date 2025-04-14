@@ -1,4 +1,4 @@
-import { isNonNullable } from '../types/type-guards';
+import { isNonNullable } from '../types/guards';
 
 export type TagType = keyof HTMLElementTagNameMap;
 
