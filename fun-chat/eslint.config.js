@@ -49,7 +49,7 @@ export default [
         'error',
         { max: 40, skipBlankLines: true, skipComments: true },
       ],
-      'no-magic-numbers': 'error',
+      'no-magic-numbers': ['error', { ignoreArrayIndexes: true }],
       'lines-between-class-members': ['error', 'always'],
     },
   },
@@ -62,6 +62,7 @@ export default [
     rules: {
       'unicorn/no-null': 'off',
       'unicorn/better-regex': 'warn',
+      'unicorn/prefer-event-target': 'off',
     },
   },
   {
