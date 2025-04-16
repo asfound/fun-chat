@@ -5,16 +5,12 @@ import { createLoginPage } from './pages/login/login-page';
 import { Route } from './router/route';
 import { initRouter } from './router/router';
 import { WebSocketClient } from './services/websocket/websocket-client';
-import { main, section } from './utils/create-element';
+import { div } from './utils/create-element';
 
 export function initApp(): void {
-  const mainElement = main({});
+  const root = div({});
 
-  const root = section({});
-
-  mainElement.append(root);
-
-  document.body.append(mainElement);
+  document.body.append(root);
 
   const client = new WebSocketClient(BASE_URL, store);
 

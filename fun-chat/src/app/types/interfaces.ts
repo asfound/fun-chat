@@ -1,16 +1,10 @@
-// export interface State {
-//   currentAppPage: Route;
-
-//   isWebsocketOpen: boolean;
-// }
-
-// export interface Store {
-//   getState: () => State;
-
-//   updateState: (newState: Partial<State>) => void;
-
-//   subscribe: (event: EventType, callback: EmitterCallback<State>) => void;
-// }
+export interface ButtonProperties {
+  textContent: string;
+  type?: HTMLButtonElement['type'];
+  className?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+}
 
 export interface State {
   isWebsocketOpen: boolean;

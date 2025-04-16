@@ -1,6 +1,12 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-weight: 400;
+  --white: #fbfbfb;
+  --primary-dark: #1c1c1c;
+  --primary-bright: #e4e2da;
+  --primary-medium: #4c4c4c;
+  --accent: #ffe338;
+
+  font-family: Montserrat, Arial, sans-serif;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;

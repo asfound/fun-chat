@@ -1,0 +1,29 @@
+.button {
+  padding: 0.1rem 0.5rem;
+  border: 1px var(--primary-bright) solid;
+
+  font: inherit;
+  color: var(--primary-bright);
+  text-transform: capitalize;
+
+  background-color: var(--primary-dark);
+
+  transition:
+    color 0.2s,
+    transform 0.3s;
+}
+
+.button:hover {
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.button:active {
+  transform: scale(0.96);
+}
+
+.button:disabled {
+  pointer-events: none;
+  border: 1px var(--primary-medium) solid;
+  color: var(--primary-medium);
+}

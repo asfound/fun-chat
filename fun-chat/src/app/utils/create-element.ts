@@ -36,7 +36,19 @@ function createElementFactory<T extends TagType>(tag: T) {
   };
 }
 
+export const button = createElementFactory('button');
+
 export const div = createElementFactory('div');
+
+export const fieldset = createElementFactory('fieldset');
+
+export const form = createElementFactory('form');
+
+export const input = createElementFactory('input');
+
+export const label = createElementFactory('label');
+
+export const legend = createElementFactory('legend');
 
 export const main = createElementFactory('main');
 
