@@ -1,4 +1,4 @@
-import type { EmitterCallback } from '../types/types';
+export type EmitterCallback<T> = (data: T) => void;
 
 export class EventEmitter<T, E> {
   private readonly events = new Map<E, EmitterCallback<T>[]>();

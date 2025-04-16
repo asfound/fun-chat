@@ -40,4 +40,6 @@ export const div = createElementFactory('div');
 
 export const main = createElementFactory('main');
 
+export const p = createElementFactory('p');
+
 export const section = createElementFactory('section');
