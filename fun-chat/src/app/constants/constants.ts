@@ -1,8 +1,15 @@
 export const BASE_URL = 'http://127.0.0.1:4000';
 
+export const APP_NAME = 'Fun Chat';
+
 export const BUTTON_TYPE = {
   BUTTON: 'button',
   SUBMIT: 'submit',
+} as const;
+
+export const BUTTON_TEXT = {
+  LOGOUT: 'Logout',
+  ABOUT: 'About App',
 } as const;
 
 export const LOGIN_LENGTH = {
@@ -31,14 +38,20 @@ export const INPUT_TYPE = {
 export const INPUT_NAME = {
   LOGIN: 'login',
   PASSWORD: 'password',
-};
+} as const;
 
 export const PLACEHOLDER = {
   LOGIN: 'Enter name',
   PASSWORD: 'Enter password',
-};
+} as const;
 
 export const LEGEND_TEXT = 'Login to start chatting';
+
+export const EXTERNAL_LINK = {
+  SCHOOL: { HREF: 'https://rs.school', TEXT: 'RS School' },
+  GITHUB: { HREF: 'https://github.com/asfound', TEXT: 'asfound' },
+  TARGET: '_blank',
+} as const;
 
 export const CLIENT_REQUEST_TYPE = {
   USER_LOGIN: 'USER_LOGIN',

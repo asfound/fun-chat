@@ -1,15 +1,25 @@
+import { createButton } from '~/app/components/button/button';
 import { createAuthForm } from '~/app/components/form/form';
+import { BUTTON_TEXT } from '~/app/constants/constants';
 import { Route } from '~/app/router/route';
-import { a, div } from '~/app/utils/create-element';
+import { navigate } from '~/app/router/router';
+import { div } from '~/app/utils/create-element';
+
+import styles from './login-page.module.css';
 
 export function createLoginPage(): HTMLDivElement {
-  const container = div({});
+  const container = div({ className: styles.container });
 
   const form = createAuthForm();
 
-  const aboutLink = a({ textContent: 'About App', href: Route.ABOUT });
+  const aboutButton = createButton({
+    textContent: BUTTON_TEXT.ABOUT,
+    onClick: () => {
+      navigate(Route.ABOUT);
+    },
+  });
 
-  container.append(form, aboutLink);
+  container.append(form, aboutButton);
 
   return container;
 }

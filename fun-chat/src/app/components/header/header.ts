@@ -4,31 +4,47 @@ import type {
   LogoutResponsePayload,
 } from '~/app/types/interfaces';
 
-import { CLIENT_REQUEST_TYPE } from '~/app/constants/constants';
+import {
+  APP_NAME,
+  BUTTON_TEXT,
+  CLIENT_REQUEST_TYPE,
+} from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
 import { Route } from '~/app/router/route';
+import { navigate } from '~/app/router/router';
 import { getWebSocketClient } from '~/app/services/websocket/websocket-client';
 import { changeCurrentUser } from '~/app/store/actions';
-import { a, h1, header } from '~/app/utils/create-element';
+import { div, h1, header } from '~/app/utils/create-element';
 
 import { createButton } from '../button/button';
+import styles from './header.module.css';
 import { createUserDisplay } from './user-display/user-display';
 
 export function createHeader(): HTMLElement {
-  const headerElement = header({});
+  const headerElement = header({ className: styles.header });
 
   const currentUser = createUserDisplay();
 
-  const appName = h1({ textContent: 'Fun Chat' });
+  const appName = h1({ textContent: APP_NAME, className: styles.title });
 
-  const aboutLink = a({ textContent: 'About App', href: Route.ABOUT });
+  const aboutButton = createButton({
+    textContent: BUTTON_TEXT.ABOUT,
+    onClick: () => {
+      navigate(Route.ABOUT);
+    },
+  });
 
   const logoutButton = createButton({
-    textContent: 'Logout',
+    textContent: BUTTON_TEXT.LOGOUT,
     onClick: handleLogout,
   });
 
-  headerElement.append(currentUser, appName, aboutLink, logoutButton);
+  const titleContainer = div({ className: styles.titleContainer }, [
+    appName,
+    currentUser,
+  ]);
+
+  headerElement.append(aboutButton, titleContainer, logoutButton);
 
   return headerElement;
 }
