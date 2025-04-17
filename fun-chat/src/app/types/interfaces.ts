@@ -38,12 +38,16 @@ export interface LoginRequestPayload {
   };
 }
 
+export type LogoutRequestPayload = LoginRequestPayload;
+
 export interface LoginResponsePayload {
   user: {
     login: string;
     isLogined: boolean;
   };
 }
+
+export type LogoutResponsePayload = LoginResponsePayload;
 
 export interface CurrentUser {
   login: string;
