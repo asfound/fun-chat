@@ -1,3 +1,5 @@
+import type { CurrentUser } from '../types/interfaces';
+
 export const ACTION = {
   SET_SOCKET_STATE: 'socketStateChange',
   SET_CURRENT_USER: 'setCurrentUser',
@@ -24,7 +26,7 @@ export const setSocketState = (value: boolean): SocketStateChange => ({
 
 export type CurrentUserChange = ActionWithPayload<
   typeof ACTION.SET_CURRENT_USER,
-  string
+  CurrentUser | null
 >;
 
 export type AllActions = SocketStateChange | CurrentUserChange;

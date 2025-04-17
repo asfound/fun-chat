@@ -39,3 +39,29 @@ export const PLACEHOLDER = {
 };
 
 export const LEGEND_TEXT = 'Login to start chatting';
+
+export const CLIENT_REQUEST_TYPE = {
+  USER_LOGIN: 'USER_LOGIN',
+  USER_LOGOUT: 'USER_LOGOUT',
+} as const;
+
+export const SERVER_RESPONSE_TYPE = {
+  ...CLIENT_REQUEST_TYPE,
+  ERROR: 'ERROR',
+} as const;
+
+export const SERVER_REQUEST_TYPE = {
+  USER_EXTERNAL_LOGIN: 'USER_EXTERNAL_LOGIN',
+  USER_EXTERNAL_LOGOUT: 'USER_EXTERNAL_LOGOUT',
+};
+
+export type ClientRequestType =
+  (typeof CLIENT_REQUEST_TYPE)[keyof typeof CLIENT_REQUEST_TYPE];
+
+export type ServerResponseType =
+  (typeof SERVER_RESPONSE_TYPE)[keyof typeof SERVER_RESPONSE_TYPE];
+
+export type ServerRequestType =
+  (typeof SERVER_REQUEST_TYPE)[keyof typeof SERVER_REQUEST_TYPE];
+
+export const EMPTY_STRING = '';

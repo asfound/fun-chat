@@ -1,4 +1,5 @@
 import { createAuthForm } from '~/app/components/form/form';
+import { Route } from '~/app/router/route';
 import { a, div } from '~/app/utils/create-element';
 
 export function createLoginPage(): HTMLDivElement {
@@ -6,9 +7,9 @@ export function createLoginPage(): HTMLDivElement {
 
   const form = createAuthForm();
 
-  const infoLink = a({ textContent: 'Info', href: '#info' });
+  const aboutLink = a({ textContent: 'About App', href: Route.ABOUT });
 
-  container.append(form, infoLink);
+  container.append(form, aboutLink);
 
   return container;
 }

@@ -35,15 +35,28 @@ function createElementFactory<T extends TagType>(tag: T) {
     return element;
   };
 }
+
 export const a = createElementFactory('a');
 
+export const article = createElementFactory('article');
+
+export const aside = createElementFactory('aside');
+
 export const button = createElementFactory('button');
+
+export const dialog = createElementFactory('dialog');
 
 export const div = createElementFactory('div');
 
 export const fieldset = createElementFactory('fieldset');
 
+export const footer = createElementFactory('footer');
+
 export const form = createElementFactory('form');
+
+export const h1 = createElementFactory('h1');
+
+export const header = createElementFactory('header');
 
 export const input = createElementFactory('input');
 
@@ -56,3 +69,5 @@ export const main = createElementFactory('main');
 export const p = createElementFactory('p');
 
 export const section = createElementFactory('section');
+
+export const span = createElementFactory('span');

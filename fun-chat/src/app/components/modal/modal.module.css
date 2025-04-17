@@ -1,0 +1,52 @@
+.modal {
+  overflow: visible;
+  padding: 0;
+  background-color: var(--primary-bright);
+}
+
+.modal::backdrop {
+  background-color: rgb(39 39 39 / 55%);
+}
+
+.button {
+  cursor: pointer;
+
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 1rem;
+  height: 1rem;
+  border: none;
+
+  background: none;
+
+  &::before,
+  &::after {
+    content: '';
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+
+    display: block;
+
+    width: 1rem;
+    height: 1px;
+
+    background-color: var(--primary-bright);
+  }
+
+  &::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}

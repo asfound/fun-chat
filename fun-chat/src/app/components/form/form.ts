@@ -1,10 +1,18 @@
+import type {
+  ClientRequest,
+  LoginRequestPayload,
+  LoginResponsePayload,
+} from '~/app/types/interfaces';
+
 import {
   BUTTON_TYPE,
   INPUT_NAME,
   INPUT_TYPE,
   LEGEND_TEXT,
   PLACEHOLDER,
+  CLIENT_REQUEST_TYPE,
 } from '~/app/constants/constants';
+import { getWebSocketClient } from '~/app/services/websocket/websocket-client';
 import { fieldset, form, legend } from '~/app/utils/create-element';
 
 import { createButton } from '../button/button';
@@ -22,12 +30,6 @@ export function createAuthForm(): HTMLFormElement {
   });
   fieldsetElement.append(fieldsetLegend);
 
-  const submitButton = createButton({
-    textContent: 'Start',
-    type: BUTTON_TYPE.SUBMIT,
-    disabled: true,
-  });
-
   const { container: nameContainer, input: loginInput } = createInput(
     INPUT_TYPE.TEXT,
     INPUT_NAME.LOGIN,
@@ -41,6 +43,17 @@ export function createAuthForm(): HTMLFormElement {
     PLACEHOLDER.PASSWORD,
     validatePassword
   );
+
+  const submitButton = createButton({
+    textContent: 'Start',
+    type: BUTTON_TYPE.SUBMIT,
+    disabled: true,
+    onClick: (event) => {
+      event?.preventDefault();
+      submitForm(loginInput, passwordInput);
+    },
+  });
+
   const validateForm = (): void => {
     const loginError = validateLogin(loginInput.value);
     const passwordError = validatePassword(passwordInput.value);
@@ -57,4 +70,35 @@ export function createAuthForm(): HTMLFormElement {
   formElement.append(fieldsetElement, submitButton);
 
   return formElement;
+}
+
+function submitForm(
+  loginInput: HTMLInputElement,
+  passwordInput: HTMLInputElement
+): void {
+  const client = getWebSocketClient();
+
+  const id = crypto.randomUUID();
+
+  const payload: LoginRequestPayload = {
+    user: {
+      login: loginInput.value,
+      password: passwordInput.value,
+    },
+  };
+
+  const request: ClientRequest = {
+    id,
+    type: CLIENT_REQUEST_TYPE.USER_LOGIN,
+    payload,
+  };
+
+  client
+    .sendRequest<LoginResponsePayload>(request)
+    .then((response) => {
+      console.log('Response for login:', response.user);
+    })
+    .catch((error: unknown) => {
+      console.log(error);
+    });
 }
