@@ -35,6 +35,7 @@ function createElementFactory<T extends TagType>(tag: T) {
     return element;
   };
 }
+export const a = createElementFactory('a');
 
 export const button = createElementFactory('button');
 

@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  max-width: 11.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  padding: 0.25rem;
+  border: 1px solid var(--primary-dark);
+  border-radius: 4px;
+
+  font-family: inherit;
+
+  background-color: var(--white);
+  outline: none;
+}
+
+.input.error {
+  border-color: var(--invalid);
+}
+
+.message {
+  display: none;
+  font-size: 0.5rem;
+  color: var(--invalid);
+}
+
+.visible {
+  display: block;
+}

@@ -1,15 +1,14 @@
-import { createAuthForm } from '~/app/components/auth-form/auth-form';
-import { createButton } from '~/app/components/button/button';
-import { div } from '~/app/utils/create-element';
+import { createAuthForm } from '~/app/components/form/form';
+import { a, div } from '~/app/utils/create-element';
 
 export function createLoginPage(): HTMLDivElement {
   const container = div({});
 
   const form = createAuthForm();
 
-  const infoButton = createButton({ textContent: 'Info' });
+  const infoLink = a({ textContent: 'Info', href: '#info' });
 
-  container.append(form, infoButton);
+  container.append(form, infoLink);
 
   return container;
 }

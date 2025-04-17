@@ -1,0 +1,17 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+
+  max-width: 23.75rem;
+  margin: 0 auto;
+  margin-top: 10vh;
+  padding: 0.5rem;
+
+  background-color: rgb(233 233 233);
+}
+
+.fieldset {
+  padding-top: 1rem;
+}
