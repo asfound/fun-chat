@@ -1,5 +1,6 @@
 import type {
   ClientRequest,
+  CurrentUser,
   LoginRequestPayload,
   LoginResponsePayload,
 } from '~/app/types/interfaces';
@@ -12,7 +13,9 @@ import {
   PLACEHOLDER,
   CLIENT_REQUEST_TYPE,
 } from '~/app/constants/constants';
+import { store } from '~/app/lib/store/store';
 import { getWebSocketClient } from '~/app/services/websocket/websocket-client';
+import { changeCurrentUser } from '~/app/store/actions';
 import { fieldset, form, legend } from '~/app/utils/create-element';
 
 import { createButton } from '../button/button';
@@ -89,14 +92,19 @@ function submitForm(
 
   const request: ClientRequest = {
     id,
-    type: CLIENT_REQUEST_TYPE.USER_LOGIN,
     payload,
+    type: CLIENT_REQUEST_TYPE.USER_LOGIN,
   };
 
   client
     .sendRequest<LoginResponsePayload>(request)
     .then((response) => {
-      console.log('Response for login:', response.user);
+      const userData: CurrentUser = {
+        login: response.user.login,
+        password: passwordInput.value,
+      };
+
+      store.dispatch(changeCurrentUser(userData));
     })
     .catch((error: unknown) => {
       console.log(error);

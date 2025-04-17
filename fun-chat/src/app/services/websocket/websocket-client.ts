@@ -96,6 +96,7 @@ export class WebSocketClient {
     const serverMessage = JSON.parse(data) as ServerMessage;
     if ('id' in serverMessage) {
       const promiseToResolve = this.requests.get(serverMessage.id);
+
       if (promiseToResolve) {
         if (
           serverMessage.type === SERVER_RESPONSE_TYPE.ERROR &&

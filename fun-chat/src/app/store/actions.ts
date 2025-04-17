@@ -29,4 +29,11 @@ export type CurrentUserChange = ActionWithPayload<
   CurrentUser | null
 >;
 
+export const changeCurrentUser = (
+  value: CurrentUser | null
+): CurrentUserChange => ({
+  type: ACTION.SET_CURRENT_USER,
+  payload: value,
+});
+
 export type AllActions = SocketStateChange | CurrentUserChange;
