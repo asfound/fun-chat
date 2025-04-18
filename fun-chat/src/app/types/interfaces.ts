@@ -15,7 +15,7 @@ export interface ButtonProperties {
 export interface ClientRequest {
   id: string;
   type: ClientRequestType;
-  payload: LoginRequestPayload;
+  payload: LoginRequestPayload | null;
 }
 
 export type ServerMessage = ServerResponse | ServerRequest;
@@ -57,6 +57,10 @@ export interface CurrentUser {
 export interface User {
   login: string;
   isLogined: boolean;
+}
+
+export interface GetUsersResponsePayload {
+  users: User[];
 }
 
 export interface ErrorPayload {

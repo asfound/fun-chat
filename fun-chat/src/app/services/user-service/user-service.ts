@@ -1,13 +1,15 @@
+import type { ClientRequestType } from '~/app/constants/constants';
 import type {
   LoginRequestPayload,
   ClientRequest,
   LoginResponsePayload,
   CurrentUser,
+  GetUsersResponsePayload,
 } from '~/app/types/interfaces';
 
 import { CLIENT_REQUEST_TYPE } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
-import { changeCurrentUser } from '~/app/store/actions';
+import { changeCurrentUser, setUsers } from '~/app/store/actions';
 
 import { getWebSocketClient } from '../websocket/websocket-client';
 
@@ -38,6 +40,36 @@ export function authorizeUser(login: string, password: string): void {
       };
 
       store.dispatch(changeCurrentUser(userData));
+    })
+    .catch((error: unknown) => {
+      console.log(error);
+    });
+}
+
+function getUsers(
+  requestType: ClientRequestType
+): Promise<GetUsersResponsePayload> {
+  const client = getWebSocketClient();
+
+  const id = crypto.randomUUID();
+
+  const request: ClientRequest = {
+    id,
+    payload: null,
+    type: CLIENT_REQUEST_TYPE[requestType],
+  };
+
+  return client.sendRequest<GetUsersResponsePayload>(request);
+}
+
+export function getAllUsers(): void {
+  Promise.all([
+    getUsers(CLIENT_REQUEST_TYPE.USER_ACTIVE),
+    getUsers(CLIENT_REQUEST_TYPE.USER_INACTIVE),
+  ])
+    .then((value) => {
+      const users = value.map((payload) => payload.users);
+      store.dispatch(setUsers(users.flat()));
     })
     .catch((error: unknown) => {
       console.log(error);

@@ -11,11 +11,11 @@ import { ACTION } from './store/actions';
 import { div } from './utils/create-element';
 
 export function initApp(): void {
+  getWebSocketClient().open();
+
   const root = div({});
 
   document.body.append(root);
-
-  getWebSocketClient().open();
 
   createLoader(store);
 

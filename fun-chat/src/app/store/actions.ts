@@ -1,8 +1,9 @@
-import type { CurrentUser } from '../types/interfaces';
+import type { CurrentUser, User } from '../types/interfaces';
 
 export const ACTION = {
   SET_SOCKET_STATE: 'socketStateChange',
   SET_CURRENT_USER: 'setCurrentUser',
+  SET_USERS: 'setUsers',
 } as const;
 
 export type ActionType = (typeof ACTION)[keyof typeof ACTION];
@@ -36,4 +37,11 @@ export const changeCurrentUser = (
   payload: value,
 });
 
-export type AllActions = SocketStateChange | CurrentUserChange;
+export type UsersChange = ActionWithPayload<typeof ACTION.SET_USERS, User[]>;
+
+export const setUsers = (value: User[]): UsersChange => ({
+  type: ACTION.SET_USERS,
+  payload: value,
+});
+
+export type AllActions = SocketStateChange | CurrentUserChange | UsersChange;

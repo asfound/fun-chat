@@ -1,0 +1,7 @@
+.user::marker {
+  color: var(--invalid);
+}
+
+.user.online::marker {
+  color: var(--valid);
+}

@@ -1,5 +1,7 @@
 import { INPUT_TYPE } from '~/app/constants/constants';
-import { aside, input, ul } from '~/app/utils/create-element';
+import { aside, input } from '~/app/utils/create-element';
+
+import { createUserList } from './user-list/user-list';
 
 export function createContacts(): HTMLElement {
   const asideElement = aside({});
@@ -9,7 +11,7 @@ export function createContacts(): HTMLElement {
     placeholder: 'Find user...',
   });
 
-  const userList = ul({});
+  const userList = createUserList();
 
   asideElement.append(searchInput, userList);
   return asideElement;

@@ -44,6 +44,13 @@ export const createReducer: StoreReducer<State> = (
       };
     }
 
+    case ACTION.SET_USERS: {
+      return {
+        ...state,
+        users: action.payload,
+      };
+    }
+
     default: {
       return state;
     }
