@@ -14,7 +14,13 @@ export function createUserList(): HTMLUListElement {
 
     const contacts = users
       .filter((user) => user.login !== currentUser?.login)
-      .filter((user) => user.login.includes(searchValue));
+      .filter((user) => user.login.includes(searchValue))
+      .sort((u1, u2) => {
+        if (u1.isLogined !== u2.isLogined) {
+          return Number(u2.isLogined) - Number(u1.isLogined);
+        }
+        return u1.login.localeCompare(u2.login);
+      });
 
     for (const contact of contacts) {
       const userElement = li({
@@ -34,6 +40,7 @@ export function createUserList(): HTMLUListElement {
 
   store.subscribe(ACTION.SET_USERS, render);
   store.subscribe(ACTION.SET_SEARCH_VALUE, render);
+  store.subscribe(ACTION.UPDATE_USER_STATUS, render);
 
   return userList;
 }

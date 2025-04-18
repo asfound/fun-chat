@@ -5,6 +5,7 @@ export const ACTION = {
   SET_CURRENT_USER: 'setCurrentUser',
   SET_USERS: 'setUsers',
   SET_SEARCH_VALUE: 'setSearchValue',
+  UPDATE_USER_STATUS: 'updateUserStatus',
 } as const;
 
 export type ActionType = (typeof ACTION)[keyof typeof ACTION];
@@ -55,8 +56,19 @@ export const setSearchInputValue = (value: string): SearchInputChange => ({
   payload: value,
 });
 
+export type UserStatusChange = ActionWithPayload<
+  typeof ACTION.UPDATE_USER_STATUS,
+  User
+>;
+
+export const updateUserStatus = (value: User): UserStatusChange => ({
+  type: ACTION.UPDATE_USER_STATUS,
+  payload: value,
+});
+
 export type AllActions =
   | SocketStateChange
   | CurrentUserChange
   | UsersChange
-  | SearchInputChange;
+  | SearchInputChange
+  | UserStatusChange;

@@ -2,7 +2,7 @@ import type { ClientRequestType } from '~/app/constants/constants';
 import type {
   LoginRequestPayload,
   ClientRequest,
-  LoginResponsePayload,
+  UserDataPayload,
   CurrentUser,
   GetUsersResponsePayload,
 } from '~/app/types/interfaces';
@@ -32,7 +32,7 @@ export function authorizeUser(login: string, password: string): void {
   };
 
   client
-    .sendRequest<LoginResponsePayload>(request)
+    .sendRequest<UserDataPayload>(request)
     .then((response) => {
       const userData: CurrentUser = {
         login: response.user.login,

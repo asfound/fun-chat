@@ -1,12 +1,17 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { State } from '~/app/store/reducer';
-import type { ClientRequest, ServerMessage } from '~/app/types/interfaces';
+import type {
+  ClientRequest,
+  ServerMessage,
+  ServerRequest,
+} from '~/app/types/interfaces';
 
 import { BASE_URL, SERVER_RESPONSE_TYPE } from '~/app/constants/constants';
 import { store, type Store } from '~/app/lib/store/store';
 import { setSocketState } from '~/app/store/actions';
 
+import { handleServerRequest } from '../server-request-handler';
 import { authorizeUser } from '../user-service/user-service';
 
 const REOPEN_INTERVAL = 3000;
@@ -102,7 +107,7 @@ export class WebSocketClient {
 
   private handleMessage(data: string): void {
     const serverMessage = JSON.parse(data) as ServerMessage;
-    if ('id' in serverMessage) {
+    if ('id' in serverMessage && serverMessage.id) {
       const promiseToResolve = this.requests.get(serverMessage.id);
 
       if (promiseToResolve) {
@@ -119,9 +124,9 @@ export class WebSocketClient {
       } else {
         console.error('Received response for unknown request', serverMessage);
       }
+    } else {
+      handleServerRequest(serverMessage as ServerRequest);
     }
-
-    console.log(data);
   }
 }
 

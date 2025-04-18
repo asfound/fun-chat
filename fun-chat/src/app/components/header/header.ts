@@ -1,7 +1,7 @@
 import type {
   ClientRequest,
   LogoutRequestPayload,
-  LogoutResponsePayload,
+  UserDataPayload,
 } from '~/app/types/interfaces';
 
 import {
@@ -71,7 +71,7 @@ function handleLogout(): void {
     };
 
     client
-      .sendRequest<LogoutResponsePayload>(request)
+      .sendRequest<UserDataPayload>(request)
       .then(() => {
         store.dispatch(changeCurrentUser(null));
       })

@@ -62,6 +62,28 @@ export const createReducer: StoreReducer<State> = (
       };
     }
 
+    case ACTION.UPDATE_USER_STATUS: {
+      let users: User[] = structuredClone(state.users);
+      const user = action.payload;
+      const userExists = users.some(
+        (user) => user.login === action.payload.login
+      );
+
+      if (userExists) {
+        users = users.map((user) =>
+          user.login === action.payload.login
+            ? { ...user, isLogined: action.payload.isLogined }
+            : user
+        );
+      } else {
+        users.push(user);
+      }
+      return {
+        ...state,
+        users: users,
+      };
+    }
+
     default: {
       return state;
     }

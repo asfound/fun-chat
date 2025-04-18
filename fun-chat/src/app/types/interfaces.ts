@@ -23,12 +23,12 @@ export type ServerMessage = ServerResponse | ServerRequest;
 export interface ServerResponse {
   id: string;
   type: ServerResponseType;
-  payload: LoginResponsePayload | ErrorPayload;
+  payload: UserDataPayload | ErrorPayload;
 }
 
 export interface ServerRequest {
   type: ServerRequestType;
-  payload: LoginResponsePayload;
+  payload: UserDataPayload;
 }
 
 export interface LoginRequestPayload {
@@ -40,14 +40,12 @@ export interface LoginRequestPayload {
 
 export type LogoutRequestPayload = LoginRequestPayload;
 
-export interface LoginResponsePayload {
+export interface UserDataPayload {
   user: {
     login: string;
     isLogined: boolean;
   };
 }
-
-export type LogoutResponsePayload = LoginResponsePayload;
 
 export interface CurrentUser {
   login: string;
