@@ -1,6 +1,6 @@
 import {
   createReducer,
-  defaultState,
+  initialState,
   type StoreReducer,
 } from '~/app/store/reducer.ts';
 import { EventEmitter } from '~/app/utils/event-emitter';
@@ -19,7 +19,7 @@ export const createStore = <S>(
   reducer: StoreReducer<S>,
   initialState: S
 ): Store<S> => {
-  let state = { ...initialState };
+  let state = structuredClone(initialState);
   const eventEmitter = new EventEmitter<S, ActionType>();
 
   return {
@@ -37,4 +37,4 @@ export const createStore = <S>(
   };
 };
 
-export const store = createStore(createReducer, defaultState);
+export const store = createStore(createReducer, initialState);

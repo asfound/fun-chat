@@ -5,6 +5,7 @@ import { createChatPage } from './pages/chat/chat-page';
 import { createLoginPage } from './pages/login/login-page';
 import { Route } from './router/route';
 import { initRouter, navigate } from './router/router';
+import { saveStateToSessionStorage } from './services/session-storage/session-storage';
 import { getWebSocketClient } from './services/websocket/websocket-client';
 import { ACTION } from './store/actions';
 import { div } from './utils/create-element';
@@ -30,5 +31,9 @@ export function initApp(): void {
       [Route.CHAT, (): HTMLDivElement => createChatPage()],
       [Route.ABOUT, (): HTMLDivElement => createAboutPage()],
     ]),
+  });
+
+  window.addEventListener('beforeunload', () => {
+    saveStateToSessionStorage(store.getState());
   });
 }

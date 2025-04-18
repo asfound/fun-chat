@@ -2,6 +2,7 @@ import type { CurrentUser } from '~/app/types/interfaces';
 
 import type { AllActions } from './actions';
 
+import { loadStateFromSessionStorage } from '../services/session-storage/session-storage';
 import { ACTION } from './actions';
 
 export type StoreReducer<S> = (state: S, action: AllActions) => S;
@@ -10,10 +11,15 @@ export interface State {
   currentUser: CurrentUser | null;
 }
 
+export type StoredState = Omit<State, 'isWebsocketOpen'>;
+
 export const defaultState: State = {
   isWebsocketOpen: false,
   currentUser: null,
 };
+
+export const initialState: State =
+  loadStateFromSessionStorage() ?? defaultState;
 
 export const createReducer: StoreReducer<State> = (
   state: State,
