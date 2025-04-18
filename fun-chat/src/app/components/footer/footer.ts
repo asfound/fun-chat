@@ -10,12 +10,14 @@ export function createFooter(): HTMLElement {
     textContent: EXTERNAL_LINK.SCHOOL.TEXT,
     href: EXTERNAL_LINK.SCHOOL.HREF,
     target: EXTERNAL_LINK.TARGET,
+    className: styles.link,
   });
 
   const githubLink = a({
     textContent: EXTERNAL_LINK.GITHUB.TEXT,
     href: EXTERNAL_LINK.GITHUB.HREF,
     target: EXTERNAL_LINK.TARGET,
+    className: styles.link,
   });
 
   const year = span({ textContent: '2025' });

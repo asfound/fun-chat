@@ -6,8 +6,10 @@ import { getAllUsers } from '~/app/services/user-service/user-service';
 import { ACTION } from '~/app/store/actions';
 import { div, section } from '~/app/utils/create-element';
 
+import styles from './chat-page.module.css';
+
 export function createChatPage(): HTMLDivElement {
-  const container = div({});
+  const wrapper = div({ className: styles.wrapper });
 
   if (store.getState().isWebsocketOpen) {
     getAllUsers();
@@ -19,11 +21,11 @@ export function createChatPage(): HTMLDivElement {
 
   const contactList = createContacts();
 
-  const sectionElement = section({}, [contactList]);
+  const sectionElement = section({ className: styles.section }, [contactList]);
 
   const footer = createFooter();
 
-  container.append(header, sectionElement, footer);
+  wrapper.append(header, sectionElement, footer);
 
-  return container;
+  return wrapper;
 }

@@ -20,3 +20,24 @@
 
   font-synthesis: none;
 }
+
+body {
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  background: var(--primary-bright);
+}
+
+::-webkit-scrollbar-track {
+  border: 1px solid var(--primary-bright);
+  border-top: none;
+  border-bottom: none;
+  background: transparent;
+}

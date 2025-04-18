@@ -1,0 +1,25 @@
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  width: 30%;
+  padding: 0.5rem;
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.25rem;
+  border: 1px solid var(--primary-bright);
+  border-radius: 4px;
+
+  font-family: inherit;
+
+  background-color: var(--white);
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--primary-dark);
+}

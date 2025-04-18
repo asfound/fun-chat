@@ -1,7 +1,35 @@
-.user::marker {
+.list {
+  overflow-y: scroll;
+
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.user {
+  position: relative;
+  padding-left: 1.2em;
+}
+
+.user:hover {
+  cursor: pointer;
+  background-color: var(--primary-bright);
+}
+
+.user::before {
+  content: '•';
+
+  position: absolute;
+  top: 60%;
+  left: 0.1em;
+  transform: translateY(-60%);
+
+  font-size: 2rem;
   color: var(--invalid);
 }
 
-.user.online::marker {
+.user.online::before {
   color: var(--valid);
 }

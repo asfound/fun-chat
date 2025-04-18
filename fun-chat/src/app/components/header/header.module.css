@@ -5,12 +5,13 @@
   justify-content: space-between;
 
   margin-bottom: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
 
   background-color: var(--primary-bright);
 }
 
 .title {
+  margin: 0;
   font-size: 1.5rem;
 }
 

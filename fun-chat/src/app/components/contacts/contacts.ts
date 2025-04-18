@@ -3,15 +3,17 @@ import { store } from '~/app/lib/store/store';
 import { setSearchInputValue } from '~/app/store/actions';
 import { aside, input } from '~/app/utils/create-element';
 
+import styles from './contacts.module.css';
 import { createUserList } from './user-list/user-list';
 
 export function createContacts(): HTMLElement {
-  const asideElement = aside({});
+  const asideElement = aside({ className: styles.aside });
 
   const searchInput = input({
     type: INPUT_TYPE.TEXT,
     placeholder: 'Find user...',
     value: store.getState().searchValue,
+    className: styles.input,
   });
 
   searchInput.addEventListener('input', () => {

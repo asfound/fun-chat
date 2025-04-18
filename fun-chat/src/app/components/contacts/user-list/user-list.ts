@@ -7,7 +7,7 @@ import { li, ul } from '~/app/utils/create-element';
 import styles from './user-list.module.css';
 
 export function createUserList(): HTMLUListElement {
-  const userList = ul({});
+  const userList = ul({ className: styles.list });
 
   const render: Render = ({ users, currentUser, searchValue }) => {
     userList.replaceChildren();

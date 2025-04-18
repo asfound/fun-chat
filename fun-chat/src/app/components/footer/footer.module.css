@@ -7,3 +7,12 @@
 
   background-color: var(--primary-bright);
 }
+
+.link {
+  color: var(--primary-dark);
+  transition: text-decoration-color 0.2s;
+}
+
+.link:hover {
+  text-decoration-color: var(--accent);
+}

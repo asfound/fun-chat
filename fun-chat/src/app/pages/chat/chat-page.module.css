@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  height: 100vh;
+  margin: 0 0.5rem;
+}
+
+.section {
+  display: flex;
+  height: 70svh;
+  margin-bottom: 1rem;
+}

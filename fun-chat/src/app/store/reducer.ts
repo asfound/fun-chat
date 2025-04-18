@@ -29,6 +29,7 @@ export const defaultState: State = {
 export const initialState: State =
   loadStateFromSessionStorage() ?? defaultState;
 
+// eslint-disable-next-line max-lines-per-function
 export const createReducer: StoreReducer<State> = (
   state: State,
   action: AllActions

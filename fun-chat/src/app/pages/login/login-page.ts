@@ -8,7 +8,7 @@ import { div } from '~/app/utils/create-element';
 import styles from './login-page.module.css';
 
 export function createLoginPage(): HTMLDivElement {
-  const container = div({ className: styles.container });
+  const wrapper = div({ className: styles.wrapper });
 
   const form = createAuthForm();
 
@@ -19,7 +19,7 @@ export function createLoginPage(): HTMLDivElement {
     },
   });
 
-  container.append(form, aboutButton);
+  wrapper.append(form, aboutButton);
 
-  return container;
+  return wrapper;
 }
