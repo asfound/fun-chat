@@ -1,21 +1,11 @@
-import type {
-  ClientRequest,
-  CurrentUser,
-  LoginRequestPayload,
-  LoginResponsePayload,
-} from '~/app/types/interfaces';
-
 import {
   BUTTON_TYPE,
   INPUT_NAME,
   INPUT_TYPE,
   LEGEND_TEXT,
   PLACEHOLDER,
-  CLIENT_REQUEST_TYPE,
 } from '~/app/constants/constants';
-import { store } from '~/app/lib/store/store';
-import { getWebSocketClient } from '~/app/services/websocket/websocket-client';
-import { changeCurrentUser } from '~/app/store/actions';
+import { authorizeUser } from '~/app/services/user-service/user-service';
 import { fieldset, form, legend } from '~/app/utils/create-element';
 
 import { createButton } from '../button/button';
@@ -53,7 +43,7 @@ export function createAuthForm(): HTMLFormElement {
     disabled: true,
     onClick: (event) => {
       event?.preventDefault();
-      submitForm(loginInput, passwordInput);
+      authorizeUser(loginInput.value, passwordInput.value);
     },
   });
 
@@ -73,40 +63,4 @@ export function createAuthForm(): HTMLFormElement {
   formElement.append(fieldsetElement, submitButton);
 
   return formElement;
-}
-
-function submitForm(
-  loginInput: HTMLInputElement,
-  passwordInput: HTMLInputElement
-): void {
-  const client = getWebSocketClient();
-
-  const id = crypto.randomUUID();
-
-  const payload: LoginRequestPayload = {
-    user: {
-      login: loginInput.value,
-      password: passwordInput.value,
-    },
-  };
-
-  const request: ClientRequest = {
-    id,
-    payload,
-    type: CLIENT_REQUEST_TYPE.USER_LOGIN,
-  };
-
-  client
-    .sendRequest<LoginResponsePayload>(request)
-    .then((response) => {
-      const userData: CurrentUser = {
-        login: response.user.login,
-        password: passwordInput.value,
-      };
-
-      store.dispatch(changeCurrentUser(userData));
-    })
-    .catch((error: unknown) => {
-      console.log(error);
-    });
 }

@@ -7,6 +7,8 @@ import { BASE_URL, SERVER_RESPONSE_TYPE } from '~/app/constants/constants';
 import { store, type Store } from '~/app/lib/store/store';
 import { setSocketState } from '~/app/store/actions';
 
+import { authorizeUser } from '../user-service/user-service';
+
 const REOPEN_INTERVAL = 3000;
 
 interface PromiseToResolve<R> {
@@ -50,6 +52,12 @@ export class WebSocketClient {
           }
 
           this.store.dispatch(setSocketState(true));
+
+          const { currentUser } = store.getState();
+
+          if (currentUser) {
+            authorizeUser(currentUser.login, currentUser.password);
+          }
         },
         { once: true }
       );

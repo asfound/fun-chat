@@ -64,6 +64,8 @@ export const label = createElementFactory('label');
 
 export const legend = createElementFactory('legend');
 
+export const li = createElementFactory('li');
+
 export const main = createElementFactory('main');
 
 export const p = createElementFactory('p');
@@ -71,3 +73,5 @@ export const p = createElementFactory('p');
 export const section = createElementFactory('section');
 
 export const span = createElementFactory('span');
+
+export const ul = createElementFactory('ul');

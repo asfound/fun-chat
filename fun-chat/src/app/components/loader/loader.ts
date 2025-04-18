@@ -1,5 +1,6 @@
+import type { State } from '~/app/store/reducer';
+
 import type { Store } from '../../lib/store/store';
-import type { State } from '../../types/interfaces';
 
 import { ACTION } from '../../store/actions';
 import { div, p } from '../../utils/create-element';
@@ -25,7 +26,6 @@ export function createLoader(store: Store<State>): void {
   };
 
   store.subscribe(ACTION.SET_SOCKET_STATE, ({ isWebsocketOpen }) => {
-    console.log('show', isWebsocketOpen);
     if (isWebsocketOpen) {
       removeLoader();
     } else {

@@ -1,4 +1,4 @@
-import type { CurrentUser } from '~/app/types/interfaces';
+import type { CurrentUser, User } from '~/app/types/interfaces';
 
 import type { AllActions } from './actions';
 
@@ -8,14 +8,18 @@ import { ACTION } from './actions';
 export type StoreReducer<S> = (state: S, action: AllActions) => S;
 export interface State {
   isWebsocketOpen: boolean;
+
   currentUser: CurrentUser | null;
+  users: User[] | [];
 }
 
 export type StoredState = Omit<State, 'isWebsocketOpen'>;
 
 export const defaultState: State = {
   isWebsocketOpen: false,
+
   currentUser: null,
+  users: [],
 };
 
 export const initialState: State =

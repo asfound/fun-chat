@@ -1,6 +1,6 @@
 import type { State, StoredState } from '~/app/store/reducer';
 
-import { assertIsStateProperties } from '~/app/types/guards';
+import { assertIsStoredStateProperties } from '~/app/types/guards';
 
 const STORAGE_KEY = 'as_found-fun_chat';
 
@@ -14,7 +14,7 @@ export function loadStateFromSessionStorage(): State | null {
 
   if (data) {
     const parsedData: unknown = JSON.parse(data);
-    assertIsStateProperties(parsedData);
+    assertIsStoredStateProperties(parsedData);
 
     return restoreState(parsedData);
   } else {
@@ -25,6 +25,7 @@ export function loadStateFromSessionStorage(): State | null {
 function convertState(state: State): StoredState {
   return {
     currentUser: state.currentUser,
+    users: state.users,
   };
 }
 
