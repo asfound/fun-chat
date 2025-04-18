@@ -9,28 +9,31 @@ import styles from './user-list.module.css';
 export function createUserList(): HTMLUListElement {
   const userList = ul({});
 
-  const render: Render = ({ users, currentUser }) => {
+  const render: Render = ({ users, currentUser, searchValue }) => {
     userList.replaceChildren();
 
-    for (const user of users) {
-      if (user.login !== currentUser?.login) {
-        const userElement = li({
-          textContent: user.login,
-          className: styles.user,
-        });
+    const contacts = users
+      .filter((user) => user.login !== currentUser?.login)
+      .filter((user) => user.login.includes(searchValue));
 
-        if (user.isLogined) {
-          userElement.classList.add(styles.online);
-        }
+    for (const contact of contacts) {
+      const userElement = li({
+        textContent: contact.login,
+        className: styles.user,
+      });
 
-        userList.append(userElement);
+      if (contact.isLogined) {
+        userElement.classList.add(styles.online);
       }
+
+      userList.append(userElement);
     }
   };
 
   render(store.getState());
 
   store.subscribe(ACTION.SET_USERS, render);
+  store.subscribe(ACTION.SET_SEARCH_VALUE, render);
 
   return userList;
 }

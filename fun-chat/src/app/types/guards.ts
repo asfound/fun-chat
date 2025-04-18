@@ -8,7 +8,12 @@ export function isNonNullable<T>(value: T): value is NonNullable<T> {
 function isStoredStateProperties(object: unknown): object is StoredState {
   const isObject = typeof object !== 'object' || object === null;
 
-  if (isObject || !('currentUser' in object) || !('users' in object)) {
+  if (
+    isObject ||
+    !('currentUser' in object) ||
+    !('users' in object) ||
+    !('searchValue' in object)
+  ) {
     return false;
   }
 
@@ -17,7 +22,11 @@ function isStoredStateProperties(object: unknown): object is StoredState {
 
   const areUsersValid = isUserPropertiesArray(object.users);
 
-  return isCurrentUserValid || areUsersValid;
+  return (
+    isCurrentUserValid ||
+    areUsersValid ||
+    typeof object.searchValue === 'string'
+  );
 }
 
 function isCurrentUserProperties(object: unknown): object is CurrentUser {

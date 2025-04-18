@@ -26,6 +26,7 @@ function convertState(state: State): StoredState {
   return {
     currentUser: state.currentUser,
     users: state.users,
+    searchValue: state.searchValue,
   };
 }
 

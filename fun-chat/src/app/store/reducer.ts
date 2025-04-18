@@ -11,6 +11,8 @@ export interface State {
 
   currentUser: CurrentUser | null;
   users: User[] | [];
+
+  searchValue: string;
 }
 
 export type StoredState = Omit<State, 'isWebsocketOpen'>;
@@ -20,6 +22,8 @@ export const defaultState: State = {
 
   currentUser: null,
   users: [],
+
+  searchValue: '',
 };
 
 export const initialState: State =
@@ -48,6 +52,13 @@ export const createReducer: StoreReducer<State> = (
       return {
         ...state,
         users: action.payload,
+      };
+    }
+
+    case ACTION.SET_SEARCH_VALUE: {
+      return {
+        ...state,
+        searchValue: action.payload,
       };
     }
 

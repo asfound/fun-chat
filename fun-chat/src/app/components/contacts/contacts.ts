@@ -1,4 +1,6 @@
 import { INPUT_TYPE } from '~/app/constants/constants';
+import { store } from '~/app/lib/store/store';
+import { setSearchInputValue } from '~/app/store/actions';
 import { aside, input } from '~/app/utils/create-element';
 
 import { createUserList } from './user-list/user-list';
@@ -9,6 +11,11 @@ export function createContacts(): HTMLElement {
   const searchInput = input({
     type: INPUT_TYPE.TEXT,
     placeholder: 'Find user...',
+    value: store.getState().searchValue,
+  });
+
+  searchInput.addEventListener('input', () => {
+    store.dispatch(setSearchInputValue(searchInput.value));
   });
 
   const userList = createUserList();
