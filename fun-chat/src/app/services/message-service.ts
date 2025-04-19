@@ -31,6 +31,7 @@ export function sendMessage(to: string, text: string): Promise<void> {
   };
 
   return client.sendRequest<MessageDataPayload>(request).then((response) => {
+    // generate AddMessageEvent event and dispatch it
     store.dispatch(addChatMessage(response.message));
     console.log(response);
   });

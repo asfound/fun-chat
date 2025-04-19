@@ -1,8 +1,13 @@
 import type { CurrentUser, Message, User } from '~/app/types/interfaces';
 
+import type {
+  AddMessageEvent,
+  ChatMessageEvent,
+} from '../types/message-events';
 import type { AllActions } from './actions';
 
 import { loadStateFromSessionStorage } from '../services/session-storage/session-storage';
+import { MESSAGE_EVENT_TYPE } from '../types/message-events';
 import { ACTION } from './actions';
 
 export type StoreReducer<S> = (state: S, action: AllActions) => S;
@@ -21,7 +26,7 @@ export interface CurrentChat {
   userLogin: string;
 
   messageHistory: Message[];
-  updatesQueue: Message[];
+  updatesQueue: ChatMessageEvent[];
 }
 
 export type StoredState = Omit<
@@ -100,7 +105,11 @@ export const createReducer: StoreReducer<State> = (
     case ACTION.ADD_CHAT_MESSAGE: {
       if (state.currentChat) {
         const updatedQueue = [...state.currentChat.updatesQueue];
-        updatedQueue.push(action.payload);
+        const event: AddMessageEvent = {
+          kind: MESSAGE_EVENT_TYPE.ADD_MESSAGE,
+          message: action.payload,
+        };
+        updatedQueue.push(event);
         return {
           ...state,
           currentChat: {

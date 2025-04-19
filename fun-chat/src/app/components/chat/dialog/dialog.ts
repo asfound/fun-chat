@@ -1,5 +1,8 @@
+import type { State } from '~/app/store/reducer';
+
 import { store } from '~/app/lib/store/store';
 import { ACTION } from '~/app/store/actions';
+import { MESSAGE_EVENT_TYPE } from '~/app/types/message-events';
 import { div } from '~/app/utils/create-element';
 
 import styles from './dialog.module.css';
@@ -32,13 +35,31 @@ export function createDialog(): HTMLElement {
       dialogContainer.append(placeholder);
     }
 
-    store.subscribe(ACTION.ADD_CHAT_MESSAGE, ({ currentUser, currentChat }) => {
-      if (currentUser && currentChat) {
-        const newMessage = currentChat.updatesQueue.shift();
-        if (newMessage) {
+    store.subscribe(ACTION.ADD_CHAT_MESSAGE, (state) => {
+      handleChatMessageEvent(dialogContainer, state);
+    });
+  } else {
+    const placeholder = div({ textContent: 'Select chat' });
+    dialogContainer.append(placeholder);
+  }
+
+  return dialogContainer;
+}
+
+function handleChatMessageEvent(
+  dialogContainer: HTMLDivElement,
+  state: State
+): void {
+  const { currentUser, currentChat } = state;
+  if (currentUser && currentChat) {
+    const event = currentChat.updatesQueue.shift();
+
+    if (event) {
+      switch (event.kind) {
+        case MESSAGE_EVENT_TYPE.ADD_MESSAGE: {
           const newMessageElement = createMessage(
             currentUser.login,
-            newMessage
+            event.message
           );
           dialogContainer.append(newMessageElement);
 
@@ -47,11 +68,6 @@ export function createDialog(): HTMLElement {
           });
         }
       }
-    });
-  } else {
-    const placeholder = div({ textContent: 'Select chat' });
-    dialogContainer.append(placeholder);
+    }
   }
-
-  return dialogContainer;
 }
