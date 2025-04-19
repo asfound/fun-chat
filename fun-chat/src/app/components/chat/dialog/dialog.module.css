@@ -1,0 +1,13 @@
+.dialog {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 100%;
+  height: 100%;
+  margin-bottom: 0.35rem;
+  padding: 0.35rem;
+  padding-bottom: 0;
+}

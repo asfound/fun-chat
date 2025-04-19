@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.container:last-of-type {
+  margin-bottom: 0;
+}
+
+.message {
+  width: 60%;
+  padding: 0.5rem;
+  background-color: var(--primary-bright);
+}
+
+.text {
+  padding: inherit;
+  background-color: var(--white);
+}
+
+.header,
+.footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container .partner {
+  justify-content: flex-start;
+}

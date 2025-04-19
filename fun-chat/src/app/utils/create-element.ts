@@ -56,6 +56,8 @@ export const form = createElementFactory('form');
 
 export const h1 = createElementFactory('h1');
 
+export const h2 = createElementFactory('h2');
+
 export const header = createElementFactory('header');
 
 export const input = createElementFactory('input');
@@ -73,5 +75,7 @@ export const p = createElementFactory('p');
 export const section = createElementFactory('section');
 
 export const span = createElementFactory('span');
+
+export const textarea = createElementFactory('textarea');
 
 export const ul = createElementFactory('ul');

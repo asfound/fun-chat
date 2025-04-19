@@ -1,3 +1,4 @@
+import { createChat } from '~/app/components/chat/chat';
 import { createContacts } from '~/app/components/contacts/contacts';
 import { createFooter } from '~/app/components/footer/footer';
 import { createHeader } from '~/app/components/header/header';
@@ -21,7 +22,12 @@ export function createChatPage(): HTMLDivElement {
 
   const contactList = createContacts();
 
-  const sectionElement = section({ className: styles.section }, [contactList]);
+  const chat = createChat();
+
+  const sectionElement = section({ className: styles.section }, [
+    contactList,
+    chat,
+  ]);
 
   const footer = createFooter();
 

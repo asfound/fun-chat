@@ -9,7 +9,7 @@ import { authorizeUser } from '~/app/services/user-service/user-service';
 import { fieldset, form, legend } from '~/app/utils/create-element';
 
 import { createButton } from '../button/button';
-import styles from './form.module.css';
+import styles from './auth-form.module.css';
 import { createInput } from './input/input';
 import { validateLogin, validatePassword } from './utils/validators';
 

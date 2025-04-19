@@ -1,5 +1,5 @@
+import { createAuthForm } from '~/app/components/auth-form/auth-form';
 import { createButton } from '~/app/components/button/button';
-import { createAuthForm } from '~/app/components/form/form';
 import { BUTTON_TEXT } from '~/app/constants/constants';
 import { Route } from '~/app/router/route';
 import { navigate } from '~/app/router/router';
