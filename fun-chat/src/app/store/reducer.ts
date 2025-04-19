@@ -19,7 +19,9 @@ export interface State {
 
 export interface CurrentChat {
   userLogin: string;
-  messages: Message[];
+
+  messageHistory: Message[];
+  updatesQueue: Message[];
 }
 
 export type StoredState = Omit<
@@ -93,6 +95,22 @@ export const createReducer: StoreReducer<State> = (
         ...state,
         currentChat: action.payload,
       };
+    }
+
+    case ACTION.ADD_CHAT_MESSAGE: {
+      if (state.currentChat) {
+        const updatedQueue = [...state.currentChat.updatesQueue];
+        updatedQueue.push(action.payload);
+        return {
+          ...state,
+          currentChat: {
+            ...state.currentChat,
+            updatesQueue: updatedQueue,
+          },
+        };
+      }
+
+      return state;
     }
 
     default: {

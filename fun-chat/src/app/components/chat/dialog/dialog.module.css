@@ -1,4 +1,6 @@
 .dialog {
+  scroll-behavior: smooth;
+
   overflow-y: scroll;
   display: flex;
   flex-direction: column;

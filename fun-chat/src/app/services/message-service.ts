@@ -9,7 +9,7 @@ import type {
 
 import { CLIENT_REQUEST_TYPE } from '../constants/constants';
 import { store } from '../lib/store/store';
-import { setCurrentChat } from '../store/actions';
+import { addChatMessage, setCurrentChat } from '../store/actions';
 import { getWebSocketClient } from './websocket/websocket-client';
 
 export function sendMessage(to: string, text: string): Promise<void> {
@@ -31,6 +31,7 @@ export function sendMessage(to: string, text: string): Promise<void> {
   };
 
   return client.sendRequest<MessageDataPayload>(request).then((response) => {
+    store.dispatch(addChatMessage(response.message));
     console.log(response);
   });
 }
@@ -57,7 +58,8 @@ export function fetchMessageHistory(userLogin: string): void {
     .then((response) => {
       const payload: CurrentChat = {
         userLogin,
-        messages: response.messages,
+        messageHistory: response.messages,
+        updatesQueue: [],
       };
       store.dispatch(setCurrentChat(payload));
     })
