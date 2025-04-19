@@ -21,6 +21,7 @@
 .text {
   margin: 0.25rem 0;
   padding: inherit;
+  white-space: pre-wrap;
   background-color: var(--white);
 }
 

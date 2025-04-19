@@ -27,16 +27,20 @@ export function createMessageForm(partnerLogin?: string): HTMLFormElement {
   if (partnerLogin) {
     sendButton.addEventListener('click', (event) => {
       event.preventDefault();
-      sendMessage(partnerLogin, textField.value);
-
-      textField.value = EMPTY_STRING;
-      sendButton.disabled = true;
+      sendMessage(partnerLogin, textField.value)
+        .then(() => {
+          textField.value = EMPTY_STRING;
+          sendButton.disabled = true;
+        })
+        .catch((error: unknown) => {
+          console.log(error);
+        });
     });
 
     textField.addEventListener('input', validateMessage);
 
     textField.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
+      if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
         sendButton.click();
       }

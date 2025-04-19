@@ -12,7 +12,7 @@ import { store } from '../lib/store/store';
 import { setCurrentChat } from '../store/actions';
 import { getWebSocketClient } from './websocket/websocket-client';
 
-export function sendMessage(to: string, text: string): void {
+export function sendMessage(to: string, text: string): Promise<void> {
   const client = getWebSocketClient();
 
   const id = crypto.randomUUID();
@@ -30,14 +30,9 @@ export function sendMessage(to: string, text: string): void {
     type: CLIENT_REQUEST_TYPE.MSG_SEND,
   };
 
-  client
-    .sendRequest<MessageDataPayload>(request)
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error: unknown) => {
-      console.log(error);
-    });
+  return client.sendRequest<MessageDataPayload>(request).then((response) => {
+    console.log(response);
+  });
 }
 
 export function fetchMessageHistory(userLogin: string): void {

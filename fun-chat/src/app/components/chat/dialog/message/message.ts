@@ -13,6 +13,7 @@ export function createMessage(
   const messageElement = div({ className: styles.message });
 
   const author = div({ textContent: message.from });
+
   const date = div({ textContent: message.datetime.toString() });
 
   const messageHeader = div({ className: styles.header }, [author, date]);
