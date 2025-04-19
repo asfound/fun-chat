@@ -25,7 +25,7 @@ export function loadStateFromSessionStorage(): State | null {
 function convertState(state: State): StoredState {
   return {
     currentUser: state.currentUser,
-    users: state.users,
+    currentChat: state.currentChat,
     searchValue: state.searchValue,
   };
 }
@@ -34,5 +34,6 @@ function restoreState(stored: StoredState): State {
   return {
     ...stored,
     isWebsocketOpen: false,
+    users: new Map(),
   };
 }

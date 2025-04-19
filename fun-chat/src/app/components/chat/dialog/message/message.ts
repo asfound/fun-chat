@@ -1,34 +1,50 @@
+import type { Message } from '~/app/types/interfaces';
+
 import { div, p } from '~/app/utils/create-element';
 
 import styles from './message.module.css';
 
-export function createMessage(user: string): HTMLElement {
+export function createMessage(
+  currentUser: string,
+  message: Message
+): HTMLElement {
   const container = div({ className: styles.container });
 
-  const message = div({ className: styles.message });
+  const messageElement = div({ className: styles.message });
 
-  const author = div({ textContent: user });
-  const date = div({ textContent: '01/01/25' });
+  const author = div({ textContent: message.from });
+  const date = div({ textContent: message.datetime.toString() });
 
   const messageHeader = div({ className: styles.header }, [author, date]);
 
   const messageContent = p({
-    textContent: 'Message content',
+    textContent: message.text,
     className: styles.text,
   });
 
-  const isEdited = div({ textContent: 'Edited' });
+  const isEdited = div({
+    textContent: message.status.isEdited ? 'Edited' : '',
+  });
 
-  const messageStatus = div({ textContent: 'Delivered' });
+  const messageFooter = div({ className: styles.footer }, [isEdited]);
 
-  const messageFooter = div({ className: styles.footer }, [
-    isEdited,
-    messageStatus,
-  ]);
+  if (message.from === currentUser) {
+    const messageDeliveryStatus = message.status.isReaded
+      ? 'Read'
+      : message.status.isDelivered
+        ? 'Delivered'
+        : 'Sent';
 
-  message.append(messageHeader, messageContent, messageFooter);
+    const messageStatus = div({ textContent: messageDeliveryStatus });
 
-  container.append(message);
+    messageFooter.append(messageStatus);
+  } else {
+    messageElement.classList.add(styles.partner);
+  }
+
+  messageElement.append(messageHeader, messageContent, messageFooter);
+
+  container.append(messageElement);
 
   return container;
 }

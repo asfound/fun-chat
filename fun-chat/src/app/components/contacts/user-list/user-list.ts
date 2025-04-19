@@ -1,6 +1,7 @@
 import type { Render } from '~/app/types/types';
 
 import { store } from '~/app/lib/store/store';
+import { fetchMessageHistory } from '~/app/services/message-service';
 import { ACTION } from '~/app/store/actions';
 import { li, ul } from '~/app/utils/create-element';
 
@@ -12,7 +13,7 @@ export function createUserList(): HTMLUListElement {
   const render: Render = ({ users, currentUser, searchValue }) => {
     userList.replaceChildren();
 
-    const contacts = users
+    const contacts = [...users.values()]
       .filter((user) => user.login !== currentUser?.login)
       .filter((user) => user.login.includes(searchValue))
       .sort((u1, u2) => {
@@ -31,6 +32,10 @@ export function createUserList(): HTMLUListElement {
       if (contact.isLogined) {
         userElement.classList.add(styles.online);
       }
+
+      userElement.addEventListener('click', () => {
+        fetchMessageHistory(contact.login);
+      });
 
       userList.append(userElement);
     }

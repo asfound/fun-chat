@@ -1,4 +1,4 @@
-import type { CurrentUser, User } from '~/app/types/interfaces';
+import type { CurrentUser, Message, User } from '~/app/types/interfaces';
 
 import type { AllActions } from './actions';
 
@@ -10,18 +10,26 @@ export interface State {
   isWebsocketOpen: boolean;
 
   currentUser: CurrentUser | null;
-  users: User[] | [];
+  currentChat: CurrentChat | null;
+
+  users: Map<string, User>;
 
   searchValue: string;
 }
 
-export type StoredState = Omit<State, 'isWebsocketOpen'>;
+export interface CurrentChat {
+  userLogin: string;
+  messages: Message[];
+}
+
+export type StoredState = Omit<State, 'isWebsocketOpen' | 'users'>;
 
 export const defaultState: State = {
   isWebsocketOpen: false,
 
   currentUser: null,
-  users: [],
+  currentChat: null,
+  users: new Map(),
 
   searchValue: '',
 };
@@ -50,9 +58,12 @@ export const createReducer: StoreReducer<State> = (
     }
 
     case ACTION.SET_USERS: {
+      const usersMap = new Map(
+        action.payload.map((user) => [user.login, user])
+      );
       return {
         ...state,
-        users: action.payload,
+        users: usersMap,
       };
     }
 
@@ -64,24 +75,20 @@ export const createReducer: StoreReducer<State> = (
     }
 
     case ACTION.UPDATE_USER_STATUS: {
-      let users: User[] = structuredClone(state.users);
+      const users: Map<string, User> = structuredClone(state.users);
       const user = action.payload;
-      const userExists = users.some(
-        (user) => user.login === action.payload.login
-      );
 
-      if (userExists) {
-        users = users.map((user) =>
-          user.login === action.payload.login
-            ? { ...user, isLogined: action.payload.isLogined }
-            : user
-        );
-      } else {
-        users.push(user);
-      }
+      users.set(user.login, user);
       return {
         ...state,
-        users: users,
+        users,
+      };
+    }
+
+    case ACTION.SET_CURRENT_CHAT: {
+      return {
+        ...state,
+        currentChat: action.payload,
       };
     }
 

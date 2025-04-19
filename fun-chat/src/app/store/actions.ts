@@ -1,4 +1,5 @@
 import type { CurrentUser, User } from '../types/interfaces';
+import type { CurrentChat } from './reducer';
 
 export const ACTION = {
   SET_SOCKET_STATE: 'socketStateChange',
@@ -6,6 +7,8 @@ export const ACTION = {
   SET_USERS: 'setUsers',
   SET_SEARCH_VALUE: 'setSearchValue',
   UPDATE_USER_STATUS: 'updateUserStatus',
+
+  SET_CURRENT_CHAT: 'setCurrentChat',
 } as const;
 
 export type ActionType = (typeof ACTION)[keyof typeof ACTION];
@@ -66,9 +69,20 @@ export const updateUserStatus = (value: User): UserStatusChange => ({
   payload: value,
 });
 
+export type CurrentChatChange = ActionWithPayload<
+  typeof ACTION.SET_CURRENT_CHAT,
+  CurrentChat
+>;
+
+export const setCurrentChat = (value: CurrentChat): CurrentChatChange => ({
+  type: ACTION.SET_CURRENT_CHAT,
+  payload: value,
+});
+
 export type AllActions =
   | SocketStateChange
   | CurrentUserChange
   | UsersChange
   | SearchInputChange
-  | UserStatusChange;
+  | UserStatusChange
+  | CurrentChatChange;

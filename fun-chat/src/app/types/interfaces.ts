@@ -15,41 +15,43 @@ export interface ButtonProperties {
 export interface ClientRequest {
   id: string;
   type: ClientRequestType;
-  payload: LoginRequestPayload | null;
+  payload:
+    | LoginRequestPayload
+    | SendMessagePayload
+    | FetchHistoryPayload
+    | null;
 }
-
-export type ServerMessage = ServerResponse | ServerRequest;
 
 export interface ServerResponse {
   id: string;
   type: ServerResponseType;
-  payload: UserDataPayload | ErrorPayload;
+  payload:
+    | UserDataPayload
+    | MessageDataPayload
+    | MessagesPayload
+    | ErrorPayload;
 }
 
 export interface ServerRequest {
   type: ServerRequestType;
-  payload: UserDataPayload;
+  payload: UserDataPayload | MessageDataPayload;
 }
+
+export type ServerMessage = ServerResponse | ServerRequest;
 
 export interface LoginRequestPayload {
-  user: {
-    login: string;
-    password: string;
-  };
-}
-
-export type LogoutRequestPayload = LoginRequestPayload;
-
-export interface UserDataPayload {
-  user: {
-    login: string;
-    isLogined: boolean;
-  };
+  user: CurrentUser;
 }
 
 export interface CurrentUser {
   login: string;
   password: string;
+}
+
+export type LogoutRequestPayload = LoginRequestPayload;
+
+export interface UserDataPayload {
+  user: User;
 }
 
 export interface User {
@@ -63,4 +65,37 @@ export interface GetUsersResponsePayload {
 
 export interface ErrorPayload {
   error: string;
+}
+
+export interface Message {
+  id: string;
+  from: string;
+  to: string;
+  text: string;
+  datetime: number;
+  status: MessageStatus;
+}
+
+interface MessageStatus {
+  isDelivered: boolean;
+  isReaded: boolean;
+  isEdited: boolean;
+}
+
+export interface SendMessagePayload {
+  message: Pick<Message, 'to' | 'text'>;
+}
+
+export interface FetchHistoryPayload {
+  user: {
+    login: string;
+  };
+}
+
+export interface MessageDataPayload {
+  message: Message;
+}
+
+export interface MessagesPayload {
+  messages: Message[];
 }

@@ -1,3 +1,7 @@
+import type { Render } from '~/app/types/types';
+
+import { store } from '~/app/lib/store/store';
+import { ACTION } from '~/app/store/actions';
 import { article } from '~/app/utils/create-element';
 
 import { createChatInfo } from './chat-info/chat-info';
@@ -8,13 +12,21 @@ import { createMessageForm } from './message-form/message-form';
 export function createChat(): HTMLElement {
   const chatContainer = article({ className: styles.chat });
 
-  const chatInfo = createChatInfo();
+  const render: Render = () => {
+    chatContainer.replaceChildren();
 
-  const dialog = createDialog();
+    const chatInfo = createChatInfo();
 
-  const messageForm = createMessageForm();
+    const dialog = createDialog();
 
-  chatContainer.append(chatInfo, dialog, messageForm);
+    const messageForm = createMessageForm();
+
+    chatContainer.append(chatInfo, dialog, messageForm);
+  };
+
+  render(store.getState());
+
+  store.subscribe(ACTION.SET_CURRENT_CHAT, render);
 
   return chatContainer;
 }

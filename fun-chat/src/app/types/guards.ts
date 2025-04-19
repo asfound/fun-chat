@@ -1,5 +1,5 @@
 import type { StoredState } from '../store/reducer';
-import type { CurrentUser, User } from './interfaces';
+import type { CurrentUser } from './interfaces';
 
 export function isNonNullable<T>(value: T): value is NonNullable<T> {
   return value !== null && value !== undefined;
@@ -11,7 +11,7 @@ function isStoredStateProperties(object: unknown): object is StoredState {
   if (
     isObject ||
     !('currentUser' in object) ||
-    !('users' in object) ||
+    !('currentChat' in object) ||
     !('searchValue' in object)
   ) {
     return false;
@@ -20,11 +20,12 @@ function isStoredStateProperties(object: unknown): object is StoredState {
   const isCurrentUserValid =
     object.currentUser === null || isCurrentUserProperties(object.currentUser);
 
-  const areUsersValid = isUserPropertiesArray(object.users);
+  const isCurrentChatValid = true;
 
   return (
     isCurrentUserValid ||
-    areUsersValid ||
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    isCurrentChatValid ||
     typeof object.searchValue === 'string'
   );
 }
@@ -47,22 +48,4 @@ export function assertIsStoredStateProperties(
   if (!isStoredStateProperties(object)) {
     throw new TypeError('not valid state');
   }
-}
-
-function isUserProperties(object: unknown): object is User {
-  const isObject = typeof object !== 'object' || object === null;
-
-  if (isObject || !('login' in object) || !('isLogined' in object)) {
-    return false;
-  }
-
-  return (
-    typeof object.login === 'string' || typeof object.isLogined === 'boolean'
-  );
-}
-
-function isUserPropertiesArray(object: unknown): object is User[] {
-  return (
-    Array.isArray(object) && object.every((value) => isUserProperties(value))
-  );
 }

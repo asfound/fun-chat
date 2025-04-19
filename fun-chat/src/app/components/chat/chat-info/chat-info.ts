@@ -1,3 +1,4 @@
+import { store } from '~/app/lib/store/store';
 import { div, h2 } from '~/app/utils/create-element';
 
 import styles from './chat-info.module.css';
@@ -5,14 +6,28 @@ import styles from './chat-info.module.css';
 export function createChatInfo(): HTMLElement {
   const container = div({ className: styles.container });
 
-  const chatPartner = h2({ textContent: 'Partner', className: styles.login });
+  const { currentChat, users } = store.getState();
 
-  const partnerStatus = div({
-    textContent: 'Status',
-    className: styles.status,
-  });
+  if (currentChat) {
+    const user = users.get(currentChat.userLogin);
 
-  container.append(chatPartner, partnerStatus);
+    const chatPartner = h2({
+      textContent: currentChat.userLogin,
+      className: styles.login,
+    });
+
+    const partnerStatus = div({
+      textContent: user?.isLogined ? USER_STATUS.ONLINE : USER_STATUS.OFFLINE,
+      className: styles.status,
+    });
+
+    container.append(chatPartner, partnerStatus);
+  }
 
   return container;
 }
+
+const USER_STATUS = {
+  ONLINE: 'online',
+  OFFLINE: 'offline',
+};

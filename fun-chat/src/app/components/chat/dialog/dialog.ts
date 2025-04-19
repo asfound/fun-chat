@@ -1,28 +1,39 @@
+import { store } from '~/app/lib/store/store';
 import { div } from '~/app/utils/create-element';
 
+import styles from './dialog.module.css';
 import { createMessage } from './message/message';
 
-const USER = 'dummy-login';
-
-import styles from './dialog.module.css';
+const ZERO = 0;
 
 export function createDialog(): HTMLElement {
   const dialogContainer = div({ className: styles.dialog });
 
-  const expander = div({ className: styles.expander });
+  const { currentUser, currentChat } = store.getState();
 
-  dialogContainer.append(expander);
+  if (currentUser && currentChat) {
+    if (currentChat.messages.length > ZERO) {
+      const expander = div({ className: styles.expander });
 
-  const message = createMessage(USER);
-  const message1 = createMessage(USER);
-  const message2 = createMessage(USER);
-  const message3 = createMessage(USER);
+      dialogContainer.append(expander);
 
-  dialogContainer.append(message, message1, message2, message3);
+      for (const message of currentChat.messages) {
+        const messageElement = createMessage(currentUser.login, message);
 
-  requestAnimationFrame(() => {
-    dialogContainer.scrollTop = dialogContainer.scrollHeight;
-  });
+        dialogContainer.append(messageElement);
+      }
+
+      requestAnimationFrame(() => {
+        dialogContainer.scrollTop = dialogContainer.scrollHeight;
+      });
+    } else {
+      const placeholder = div({ textContent: 'No messages' });
+      dialogContainer.append(placeholder);
+    }
+  } else {
+    const placeholder = div({ textContent: 'Select chat' });
+    dialogContainer.append(placeholder);
+  }
 
   return dialogContainer;
 }
