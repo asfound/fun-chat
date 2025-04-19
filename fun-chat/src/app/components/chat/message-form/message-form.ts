@@ -1,22 +1,47 @@
-import { BUTTON_TYPE } from '~/app/constants/constants';
+import { BUTTON_TYPE, EMPTY_STRING } from '~/app/constants/constants';
+import { sendMessage } from '~/app/services/message-service';
 import { form, textarea } from '~/app/utils/create-element';
 
 import { createButton } from '../../button/button';
 import styles from './message-form.module.css';
 
-export function createMessageForm(): HTMLFormElement {
+export function createMessageForm(partnerLogin?: string): HTMLFormElement {
   const messageForm = form({ className: styles.form });
 
-  const textField = textarea({ className: styles.textInput });
+  const isDisabled = partnerLogin === undefined;
+  const textField = textarea({
+    className: styles.textInput,
+    disabled: isDisabled,
+  });
 
   const sendButton = createButton({
     textContent: 'Send',
     type: BUTTON_TYPE.SUBMIT,
-    disabled: true,
-    onClick: (event) => {
-      event?.preventDefault();
-    },
+    disabled: isDisabled || textField.value === EMPTY_STRING,
   });
+
+  const validateMessage = (): void => {
+    sendButton.disabled = textField.value === EMPTY_STRING;
+  };
+
+  if (partnerLogin) {
+    sendButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      sendMessage(partnerLogin, textField.value);
+
+      textField.value = EMPTY_STRING;
+      sendButton.disabled = true;
+    });
+
+    textField.addEventListener('input', validateMessage);
+
+    textField.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        sendButton.click();
+      }
+    });
+  }
 
   messageForm.append(textField, sendButton);
 

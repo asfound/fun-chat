@@ -27,7 +27,7 @@ export function sendMessage(to: string, text: string): void {
   const request: ClientRequest = {
     id,
     payload,
-    type: CLIENT_REQUEST_TYPE.USER_LOGIN,
+    type: CLIENT_REQUEST_TYPE.MSG_SEND,
   };
 
   client

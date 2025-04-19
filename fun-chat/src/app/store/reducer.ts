@@ -22,7 +22,10 @@ export interface CurrentChat {
   messages: Message[];
 }
 
-export type StoredState = Omit<State, 'isWebsocketOpen' | 'users'>;
+export type StoredState = Omit<
+  State,
+  'isWebsocketOpen' | 'users' | 'currentChat'
+>;
 
 export const defaultState: State = {
   isWebsocketOpen: false,

@@ -12,14 +12,14 @@ import { createMessageForm } from './message-form/message-form';
 export function createChat(): HTMLElement {
   const chatContainer = article({ className: styles.chat });
 
-  const render: Render = () => {
+  const render: Render = ({ currentChat }) => {
     chatContainer.replaceChildren();
 
     const chatInfo = createChatInfo();
 
     const dialog = createDialog();
 
-    const messageForm = createMessageForm();
+    const messageForm = createMessageForm(currentChat?.userLogin);
 
     chatContainer.append(chatInfo, dialog, messageForm);
   };
