@@ -4,7 +4,7 @@
   justify-content: flex-end;
 
   width: 100%;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .container:last-of-type {
@@ -14,10 +14,12 @@
 .message {
   width: 60%;
   padding: 0.5rem;
+  border-radius: 4px;
   background-color: var(--primary-bright);
 }
 
 .text {
+  margin: 0.25rem 0;
   padding: inherit;
   background-color: var(--white);
 }
@@ -26,6 +28,7 @@
 .footer {
   display: flex;
   justify-content: space-between;
+  font-size: 0.8rem;
 }
 
 .container .partner {

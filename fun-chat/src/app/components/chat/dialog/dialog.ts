@@ -9,6 +9,10 @@ import styles from './dialog.module.css';
 export function createDialog(): HTMLElement {
   const dialogContainer = div({ className: styles.dialog });
 
+  const expander = div({ className: styles.expander });
+
+  dialogContainer.append(expander);
+
   const message = createMessage(USER);
   const message1 = createMessage(USER);
   const message2 = createMessage(USER);
