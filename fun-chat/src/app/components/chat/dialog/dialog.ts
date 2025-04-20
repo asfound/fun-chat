@@ -72,8 +72,8 @@ function handleChatMessageEvent(
   const { currentUser, currentChat } = state;
 
   if (currentUser && currentChat) {
-    const event = currentChat.updatesQueue.shift();
     console.log(currentChat);
+    const event = currentChat.updatesQueue.shift();
 
     if (event) {
       switch (event.kind) {
