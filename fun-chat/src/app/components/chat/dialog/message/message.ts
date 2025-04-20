@@ -4,6 +4,7 @@ import { createButton } from '~/app/components/button/button';
 import { EMPTY_STRING } from '~/app/constants/constants';
 import { deleteMessage, editMessage } from '~/app/services/message-service';
 import { div, icon, p, textarea } from '~/app/utils/create-element';
+import formatTime from '~/app/utils/format-time';
 
 import styles from './message.module.css';
 
@@ -17,7 +18,7 @@ export function createMessage(
 
   const author = div({ textContent: message.from });
 
-  const date = div({ textContent: message.datetime.toString() });
+  const date = div({ textContent: formatTime(message.datetime) });
 
   const messageHeader = div({ className: styles.header }, [author, date]);
 
