@@ -2,8 +2,8 @@ import type { Message } from '~/app/types/interfaces';
 
 import { createButton } from '~/app/components/button/button';
 import { EMPTY_STRING } from '~/app/constants/constants';
-import { deleteMessage } from '~/app/services/message-service';
-import { div, icon, p } from '~/app/utils/create-element';
+import { deleteMessage, editMessage } from '~/app/services/message-service';
+import { div, icon, p, textarea } from '~/app/utils/create-element';
 
 import styles from './message.module.css';
 
@@ -21,7 +21,7 @@ export function createMessage(
 
   const messageHeader = div({ className: styles.header }, [author, date]);
 
-  const messageContent = p({
+  const messageText = p({
     textContent: message.text,
     className: styles.text,
   });
@@ -52,15 +52,33 @@ export function createMessage(
       },
     });
     const deleteIcon = icon({});
-
-    deleteIcon.classList.add('fas', 'fa-xmark');
+    deleteIcon.classList.add('fas', 'fa-trash'); //fa-xmark
     deleteButton.append(deleteIcon);
 
     const editButton = createButton({
       textContent: EMPTY_STRING,
+      onClick: () => {
+        const textInput = textarea({
+          value: message.text,
+          className: styles.text,
+        });
+
+        messageText.replaceWith(textInput);
+        textInput.style.height = `${textInput.scrollHeight.toString()}px`;
+        textInput.scrollIntoView();
+
+        editButton.replaceWith(
+          createEditControls(
+            editButton,
+            textInput,
+            messageText,
+            message.id,
+            messageElement
+          )
+        );
+      },
     });
     const editIcon = icon({});
-
     editIcon.classList.add('fas', 'fa-pen-to-square');
     editButton.append(editIcon);
 
@@ -69,9 +87,46 @@ export function createMessage(
     container.classList.add(styles.partner);
   }
 
-  messageElement.append(messageHeader, messageContent, messageFooter);
+  messageElement.append(messageHeader, messageText, messageFooter);
 
   container.append(messageElement);
 
   return container;
+}
+
+function createEditControls(
+  editButton: HTMLButtonElement,
+  textInput: HTMLTextAreaElement,
+  messageText: HTMLDivElement,
+  messageId: string,
+  messageElement: HTMLDivElement
+): HTMLDivElement {
+  const controls = div({});
+
+  const discardButton = createButton({
+    textContent: EMPTY_STRING,
+    onClick: () => {
+      controls.replaceWith(editButton);
+      textInput.replaceWith(messageText);
+
+      messageElement.scrollIntoView();
+    },
+  });
+  const deleteIcon = icon({});
+  deleteIcon.classList.add('fas', 'fa-xmark');
+  discardButton.append(deleteIcon);
+
+  const confirmButton = createButton({
+    textContent: EMPTY_STRING,
+    onClick: () => {
+      editMessage(messageId, textInput.value);
+    },
+  });
+  const confirmIcon = icon({});
+  confirmIcon.classList.add('fas', 'fa-check');
+  confirmButton.append(confirmIcon);
+
+  controls.append(confirmButton, discardButton);
+
+  return controls;
 }

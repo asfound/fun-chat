@@ -135,8 +135,24 @@ function handleEmitChatMessageEvent(
 
   switch (event.payload.kind) {
     case MESSAGE_EVENT_TYPE.ADD_MESSAGE: {
-      console.log('add message');
       messageMap.set(event.payload.message.id, event.payload.message);
+      break;
+    }
+
+    case MESSAGE_EVENT_TYPE.DELETE_MESSAGE: {
+      messageMap.delete(event.payload.id);
+      break;
+    }
+
+    case MESSAGE_EVENT_TYPE.EDIT_MESSAGE: {
+      const message = messageMap.get(event.payload.id);
+
+      if (message) {
+        message.text = event.payload.text;
+        message.status.isEdited = event.payload.status.isEdited;
+        messageMap.set(event.payload.id, message);
+      }
+
       break;
     }
 

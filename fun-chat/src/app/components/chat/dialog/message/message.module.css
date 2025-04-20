@@ -12,16 +12,25 @@
 }
 
 .message {
+  display: flex;
+  flex-direction: column;
+
   width: 60%;
   padding: 0.5rem;
   border-radius: var(--border-radius);
+
   background-color: var(--primary-bright);
 }
 
 .text {
+  resize: none;
+
+  max-width: 100%;
   margin: 0.25rem 0 0.5rem;
   padding: inherit;
+
   white-space: pre-wrap;
+
   background-color: var(--white);
 }
 
@@ -37,6 +46,7 @@
 }
 
 .footer {
+  flex-direction: row;
   gap: 0.25rem;
   justify-content: flex-end;
 }
@@ -46,7 +56,7 @@
 }
 
 .edited {
-  justify-self: flex-start;
+  margin-right: auto;
 }
 
 .status {

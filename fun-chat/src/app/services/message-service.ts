@@ -9,10 +9,13 @@ import type {
   ReadOrDeleteMessagePayload,
   ReadStatusChangePayload,
   DeleteNotificationPayload,
+  EditMessagePayload,
+  EditMessageNotificationPayload,
 } from '../types/interfaces';
 import type {
   AddMessageEvent,
   DeleteMessageEvent,
+  EditMessageEvent,
 } from '../types/message-events';
 
 import { CLIENT_REQUEST_TYPE } from '../constants/constants';
@@ -72,6 +75,41 @@ export function deleteMessage(messageId: string): void {
       const event: DeleteMessageEvent = {
         kind: MESSAGE_EVENT_TYPE.DELETE_MESSAGE,
         id: response.message.id,
+        status: response.message.status,
+      };
+
+      store.dispatch(emitChatMessageEvent(event));
+    })
+    .catch((error: unknown) => {
+      console.log(error);
+    });
+}
+
+export function editMessage(messageId: string, text: string): void {
+  const client = getWebSocketClient();
+
+  const id = crypto.randomUUID();
+
+  const payload: EditMessagePayload = {
+    message: {
+      id: messageId,
+      text,
+    },
+  };
+
+  const request: ClientRequest = {
+    id,
+    payload,
+    type: CLIENT_REQUEST_TYPE.MSG_EDIT,
+  };
+
+  client
+    .sendRequest<EditMessageNotificationPayload>(request)
+    .then((response) => {
+      const event: EditMessageEvent = {
+        kind: MESSAGE_EVENT_TYPE.EDIT_MESSAGE,
+        id: response.message.id,
+        text: response.message.text,
         status: response.message.status,
       };
 

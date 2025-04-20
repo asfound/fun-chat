@@ -102,7 +102,8 @@ function handleChatMessageEvent(
         }
 
         case MESSAGE_EVENT_TYPE.DELIVERY_UPDATE:
-        case MESSAGE_EVENT_TYPE.READ_UPDATE: {
+        case MESSAGE_EVENT_TYPE.READ_UPDATE:
+        case MESSAGE_EVENT_TYPE.EDIT_MESSAGE: {
           const messageElement = messageElements.get(event.id);
           const message = currentChat.messages.get(event.id);
 
@@ -122,8 +123,6 @@ function handleChatMessageEvent(
           if (messageElement) {
             messageElement.remove();
             messageElements.delete(event.id);
-
-            currentChat.messages.delete(event.id);
           }
 
           break;

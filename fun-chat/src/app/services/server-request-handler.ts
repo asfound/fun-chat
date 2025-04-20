@@ -1,4 +1,5 @@
 import type { ServerRequest } from '../types/interfaces';
+import type { EditMessageEvent } from '../types/message-events';
 
 import { SERVER_REQUEST_TYPE } from '../constants/constants';
 import { store } from '../lib/store/store';
@@ -76,6 +77,23 @@ export function handleServerRequest(request: ServerRequest): void {
         kind: MESSAGE_EVENT_TYPE.DELETE_MESSAGE,
 
         id: data.id,
+
+        status: data.status,
+      };
+
+      store.dispatch(emitChatMessageEvent(event));
+      break;
+    }
+
+    case SERVER_REQUEST_TYPE.MSG_EDIT: {
+      const data = request.payload.message;
+
+      const event: EditMessageEvent = {
+        kind: MESSAGE_EVENT_TYPE.EDIT_MESSAGE,
+
+        id: data.id,
+
+        text: data.text,
 
         status: data.status,
       };

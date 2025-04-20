@@ -3,6 +3,8 @@ import type { Message, MessageStatus } from './interfaces';
 export const MESSAGE_EVENT_TYPE = {
   ADD_MESSAGE: 'addMessage',
   DELETE_MESSAGE: 'deleteMessage',
+  EDIT_MESSAGE: 'editMessage',
+
   DELIVERY_UPDATE: 'deliveryUpdate',
   READ_UPDATE: 'readUpdate',
 } as const;
@@ -26,6 +28,14 @@ export interface DeleteMessageEvent {
   };
 }
 
+export interface EditMessageEvent {
+  kind: typeof MESSAGE_EVENT_TYPE.EDIT_MESSAGE;
+
+  id: string;
+  text: string;
+  status: Pick<MessageStatus, 'isEdited'>;
+}
+
 export interface DeliveryUpdateEvent {
   kind: typeof MESSAGE_EVENT_TYPE.DELIVERY_UPDATE;
 
@@ -43,5 +53,6 @@ export interface ReadUpdateEvent {
 export type ChatMessageEvent =
   | AddMessageEvent
   | DeleteMessageEvent
+  | EditMessageEvent
   | DeliveryUpdateEvent
   | ReadUpdateEvent;
