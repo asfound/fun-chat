@@ -1,5 +1,9 @@
 import { createButton } from '~/app/components/button/button';
-import { ABOUT_TEXT, EXTERNAL_LINK } from '~/app/constants/constants';
+import {
+  ABOUT_TEXT,
+  BUTTON_TEXT,
+  EXTERNAL_LINK,
+} from '~/app/constants/constants';
 import { a, div, p } from '~/app/utils/create-element';
 
 import styles from './about-page.module.css';
@@ -16,7 +20,7 @@ export function createAboutPage(): HTMLDivElement {
     className: styles.link,
   });
 
-  const returnButton = createButton({ textContent: 'Return' });
+  const returnButton = createButton({ textContent: BUTTON_TEXT.RETURN });
 
   container.append(aboutText, githubLink, returnButton);
 

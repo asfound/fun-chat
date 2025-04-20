@@ -1,16 +1,13 @@
 import type { CurrentUser, Message, User } from '~/app/types/interfaces';
 
-import type {
-  AddMessageEvent,
-  ChatMessageEvent,
-} from '../types/message-events';
+import type { ChatMessageEvent } from '../types/message-events';
 import type { AllActions } from './actions';
 
 import { loadStateFromSessionStorage } from '../services/session-storage/session-storage';
-import { MESSAGE_EVENT_TYPE } from '../types/message-events';
 import { ACTION } from './actions';
 
 export type StoreReducer<S> = (state: S, action: AllActions) => S;
+
 export interface State {
   isWebsocketOpen: boolean;
 
@@ -102,14 +99,11 @@ export const createReducer: StoreReducer<State> = (
       };
     }
 
-    case ACTION.ADD_CHAT_MESSAGE: {
+    case ACTION.EMIT_CHAT_MESSAGE_EVENT: {
       if (state.currentChat) {
         const updatedQueue = [...state.currentChat.updatesQueue];
-        const event: AddMessageEvent = {
-          kind: MESSAGE_EVENT_TYPE.ADD_MESSAGE,
-          message: action.payload,
-        };
-        updatedQueue.push(event);
+        updatedQueue.push(action.payload);
+
         return {
           ...state,
           currentChat: {

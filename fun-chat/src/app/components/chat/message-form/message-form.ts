@@ -1,4 +1,8 @@
-import { BUTTON_TYPE, EMPTY_STRING } from '~/app/constants/constants';
+import {
+  BUTTON_TEXT,
+  BUTTON_TYPE,
+  EMPTY_STRING,
+} from '~/app/constants/constants';
 import { sendMessage } from '~/app/services/message-service';
 import { form, textarea } from '~/app/utils/create-element';
 
@@ -15,7 +19,7 @@ export function createMessageForm(partnerLogin?: string): HTMLFormElement {
   });
 
   const sendButton = createButton({
-    textContent: 'Send',
+    textContent: BUTTON_TEXT.SEND,
     type: BUTTON_TYPE.SUBMIT,
     disabled: isDisabled || textField.value === EMPTY_STRING,
   });

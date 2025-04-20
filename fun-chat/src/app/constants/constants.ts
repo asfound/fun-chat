@@ -79,7 +79,7 @@ export const SERVER_REQUEST_TYPE = {
   USER_EXTERNAL_LOGOUT: 'USER_EXTERNAL_LOGOUT',
 
   MSG_SEND: 'MSG_SEND',
-};
+} as const;
 
 export type ClientRequestType =
   (typeof CLIENT_REQUEST_TYPE)[keyof typeof CLIENT_REQUEST_TYPE];

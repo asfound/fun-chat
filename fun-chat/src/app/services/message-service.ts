@@ -6,10 +6,12 @@ import type {
   FetchHistoryPayload,
   MessagesPayload,
 } from '../types/interfaces';
+import type { AddMessageEvent } from '../types/message-events';
 
 import { CLIENT_REQUEST_TYPE } from '../constants/constants';
 import { store } from '../lib/store/store';
-import { addChatMessage, setCurrentChat } from '../store/actions';
+import { emitChatMessageEvent, setCurrentChat } from '../store/actions';
+import { MESSAGE_EVENT_TYPE } from '../types/message-events';
 import { getWebSocketClient } from './websocket/websocket-client';
 
 export function sendMessage(to: string, text: string): Promise<void> {
@@ -31,8 +33,12 @@ export function sendMessage(to: string, text: string): Promise<void> {
   };
 
   return client.sendRequest<MessageDataPayload>(request).then((response) => {
-    // generate AddMessageEvent event and dispatch it
-    store.dispatch(addChatMessage(response.message));
+    const event: AddMessageEvent = {
+      kind: MESSAGE_EVENT_TYPE.ADD_MESSAGE,
+      message: response.message,
+    };
+
+    store.dispatch(emitChatMessageEvent(event));
     console.log(response);
   });
 }

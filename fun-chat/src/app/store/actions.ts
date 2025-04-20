@@ -1,4 +1,5 @@
-import type { CurrentUser, Message, User } from '../types/interfaces';
+import type { CurrentUser, User } from '../types/interfaces';
+import type { ChatMessageEvent } from '../types/message-events';
 import type { CurrentChat } from './reducer';
 
 export const ACTION = {
@@ -9,7 +10,7 @@ export const ACTION = {
   UPDATE_USER_STATUS: 'updateUserStatus',
 
   SET_CURRENT_CHAT: 'setCurrentChat',
-  ADD_CHAT_MESSAGE: 'addChatMessage',
+  EMIT_CHAT_MESSAGE_EVENT: 'emitChatMessageEvent',
 } as const;
 
 export type ActionType = (typeof ACTION)[keyof typeof ACTION];
@@ -80,13 +81,15 @@ export const setCurrentChat = (value: CurrentChat): CurrentChatChange => ({
   payload: value,
 });
 
-export type ChatMessageAdd = ActionWithPayload<
-  typeof ACTION.ADD_CHAT_MESSAGE,
-  Message
+export type ChatMessageEventEmission = ActionWithPayload<
+  typeof ACTION.EMIT_CHAT_MESSAGE_EVENT,
+  ChatMessageEvent
 >;
 
-export const addChatMessage = (value: Message): ChatMessageAdd => ({
-  type: ACTION.ADD_CHAT_MESSAGE,
+export const emitChatMessageEvent = (
+  value: ChatMessageEvent
+): ChatMessageEventEmission => ({
+  type: ACTION.EMIT_CHAT_MESSAGE_EVENT,
   payload: value,
 });
 
@@ -97,4 +100,4 @@ export type AllActions =
   | SearchInputChange
   | UserStatusChange
   | CurrentChatChange
-  | ChatMessageAdd;
+  | ChatMessageEventEmission;

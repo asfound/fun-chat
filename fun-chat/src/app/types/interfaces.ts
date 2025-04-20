@@ -1,6 +1,6 @@
 import type {
   ClientRequestType,
-  ServerRequestType,
+  SERVER_REQUEST_TYPE,
   ServerResponseType,
 } from '../constants/constants';
 
@@ -32,10 +32,25 @@ export interface ServerResponse {
     | ErrorPayload;
 }
 
-export interface ServerRequest {
-  type: ServerRequestType;
-  payload: UserDataPayload | MessageDataPayload;
+export interface UserDataRequestLogin {
+  type: typeof SERVER_REQUEST_TYPE.USER_EXTERNAL_LOGIN;
+  payload: UserDataPayload;
 }
+
+export interface UserDataRequestLogout {
+  type: typeof SERVER_REQUEST_TYPE.USER_EXTERNAL_LOGOUT;
+  payload: UserDataPayload;
+}
+
+export interface MessageDataRequest {
+  type: typeof SERVER_REQUEST_TYPE.MSG_SEND;
+  message: MessageDataPayload;
+}
+
+export type ServerRequest =
+  | UserDataRequestLogin
+  | UserDataRequestLogout
+  | MessageDataRequest;
 
 export type ServerMessage = ServerResponse | ServerRequest;
 
