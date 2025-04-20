@@ -60,6 +60,8 @@ export const h2 = createElementFactory('h2');
 
 export const header = createElementFactory('header');
 
+export const icon = createElementFactory('i');
+
 export const input = createElementFactory('input');
 
 export const label = createElementFactory('label');

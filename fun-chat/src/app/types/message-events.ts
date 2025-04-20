@@ -2,6 +2,7 @@ import type { Message, MessageStatus } from './interfaces';
 
 export const MESSAGE_EVENT_TYPE = {
   ADD_MESSAGE: 'addMessage',
+  DELETE_MESSAGE: 'deleteMessage',
   DELIVERY_UPDATE: 'deliveryUpdate',
   READ_UPDATE: 'readUpdate',
 } as const;
@@ -13,6 +14,16 @@ export interface AddMessageEvent {
   kind: typeof MESSAGE_EVENT_TYPE.ADD_MESSAGE;
 
   message: Message;
+}
+
+// TODO Add data type to use here and in payload {id: ..., status: ...}
+export interface DeleteMessageEvent {
+  kind: typeof MESSAGE_EVENT_TYPE.DELETE_MESSAGE;
+
+  id: string;
+  status: {
+    isDeleted: boolean;
+  };
 }
 
 export interface DeliveryUpdateEvent {
@@ -31,5 +42,6 @@ export interface ReadUpdateEvent {
 
 export type ChatMessageEvent =
   | AddMessageEvent
+  | DeleteMessageEvent
   | DeliveryUpdateEvent
   | ReadUpdateEvent;

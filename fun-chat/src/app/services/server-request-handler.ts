@@ -1,12 +1,14 @@
 import type { ServerRequest } from '../types/interfaces';
-import type { AddMessageEvent, ReadUpdateEvent } from '../types/message-events';
 
 import { SERVER_REQUEST_TYPE } from '../constants/constants';
 import { store } from '../lib/store/store';
 import { emitChatMessageEvent, updateUserStatus } from '../store/actions';
 import {
   MESSAGE_EVENT_TYPE,
+  type AddMessageEvent,
+  type DeleteMessageEvent,
   type DeliveryUpdateEvent,
+  type ReadUpdateEvent,
 } from '../types/message-events';
 
 export function handleServerRequest(request: ServerRequest): void {
@@ -53,11 +55,25 @@ export function handleServerRequest(request: ServerRequest): void {
     }
 
     case SERVER_REQUEST_TYPE.MSG_READ: {
-      console.log('message read');
       const data = request.payload.message;
 
       const event: ReadUpdateEvent = {
         kind: MESSAGE_EVENT_TYPE.READ_UPDATE,
+
+        id: data.id,
+
+        status: data.status,
+      };
+
+      store.dispatch(emitChatMessageEvent(event));
+      break;
+    }
+
+    case SERVER_REQUEST_TYPE.MSG_DELETE: {
+      const data = request.payload.message;
+
+      const event: DeleteMessageEvent = {
+        kind: MESSAGE_EVENT_TYPE.DELETE_MESSAGE,
 
         id: data.id,
 

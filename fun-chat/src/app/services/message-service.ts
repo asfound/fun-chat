@@ -6,10 +6,14 @@ import type {
   FetchHistoryPayload,
   MessagesPayload,
   Message,
-  ReadMessagePayload,
+  ReadOrDeleteMessagePayload,
   ReadStatusChangePayload,
+  DeleteNotificationPayload,
 } from '../types/interfaces';
-import type { AddMessageEvent } from '../types/message-events';
+import type {
+  AddMessageEvent,
+  DeleteMessageEvent,
+} from '../types/message-events';
 
 import { CLIENT_REQUEST_TYPE } from '../constants/constants';
 import { store } from '../lib/store/store';
@@ -42,8 +46,40 @@ export function sendMessage(to: string, text: string): Promise<void> {
     };
 
     store.dispatch(emitChatMessageEvent(event));
-    console.log(response);
   });
+}
+
+export function deleteMessage(messageId: string): void {
+  const client = getWebSocketClient();
+
+  const id = crypto.randomUUID();
+
+  const payload: ReadOrDeleteMessagePayload = {
+    message: {
+      id: messageId,
+    },
+  };
+
+  const request: ClientRequest = {
+    id,
+    payload,
+    type: CLIENT_REQUEST_TYPE.MSG_DELETE,
+  };
+
+  client
+    .sendRequest<DeleteNotificationPayload>(request)
+    .then((response) => {
+      const event: DeleteMessageEvent = {
+        kind: MESSAGE_EVENT_TYPE.DELETE_MESSAGE,
+        id: response.message.id,
+        status: response.message.status,
+      };
+
+      store.dispatch(emitChatMessageEvent(event));
+    })
+    .catch((error: unknown) => {
+      console.log(error);
+    });
 }
 
 export function markMessageAsRead(messageId: string): void {
@@ -51,7 +87,7 @@ export function markMessageAsRead(messageId: string): void {
 
   const id = crypto.randomUUID();
 
-  const payload: ReadMessagePayload = {
+  const payload: ReadOrDeleteMessagePayload = {
     message: {
       id: messageId,
     },

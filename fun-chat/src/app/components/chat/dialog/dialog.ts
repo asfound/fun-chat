@@ -112,6 +112,21 @@ function handleChatMessageEvent(
             messageElement.replaceWith(newMessageElement);
             messageElements.set(message.id, newMessageElement);
           }
+
+          break;
+        }
+
+        case MESSAGE_EVENT_TYPE.DELETE_MESSAGE: {
+          const messageElement = messageElements.get(event.id);
+
+          if (messageElement) {
+            messageElement.remove();
+            messageElements.delete(event.id);
+
+            currentChat.messages.delete(event.id);
+          }
+
+          break;
         }
       }
     }

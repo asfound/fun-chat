@@ -35,7 +35,7 @@ export interface ClientRequest {
   payload:
     | LoginRequestPayload
     | SendMessagePayload
-    | ReadMessagePayload
+    | ReadOrDeleteMessagePayload
     | FetchHistoryPayload
     | null;
 }
@@ -55,7 +55,7 @@ export interface SendMessagePayload {
   message: Pick<Message, 'to' | 'text'>;
 }
 
-export interface ReadMessagePayload {
+export interface ReadOrDeleteMessagePayload {
   message: Pick<Message, 'id'>;
 }
 
@@ -112,7 +112,8 @@ export type ServerRequest =
   | UserDataRequestLogout
   | MessageDataRequest
   | DeliveryStatusRequest
-  | ReadStatusRequest;
+  | ReadStatusRequest
+  | DeleteNotificationRequest;
 
 export interface UserDataRequestLogin {
   type: typeof SERVER_REQUEST_TYPE.USER_EXTERNAL_LOGIN;
@@ -146,9 +147,25 @@ export interface ReadStatusRequest {
   payload: ReadStatusChangePayload;
 }
 
+// same for response to client request
 export interface ReadStatusChangePayload {
   message: {
     id: string;
     status: Pick<MessageStatus, 'isReaded'>;
+  };
+}
+
+export interface DeleteNotificationRequest {
+  type: typeof SERVER_REQUEST_TYPE.MSG_DELETE;
+  payload: DeleteNotificationPayload;
+}
+
+// same for response to client request
+export interface DeleteNotificationPayload {
+  message: {
+    id: string;
+    status: {
+      isDeleted: boolean;
+    };
   };
 }
