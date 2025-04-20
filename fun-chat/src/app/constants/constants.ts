@@ -79,6 +79,7 @@ export const SERVER_REQUEST_TYPE = {
   USER_EXTERNAL_LOGOUT: 'USER_EXTERNAL_LOGOUT',
 
   MSG_SEND: 'MSG_SEND',
+  MSG_DELIVER: 'MSG_DELIVER',
 } as const;
 
 export type ClientRequestType =

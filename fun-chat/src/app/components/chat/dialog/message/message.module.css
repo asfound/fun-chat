@@ -32,6 +32,6 @@
   font-size: 0.8rem;
 }
 
-.container .partner {
+.container.partner {
   justify-content: flex-start;
 }

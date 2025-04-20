@@ -1,9 +1,12 @@
 import type { CurrentUser, Message, User } from '~/app/types/interfaces';
 
-import type { ChatMessageEvent } from '../types/message-events';
-import type { AllActions } from './actions';
+import type { AllActions, ChatMessageEventEmission } from './actions';
 
 import { loadStateFromSessionStorage } from '../services/session-storage/session-storage';
+import {
+  MESSAGE_EVENT_TYPE,
+  type ChatMessageEvent,
+} from '../types/message-events';
 import { ACTION } from './actions';
 
 export type StoreReducer<S> = (state: S, action: AllActions) => S;
@@ -23,6 +26,7 @@ export interface CurrentChat {
   userLogin: string;
 
   messageHistory: Message[];
+  messages: Map<string, Message>;
   updatesQueue: ChatMessageEvent[];
 }
 
@@ -101,15 +105,13 @@ export const createReducer: StoreReducer<State> = (
 
     case ACTION.EMIT_CHAT_MESSAGE_EVENT: {
       if (state.currentChat) {
-        const updatedQueue = [...state.currentChat.updatesQueue];
-        updatedQueue.push(action.payload);
-
+        const updatedCurrentChat = handleEmitChatMessageEvent(
+          action,
+          state.currentChat
+        );
         return {
           ...state,
-          currentChat: {
-            ...state.currentChat,
-            updatesQueue: updatedQueue,
-          },
+          currentChat: updatedCurrentChat,
         };
       }
 
@@ -121,3 +123,33 @@ export const createReducer: StoreReducer<State> = (
     }
   }
 };
+
+function handleEmitChatMessageEvent(
+  event: ChatMessageEventEmission,
+  currentChat: CurrentChat
+): CurrentChat {
+  const updatedQueue = [...currentChat.updatesQueue];
+  updatedQueue.push(event.payload);
+  const messageMap = currentChat.messages;
+
+  switch (event.payload.kind) {
+    case MESSAGE_EVENT_TYPE.ADD_MESSAGE: {
+      messageMap.set(event.payload.message.id, event.payload.message);
+      break;
+    }
+    case MESSAGE_EVENT_TYPE.DELIVERY_UPDATE: {
+      const message = messageMap.get(event.payload.id);
+      if (message) {
+        message.status.isDelivered = event.payload.status.isDelivered;
+        messageMap.set(event.payload.id, message);
+      }
+      break;
+    }
+  }
+
+  return {
+    ...currentChat,
+    updatesQueue: updatedQueue,
+    messages: messageMap,
+  };
+}

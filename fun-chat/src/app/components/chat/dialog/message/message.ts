@@ -7,7 +7,7 @@ import styles from './message.module.css';
 export function createMessage(
   currentUser: string,
   message: Message
-): HTMLElement {
+): HTMLDivElement {
   const container = div({ className: styles.container });
 
   const messageElement = div({ className: styles.message });
@@ -40,7 +40,7 @@ export function createMessage(
 
     messageFooter.append(messageStatus);
   } else {
-    messageElement.classList.add(styles.partner);
+    container.classList.add(styles.partner);
   }
 
   messageElement.append(messageHeader, messageContent, messageFooter);

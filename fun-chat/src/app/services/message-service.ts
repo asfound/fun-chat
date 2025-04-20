@@ -5,6 +5,7 @@ import type {
   MessageDataPayload,
   FetchHistoryPayload,
   MessagesPayload,
+  Message,
 } from '../types/interfaces';
 import type { AddMessageEvent } from '../types/message-events';
 
@@ -63,14 +64,24 @@ export function fetchMessageHistory(userLogin: string): void {
   client
     .sendRequest<MessagesPayload>(request)
     .then((response) => {
-      const payload: CurrentChat = {
-        userLogin,
-        messageHistory: response.messages,
-        updatesQueue: [],
-      };
+      const payload = createCurrentChatState(userLogin, response.messages);
       store.dispatch(setCurrentChat(payload));
     })
     .catch((error: unknown) => {
       console.log(error);
     });
+}
+
+function createCurrentChatState(
+  userLogin: string,
+  messages: Message[]
+): CurrentChat {
+  const messagesMap = new Map(messages.map((message) => [message.id, message]));
+
+  return {
+    userLogin,
+    messageHistory: messages,
+    messages: messagesMap,
+    updatesQueue: [],
+  };
 }

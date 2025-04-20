@@ -44,13 +44,19 @@ export interface UserDataRequestLogout {
 
 export interface MessageDataRequest {
   type: typeof SERVER_REQUEST_TYPE.MSG_SEND;
-  message: MessageDataPayload;
+  payload: MessageDataPayload;
+}
+
+export interface DeliveryStatusRequest {
+  type: typeof SERVER_REQUEST_TYPE.MSG_DELIVER;
+  payload: DeliveryStatusChangePayload;
 }
 
 export type ServerRequest =
   | UserDataRequestLogin
   | UserDataRequestLogout
-  | MessageDataRequest;
+  | MessageDataRequest
+  | DeliveryStatusRequest;
 
 export type ServerMessage = ServerResponse | ServerRequest;
 
@@ -91,7 +97,7 @@ export interface Message {
   status: MessageStatus;
 }
 
-interface MessageStatus {
+export interface MessageStatus {
   isDelivered: boolean;
   isReaded: boolean;
   isEdited: boolean;
@@ -99,6 +105,13 @@ interface MessageStatus {
 
 export interface SendMessagePayload {
   message: Pick<Message, 'to' | 'text'>;
+}
+
+export interface DeliveryStatusChangePayload {
+  message: {
+    id: string;
+    status: Pick<MessageStatus, 'isDelivered'>;
+  };
 }
 
 export interface FetchHistoryPayload {

@@ -12,6 +12,8 @@ import { createMessage } from './message/message';
 export function createDialog(): HTMLElement {
   const dialogContainer = div({ className: styles.dialog });
 
+  const messagesMap = new Map<string, HTMLDivElement>();
+
   const { currentUser, currentChat } = store.getState();
 
   if (currentUser && currentChat) {
@@ -24,6 +26,7 @@ export function createDialog(): HTMLElement {
         const messageElement = createMessage(currentUser.login, message);
 
         dialogContainer.append(messageElement);
+        messagesMap.set(message.id, messageElement);
       }
 
       requestAnimationFrame(() => {
@@ -35,7 +38,7 @@ export function createDialog(): HTMLElement {
     }
 
     store.subscribe(ACTION.EMIT_CHAT_MESSAGE_EVENT, (state) => {
-      handleChatMessageEvent(dialogContainer, state);
+      handleChatMessageEvent(dialogContainer, state, messagesMap);
     });
   } else {
     const placeholder = div({ textContent: PLACEHOLDER.SELECT_CHAT });
@@ -47,7 +50,8 @@ export function createDialog(): HTMLElement {
 
 function handleChatMessageEvent(
   dialogContainer: HTMLDivElement,
-  state: State
+  state: State,
+  messageElements: Map<string, HTMLDivElement>
 ): void {
   const { currentUser, currentChat } = state;
   if (currentUser && currentChat) {
@@ -56,15 +60,32 @@ function handleChatMessageEvent(
     if (event) {
       switch (event.kind) {
         case MESSAGE_EVENT_TYPE.ADD_MESSAGE: {
-          const newMessageElement = createMessage(
-            currentUser.login,
-            event.message
-          );
-          dialogContainer.append(newMessageElement);
+          const message = currentChat.messages.get(event.message.id);
+          if (message) {
+            const newMessageElement = createMessage(
+              currentUser.login,
+              event.message
+            );
+            dialogContainer.append(newMessageElement);
 
-          requestAnimationFrame(() => {
-            dialogContainer.scrollTop = dialogContainer.scrollHeight;
-          });
+            requestAnimationFrame(() => {
+              dialogContainer.scrollTop = dialogContainer.scrollHeight;
+            });
+          }
+
+          break;
+        }
+
+        case MESSAGE_EVENT_TYPE.DELIVERY_UPDATE: {
+          const messageElement = messageElements.get(event.id);
+          const message = currentChat.messages.get(event.id);
+          if (messageElement && message) {
+            const newMessageElement = createMessage(currentUser.login, message);
+            messageElement.replaceWith(newMessageElement);
+            messageElements.set(message.id, newMessageElement);
+          }
+          console.log('delivered', event, message);
+          console.log(messageElements);
         }
       }
     }

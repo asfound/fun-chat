@@ -1,4 +1,4 @@
-import type { Message } from './interfaces';
+import type { Message, MessageStatus } from './interfaces';
 
 export const MESSAGE_EVENT_TYPE = {
   ADD_MESSAGE: 'addMessage',
@@ -17,9 +17,9 @@ export interface AddMessageEvent {
 export interface DeliveryUpdateEvent {
   kind: typeof MESSAGE_EVENT_TYPE.DELIVERY_UPDATE;
 
-  status: {
-    isDelivered: boolean;
-  };
+  id: string;
+
+  status: Pick<MessageStatus, 'isDelivered'>;
 }
 
 export type ChatMessageEvent = AddMessageEvent | DeliveryUpdateEvent;
