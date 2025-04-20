@@ -85,3 +85,6 @@ export type ServerRequestType =
   (typeof SERVER_REQUEST_TYPE)[keyof typeof SERVER_REQUEST_TYPE];
 
 export const EMPTY_STRING = '';
+
+export const ABOUT_TEXT =
+  'App development is part of the JavaScript/Front-end 2024Q4 course at Rolling Scopes School. \nAuthor:';
