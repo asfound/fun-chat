@@ -28,6 +28,8 @@ export interface CurrentChat {
   messageHistory: Message[];
   messages: Map<string, Message>;
   updatesQueue: ChatMessageEvent[];
+
+  isFocused: boolean;
 }
 
 export type StoredState = Omit<
@@ -48,7 +50,6 @@ export const defaultState: State = {
 export const initialState: State =
   loadStateFromSessionStorage() ?? defaultState;
 
-// eslint-disable-next-line max-lines-per-function
 export const createReducer: StoreReducer<State> = (
   state: State,
   action: AllActions

@@ -67,6 +67,7 @@ export const CLIENT_REQUEST_TYPE = {
 
   MSG_SEND: 'MSG_SEND',
   MSG_FROM_USER: 'MSG_FROM_USER',
+  MSG_READ: 'MSG_READ',
 } as const;
 
 export const SERVER_RESPONSE_TYPE = {

@@ -6,6 +6,8 @@ import type {
   FetchHistoryPayload,
   MessagesPayload,
   Message,
+  ReadMessagePayload,
+  ReadStatusChangePayload,
 } from '../types/interfaces';
 import type { AddMessageEvent } from '../types/message-events';
 
@@ -44,6 +46,30 @@ export function sendMessage(to: string, text: string): Promise<void> {
   });
 }
 
+export function markMessageAsRead(messageId: string): void {
+  const client = getWebSocketClient();
+
+  const id = crypto.randomUUID();
+
+  const payload: ReadMessagePayload = {
+    message: {
+      id: messageId,
+    },
+  };
+
+  const request: ClientRequest = {
+    id,
+    payload,
+    type: CLIENT_REQUEST_TYPE.MSG_READ,
+  };
+
+  client
+    .sendRequest<ReadStatusChangePayload>(request)
+    .catch((error: unknown) => {
+      console.log(error);
+    });
+}
+
 export function fetchMessageHistory(userLogin: string): void {
   const client = getWebSocketClient();
 
@@ -80,8 +106,11 @@ function createCurrentChatState(
 
   return {
     userLogin,
+
     messageHistory: messages,
     messages: messagesMap,
     updatesQueue: [],
+
+    isFocused: true,
   };
 }

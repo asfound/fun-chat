@@ -12,16 +12,68 @@ export interface ButtonProperties {
   disabled?: boolean;
 }
 
+//  Message
+export interface Message {
+  id: string;
+  from: string;
+  to: string;
+  text: string;
+  datetime: number;
+  status: MessageStatus;
+}
+
+export interface MessageStatus {
+  isDelivered: boolean;
+  isReaded: boolean;
+  isEdited: boolean;
+}
+
+// Client requests
 export interface ClientRequest {
   id: string;
   type: ClientRequestType;
   payload:
     | LoginRequestPayload
     | SendMessagePayload
+    | ReadMessagePayload
     | FetchHistoryPayload
     | null;
 }
 
+export interface LoginRequestPayload {
+  user: CurrentUser;
+}
+
+export type LogoutRequestPayload = LoginRequestPayload;
+
+export interface CurrentUser {
+  login: string;
+  password: string;
+}
+
+export interface SendMessagePayload {
+  message: Pick<Message, 'to' | 'text'>;
+}
+
+export interface ReadMessagePayload {
+  message: Pick<Message, 'id'>;
+}
+
+export interface FetchHistoryPayload {
+  user: {
+    login: string;
+  };
+}
+
+export interface GetUsersResponsePayload {
+  users: User[];
+}
+
+// Server
+
+export type ServerMessage = ServerResponse | ServerRequest;
+
+// Server responses
 export interface ServerResponse {
   id: string;
   type: ServerResponseType;
@@ -31,6 +83,35 @@ export interface ServerResponse {
     | MessagesPayload
     | ErrorPayload;
 }
+
+export interface UserDataPayload {
+  user: User;
+}
+
+export interface User {
+  login: string;
+  isLogined: boolean;
+}
+
+export interface MessageDataPayload {
+  message: Message;
+}
+
+export interface MessagesPayload {
+  messages: Message[];
+}
+
+export interface ErrorPayload {
+  error: string;
+}
+
+// Server requests
+
+export type ServerRequest =
+  | UserDataRequestLogin
+  | UserDataRequestLogout
+  | MessageDataRequest
+  | DeliveryStatusRequest;
 
 export interface UserDataRequestLogin {
   type: typeof SERVER_REQUEST_TYPE.USER_EXTERNAL_LOGIN;
@@ -52,61 +133,6 @@ export interface DeliveryStatusRequest {
   payload: DeliveryStatusChangePayload;
 }
 
-export type ServerRequest =
-  | UserDataRequestLogin
-  | UserDataRequestLogout
-  | MessageDataRequest
-  | DeliveryStatusRequest;
-
-export type ServerMessage = ServerResponse | ServerRequest;
-
-export interface LoginRequestPayload {
-  user: CurrentUser;
-}
-
-export interface CurrentUser {
-  login: string;
-  password: string;
-}
-
-export type LogoutRequestPayload = LoginRequestPayload;
-
-export interface UserDataPayload {
-  user: User;
-}
-
-export interface User {
-  login: string;
-  isLogined: boolean;
-}
-
-export interface GetUsersResponsePayload {
-  users: User[];
-}
-
-export interface ErrorPayload {
-  error: string;
-}
-
-export interface Message {
-  id: string;
-  from: string;
-  to: string;
-  text: string;
-  datetime: number;
-  status: MessageStatus;
-}
-
-export interface MessageStatus {
-  isDelivered: boolean;
-  isReaded: boolean;
-  isEdited: boolean;
-}
-
-export interface SendMessagePayload {
-  message: Pick<Message, 'to' | 'text'>;
-}
-
 export interface DeliveryStatusChangePayload {
   message: {
     id: string;
@@ -114,16 +140,9 @@ export interface DeliveryStatusChangePayload {
   };
 }
 
-export interface FetchHistoryPayload {
-  user: {
-    login: string;
+export interface ReadStatusChangePayload {
+  message: {
+    id: string;
+    status: Pick<MessageStatus, 'isReaded'>;
   };
-}
-
-export interface MessageDataPayload {
-  message: Message;
-}
-
-export interface MessagesPayload {
-  messages: Message[];
 }

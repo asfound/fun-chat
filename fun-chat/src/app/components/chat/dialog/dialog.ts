@@ -4,6 +4,7 @@ import type { Render } from '~/app/types/types';
 
 import { EMPTY_VALUE, PLACEHOLDER } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
+import { markMessageAsRead } from '~/app/services/message-service';
 import { ACTION } from '~/app/store/actions';
 import { MESSAGE_EVENT_TYPE } from '~/app/types/message-events';
 import { div } from '~/app/utils/create-element';
@@ -84,7 +85,12 @@ function handleChatMessageEvent(
               currentUser.login,
               event.message
             );
+
             dialogContainer.append(newMessageElement);
+
+            if (currentUser.login !== message.from && currentChat.isFocused) {
+              markMessageAsRead(message.id);
+            }
 
             requestAnimationFrame(() => {
               dialogContainer.scrollTop = dialogContainer.scrollHeight;
@@ -97,8 +103,10 @@ function handleChatMessageEvent(
         case MESSAGE_EVENT_TYPE.DELIVERY_UPDATE: {
           const messageElement = messageElements.get(event.id);
           const message = currentChat.messages.get(event.id);
+
           if (messageElement && message) {
             const newMessageElement = createMessage(currentUser.login, message);
+
             messageElement.replaceWith(newMessageElement);
             messageElements.set(message.id, newMessageElement);
           }
