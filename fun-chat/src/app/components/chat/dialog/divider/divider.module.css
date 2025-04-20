@@ -1,0 +1,35 @@
+.divider {
+  position: relative;
+
+  width: 100%;
+  margin: 0.5rem 0;
+
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.divider::before {
+  content: '';
+
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+
+  width: 100%;
+  border-top: 1px solid var(--primary-bright);
+}
+
+.text {
+  position: relative;
+  z-index: 5;
+
+  display: inline-block;
+
+  padding: 0 1rem;
+
+  color: var(--primary-medium);
+
+  background: var(--white);
+}
