@@ -7,12 +7,14 @@ import { EventEmitter } from '~/app/utils/event-emitter';
 
 import type { ActionType, AllActions } from '../../store/actions.ts';
 
+export type Unsubscribe = () => void;
+
 export interface Store<S> {
   getState: () => S;
 
   dispatch: (action: AllActions) => void;
 
-  subscribe: (event: ActionType, listener: (payload: S) => void) => void;
+  subscribe: (event: ActionType, listener: (payload: S) => void) => Unsubscribe;
 }
 
 export const createStore = <S>(
@@ -27,12 +29,18 @@ export const createStore = <S>(
 
     dispatch: (action: AllActions): void => {
       state = reducer(state, action);
-      console.log(state);
       eventEmitter.emit(action.type, state);
     },
 
-    subscribe: (event: ActionType, listener: (payload: S) => void): void => {
+    subscribe: (
+      event: ActionType,
+      listener: (payload: S) => void
+    ): Unsubscribe => {
       eventEmitter.subscribe(event, listener);
+
+      return () => {
+        eventEmitter.unsubscribe(event, listener);
+      };
     },
   };
 };

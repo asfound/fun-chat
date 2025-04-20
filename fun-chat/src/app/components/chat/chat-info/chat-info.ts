@@ -38,6 +38,8 @@ export function createChatInfo(): HTMLElement {
 
   render(store.getState());
 
+  store.subscribe(ACTION.SET_CURRENT_CHAT, render);
+
   store.subscribe(ACTION.UPDATE_USER_STATUS, (state) => {
     const { currentChat, users } = state;
 

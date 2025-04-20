@@ -1,4 +1,6 @@
+import type { Unsubscribe } from '~/app/lib/store/store';
 import type { State } from '~/app/store/reducer';
+import type { Render } from '~/app/types/types';
 
 import { EMPTY_VALUE, PLACEHOLDER } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
@@ -14,36 +16,50 @@ export function createDialog(): HTMLElement {
 
   const messagesMap = new Map<string, HTMLDivElement>();
 
-  const { currentUser, currentChat } = store.getState();
+  let unsubscribe: Unsubscribe | undefined;
 
-  if (currentUser && currentChat) {
-    if (currentChat.messageHistory.length > EMPTY_VALUE) {
-      const expander = div({ className: styles.expander });
+  const render: Render = ({ currentUser, currentChat }) => {
+    dialogContainer.replaceChildren();
+    messagesMap.clear();
 
-      dialogContainer.append(expander);
+    if (currentUser && currentChat) {
+      if (currentChat.messageHistory.length > EMPTY_VALUE) {
+        const expander = div({ className: styles.expander });
 
-      for (const message of currentChat.messageHistory) {
-        const messageElement = createMessage(currentUser.login, message);
+        dialogContainer.append(expander);
 
-        dialogContainer.append(messageElement);
-        messagesMap.set(message.id, messageElement);
+        for (const message of currentChat.messageHistory) {
+          const messageElement = createMessage(currentUser.login, message);
+
+          dialogContainer.append(messageElement);
+          messagesMap.set(message.id, messageElement);
+        }
+
+        requestAnimationFrame(() => {
+          dialogContainer.scrollTop = dialogContainer.scrollHeight;
+        });
+      } else {
+        const placeholder = div({ textContent: PLACEHOLDER.NO_MESSAGES });
+        dialogContainer.append(placeholder);
       }
 
-      requestAnimationFrame(() => {
-        dialogContainer.scrollTop = dialogContainer.scrollHeight;
+      unsubscribe = store.subscribe(ACTION.EMIT_CHAT_MESSAGE_EVENT, (state) => {
+        handleChatMessageEvent(dialogContainer, state, messagesMap);
       });
     } else {
-      const placeholder = div({ textContent: PLACEHOLDER.NO_MESSAGES });
+      const placeholder = div({ textContent: PLACEHOLDER.SELECT_CHAT });
       dialogContainer.append(placeholder);
     }
+  };
 
-    store.subscribe(ACTION.EMIT_CHAT_MESSAGE_EVENT, (state) => {
-      handleChatMessageEvent(dialogContainer, state, messagesMap);
-    });
-  } else {
-    const placeholder = div({ textContent: PLACEHOLDER.SELECT_CHAT });
-    dialogContainer.append(placeholder);
-  }
+  render(store.getState());
+
+  store.subscribe(ACTION.SET_CURRENT_CHAT, (state) => {
+    if (unsubscribe !== undefined) {
+      unsubscribe();
+    }
+    render(state);
+  });
 
   return dialogContainer;
 }
@@ -54,8 +70,10 @@ function handleChatMessageEvent(
   messageElements: Map<string, HTMLDivElement>
 ): void {
   const { currentUser, currentChat } = state;
+
   if (currentUser && currentChat) {
     const event = currentChat.updatesQueue.shift();
+    console.log(currentChat);
 
     if (event) {
       switch (event.kind) {
@@ -84,8 +102,6 @@ function handleChatMessageEvent(
             messageElement.replaceWith(newMessageElement);
             messageElements.set(message.id, newMessageElement);
           }
-          console.log('delivered', event, message);
-          console.log(messageElements);
         }
       }
     }
