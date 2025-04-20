@@ -87,6 +87,7 @@ function handleChatMessageEvent(
             );
 
             dialogContainer.append(newMessageElement);
+            messageElements.set(message.id, newMessageElement);
 
             if (currentUser.login !== message.from && currentChat.isFocused) {
               markMessageAsRead(message.id);
@@ -100,7 +101,8 @@ function handleChatMessageEvent(
           break;
         }
 
-        case MESSAGE_EVENT_TYPE.DELIVERY_UPDATE: {
+        case MESSAGE_EVENT_TYPE.DELIVERY_UPDATE:
+        case MESSAGE_EVENT_TYPE.READ_UPDATE: {
           const messageElement = messageElements.get(event.id);
           const message = currentChat.messages.get(event.id);
 

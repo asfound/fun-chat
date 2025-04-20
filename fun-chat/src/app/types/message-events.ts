@@ -3,6 +3,7 @@ import type { Message, MessageStatus } from './interfaces';
 export const MESSAGE_EVENT_TYPE = {
   ADD_MESSAGE: 'addMessage',
   DELIVERY_UPDATE: 'deliveryUpdate',
+  READ_UPDATE: 'readUpdate',
 } as const;
 
 export type MessageEventType =
@@ -18,8 +19,17 @@ export interface DeliveryUpdateEvent {
   kind: typeof MESSAGE_EVENT_TYPE.DELIVERY_UPDATE;
 
   id: string;
-
   status: Pick<MessageStatus, 'isDelivered'>;
 }
 
-export type ChatMessageEvent = AddMessageEvent | DeliveryUpdateEvent;
+export interface ReadUpdateEvent {
+  kind: typeof MESSAGE_EVENT_TYPE.READ_UPDATE;
+
+  id: string;
+  status: Pick<MessageStatus, 'isReaded'>;
+}
+
+export type ChatMessageEvent =
+  | AddMessageEvent
+  | DeliveryUpdateEvent
+  | ReadUpdateEvent;

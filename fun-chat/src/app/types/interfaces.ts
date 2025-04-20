@@ -111,7 +111,8 @@ export type ServerRequest =
   | UserDataRequestLogin
   | UserDataRequestLogout
   | MessageDataRequest
-  | DeliveryStatusRequest;
+  | DeliveryStatusRequest
+  | ReadStatusRequest;
 
 export interface UserDataRequestLogin {
   type: typeof SERVER_REQUEST_TYPE.USER_EXTERNAL_LOGIN;
@@ -138,6 +139,11 @@ export interface DeliveryStatusChangePayload {
     id: string;
     status: Pick<MessageStatus, 'isDelivered'>;
   };
+}
+
+export interface ReadStatusRequest {
+  type: typeof SERVER_REQUEST_TYPE.MSG_READ;
+  payload: ReadStatusChangePayload;
 }
 
 export interface ReadStatusChangePayload {
