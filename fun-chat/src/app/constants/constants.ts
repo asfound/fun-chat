@@ -1,6 +1,7 @@
 export const BASE_URL = 'http://127.0.0.1:4000';
 
 export const APP_NAME = 'Fun Chat';
+export const APP_YEAR = '2025';
 
 export const BUTTON_TYPE = {
   BUTTON: 'button',
@@ -8,8 +9,11 @@ export const BUTTON_TYPE = {
 } as const;
 
 export const BUTTON_TEXT = {
-  LOGOUT: 'Logout',
   ABOUT: 'About App',
+  LOGOUT: 'Logout',
+
+  RETURN: 'Return',
+  SEND: 'Send',
 } as const;
 
 export const LOGIN_LENGTH = {
@@ -42,7 +46,9 @@ export const INPUT_NAME = {
 
 export const PLACEHOLDER = {
   LOGIN: 'Enter name',
+  NO_MESSAGES: 'No messages',
   PASSWORD: 'Enter password',
+  SELECT_CHAT: 'Select chat',
 } as const;
 
 export const LEGEND_TEXT = 'Login to start chatting';
@@ -85,6 +91,7 @@ export type ServerRequestType =
   (typeof SERVER_REQUEST_TYPE)[keyof typeof SERVER_REQUEST_TYPE];
 
 export const EMPTY_STRING = '';
+export const EMPTY_VALUE = 0;
 
 export const ABOUT_TEXT =
   'App development is part of the JavaScript/Front-end 2024Q4 course at Rolling Scopes School. \nAuthor:';

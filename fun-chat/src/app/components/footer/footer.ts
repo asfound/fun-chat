@@ -1,4 +1,4 @@
-import { EXTERNAL_LINK } from '~/app/constants/constants';
+import { APP_YEAR, EXTERNAL_LINK } from '~/app/constants/constants';
 import { a, footer, span } from '~/app/utils/create-element';
 
 import styles from './footer.module.css';
@@ -20,7 +20,7 @@ export function createFooter(): HTMLElement {
     className: styles.link,
   });
 
-  const year = span({ textContent: '2025' });
+  const year = span({ textContent: APP_YEAR });
 
   footerElement.append(schoolLink, githubLink, year);
 

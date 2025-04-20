@@ -6,6 +6,7 @@
   --accent: #ffe338;
   --valid: #82e14b;
   --invalid: #ff3131;
+  --border-radius: 4px;
 
   font-family: Montserrat, Arial, sans-serif;
   font-size: 0.9rem;
