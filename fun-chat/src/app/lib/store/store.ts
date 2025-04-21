@@ -15,6 +15,8 @@ export interface Store<S> {
   dispatch: (action: AllActions) => void;
 
   subscribe: (event: ActionType, listener: (payload: S) => void) => Unsubscribe;
+
+  unsubscribeAll: (event: ActionType) => void;
 }
 
 export const createStore = <S>(
@@ -41,6 +43,10 @@ export const createStore = <S>(
       return () => {
         eventEmitter.unsubscribe(event, listener);
       };
+    },
+
+    unsubscribeAll: (event: ActionType): void => {
+      eventEmitter.unsubscribeAll(event);
     },
   };
 };

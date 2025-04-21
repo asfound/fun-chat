@@ -20,8 +20,8 @@ export class EventEmitter<T, E> {
     }
   }
 
-  public unsubscribeAll(): void {
-    this.events.clear();
+  public unsubscribeAll(event: E): void {
+    this.events.delete(event);
   }
 
   public emit(event: E, data: T): void {

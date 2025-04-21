@@ -13,7 +13,7 @@ import { store } from '~/app/lib/store/store';
 import { Route } from '~/app/router/route';
 import { navigate } from '~/app/router/router';
 import { getWebSocketClient } from '~/app/services/websocket/websocket-client';
-import { changeCurrentUser } from '~/app/store/actions';
+import { ACTION, changeCurrentUser, setCurrentChat } from '~/app/store/actions';
 import { div, h1, header } from '~/app/utils/create-element';
 
 import { createButton } from '../button/button';
@@ -73,7 +73,10 @@ function handleLogout(): void {
     client
       .sendRequest<UserDataPayload>(request)
       .then(() => {
+        store.dispatch(setCurrentChat(null));
         store.dispatch(changeCurrentUser(null));
+        store.unsubscribeAll(ACTION.SET_CURRENT_CHAT);
+        store.unsubscribeAll(ACTION.SET_CURRENT_USER);
         navigate(Route.LOGIN);
       })
       .catch((error: unknown) => {

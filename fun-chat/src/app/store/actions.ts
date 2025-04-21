@@ -79,10 +79,12 @@ export const updateUserStatus = (value: User): UserStatusChange => ({
 
 export type CurrentChatChange = ActionWithPayload<
   typeof ACTION.SET_CURRENT_CHAT,
-  CurrentChat
+  CurrentChat | null
 >;
 
-export const setCurrentChat = (value: CurrentChat): CurrentChatChange => ({
+export const setCurrentChat = (
+  value: CurrentChat | null
+): CurrentChatChange => ({
   type: ACTION.SET_CURRENT_CHAT,
   payload: value,
 });
