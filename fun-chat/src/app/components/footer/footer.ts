@@ -1,5 +1,6 @@
 import { APP_YEAR, EXTERNAL_LINK } from '~/app/constants/constants';
-import { a, footer, span } from '~/app/utils/create-element';
+import { a, footer, img, span } from '~/app/utils/create-element';
+import logo from '~/assets/icon/rss-logo.svg?url';
 
 import styles from './footer.module.css';
 
@@ -19,6 +20,10 @@ export function createFooter(): HTMLElement {
     target: EXTERNAL_LINK.TARGET,
     className: styles.link,
   });
+
+  const schoolLogo = img({ src: logo, className: styles.logo });
+
+  schoolLink.prepend(schoolLogo);
 
   const year = span({ textContent: APP_YEAR });
 

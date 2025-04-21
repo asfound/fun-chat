@@ -9,10 +9,19 @@
 }
 
 .link {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
   color: var(--primary-dark);
+
   transition: text-decoration-color 0.2s;
 }
 
 .link:hover {
   text-decoration-color: var(--accent);
+}
+
+.logo {
+  width: 1.5rem;
 }

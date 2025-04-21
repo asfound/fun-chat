@@ -62,6 +62,8 @@ export const header = createElementFactory('header');
 
 export const icon = createElementFactory('i');
 
+export const img = createElementFactory('img');
+
 export const input = createElementFactory('input');
 
 export const label = createElementFactory('label');
