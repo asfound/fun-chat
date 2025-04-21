@@ -149,7 +149,13 @@ function handleNotificationCountUpdate(
   notifications: Map<string, string[]>,
   payload: NotificationCountData
 ): Map<string, string[]> {
-  if (payload.userID === undefined) {
+  if (payload.userID !== undefined && payload.messageId !== undefined) {
+    const userNotifications = notifications.get(payload.userID) ?? [];
+
+    userNotifications.push(payload.messageId);
+
+    notifications.set(payload.userID, userNotifications);
+  } else if (payload.userID === undefined && payload.messageId !== undefined) {
     for (const messageIds of notifications.values()) {
       if (messageIds.includes(payload.messageId)) {
         const index = messageIds.indexOf(payload.messageId);
@@ -157,12 +163,9 @@ function handleNotificationCountUpdate(
         messageIds.splice(index, DEFAULT_INCREMENT);
       }
     }
-  } else {
-    const userNotifications = notifications.get(payload.userID) ?? [];
-
-    userNotifications.push(payload.messageId);
-
-    notifications.set(payload.userID, userNotifications);
+  } else if (payload.userID !== undefined) {
+    console.log('have to remove all');
+    notifications.set(payload.userID, []);
   }
 
   return notifications;

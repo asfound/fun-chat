@@ -113,7 +113,7 @@ export const updateNotificationCount = (
 
 export interface NotificationCountData {
   userID?: string;
-  messageId: string;
+  messageId?: string;
 }
 
 export type AllActions =

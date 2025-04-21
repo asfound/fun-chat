@@ -1,4 +1,5 @@
 import type { Unsubscribe } from '~/app/lib/store/store';
+import type { NotificationCountData } from '~/app/store/actions';
 import type { State } from '~/app/store/reducer';
 import type { Message } from '~/app/types/interfaces';
 import type { Render } from '~/app/types/types';
@@ -6,7 +7,7 @@ import type { Render } from '~/app/types/types';
 import { EMPTY_VALUE, PLACEHOLDER } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
 import { markMessageAsRead } from '~/app/services/message-service';
-import { ACTION } from '~/app/store/actions';
+import { ACTION, updateNotificationCount } from '~/app/store/actions';
 import { MESSAGE_EVENT_TYPE } from '~/app/types/message-events';
 import { div } from '~/app/utils/create-element';
 
@@ -164,13 +165,23 @@ function handleChatMessageEvent(
 }
 
 function handleFocus(): void {
-  isFocused = true;
-  divider?.remove();
-  divider = null;
+  if (!isFocused) {
+    isFocused = true;
+    divider?.remove();
+    divider = null;
 
-  for (const message of unreadMessages) {
-    markMessageAsRead(message.id);
+    for (const message of unreadMessages) {
+      markMessageAsRead(message.id);
+    }
+
+    const { currentChat } = store.getState();
+    if (currentChat) {
+      const notificationData: NotificationCountData = {
+        userID: currentChat.userLogin,
+      };
+      store.dispatch(updateNotificationCount(notificationData));
+    }
+
+    unreadMessages = [];
   }
-
-  unreadMessages = [];
 }
