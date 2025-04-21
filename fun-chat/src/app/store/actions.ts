@@ -11,6 +11,7 @@ export const ACTION = {
 
   SET_CURRENT_CHAT: 'setCurrentChat',
   EMIT_CHAT_MESSAGE_EVENT: 'emitChatMessageEvent',
+  UPDATE_NOTIFICATION_COUNT: 'updateNotificationCount',
 } as const;
 
 export type ActionType = (typeof ACTION)[keyof typeof ACTION];
@@ -98,6 +99,20 @@ export const emitChatMessageEvent = (
   payload: value,
 });
 
+export type NotificationCountUpdate = ActionWithPayload<
+  typeof ACTION.UPDATE_NOTIFICATION_COUNT,
+  NotificationCountData
+>;
+
+export const updateNotificationCount = (
+  value: NotificationCountData
+): NotificationCountUpdate => ({
+  type: ACTION.UPDATE_NOTIFICATION_COUNT,
+  payload: value,
+});
+
+export type NotificationCountData = [string, number];
+
 export type AllActions =
   | SocketStateChange
   | CurrentUserChange
@@ -105,4 +120,5 @@ export type AllActions =
   | SearchInputChange
   | UserStatusChange
   | CurrentChatChange
-  | ChatMessageEventEmission;
+  | ChatMessageEventEmission
+  | NotificationCountUpdate;

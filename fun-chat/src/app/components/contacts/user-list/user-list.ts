@@ -56,6 +56,7 @@ export function createUserList(): HTMLUListElement {
   store.subscribe(ACTION.SET_USERS, render);
   store.subscribe(ACTION.SET_SEARCH_VALUE, render);
   store.subscribe(ACTION.UPDATE_USER_STATUS, render);
+  store.subscribe(ACTION.UPDATE_NOTIFICATION_COUNT, render);
 
   return userList;
 }

@@ -1,5 +1,5 @@
 import type { ClientRequestType } from '~/app/constants/constants';
-import type { UsersData } from '~/app/store/actions';
+import type { NotificationCountData, UsersData } from '~/app/store/actions';
 import type {
   LoginRequestPayload,
   ClientRequest,
@@ -73,7 +73,7 @@ export function getAllUsersData(currentUser: string): void {
           .filter((user) => user.login !== currentUser)
           .map((user) =>
             fetchMessageHistory(user.login).then(
-              (messages): [string, number] => [
+              (messages): NotificationCountData => [
                 user.login,
                 calculateUnread(messages),
               ]

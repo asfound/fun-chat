@@ -2,6 +2,7 @@ import type { CurrentUser, Message, User } from '~/app/types/interfaces';
 
 import type { AllActions, ChatMessageEventEmission } from './actions';
 
+import { EMPTY_VALUE } from '../constants/constants';
 import { loadStateFromSessionStorage } from '../services/session-storage/session-storage';
 import {
   MESSAGE_EVENT_TYPE,
@@ -116,6 +117,23 @@ export const createReducer: StoreReducer<State> = (
       }
 
       return state;
+    }
+
+    case ACTION.UPDATE_NOTIFICATION_COUNT: {
+      const notifications: Map<string, number> = structuredClone(
+        state.unreadMessagesCounters
+      );
+
+      const count =
+        (notifications.get(action.payload[0]) ?? EMPTY_VALUE) +
+        action.payload[1];
+
+      notifications.set(action.payload[0], count);
+
+      return {
+        ...state,
+        unreadMessagesCounters: notifications,
+      };
     }
 
     default: {

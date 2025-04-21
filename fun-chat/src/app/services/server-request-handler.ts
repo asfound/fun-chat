@@ -3,7 +3,11 @@ import type { EditMessageEvent } from '../types/message-events';
 
 import { SERVER_REQUEST_TYPE } from '../constants/constants';
 import { store } from '../lib/store/store';
-import { emitChatMessageEvent, updateUserStatus } from '../store/actions';
+import {
+  emitChatMessageEvent,
+  updateNotificationCount,
+  updateUserStatus,
+} from '../store/actions';
 import {
   MESSAGE_EVENT_TYPE,
   type AddMessageEvent,
@@ -11,6 +15,9 @@ import {
   type DeliveryUpdateEvent,
   type ReadUpdateEvent,
 } from '../types/message-events';
+
+export const DEFAULT_INCREMENT = 1;
+// export const DEFAULT_DECREMENT = -1;
 
 export function handleServerRequest(request: ServerRequest): void {
   switch (request.type) {
@@ -50,6 +57,8 @@ export function handleServerRequest(request: ServerRequest): void {
         };
 
         store.dispatch(emitChatMessageEvent(event));
+      } else {
+        store.dispatch(updateNotificationCount([data.from, DEFAULT_INCREMENT]));
       }
 
       break;
