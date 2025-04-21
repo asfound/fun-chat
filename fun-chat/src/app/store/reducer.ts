@@ -19,6 +19,8 @@ export interface State {
 
   users: Map<string, User>;
 
+  unreadMessagesCounters: Map<string, number>;
+
   searchValue: string;
 }
 
@@ -30,10 +32,7 @@ export interface CurrentChat {
   updatesQueue: ChatMessageEvent[];
 }
 
-export type StoredState = Omit<
-  State,
-  'isWebsocketOpen' | 'users' | 'currentChat'
->;
+export type StoredState = Pick<State, 'currentUser' | 'searchValue'>;
 
 export const defaultState: State = {
   isWebsocketOpen: false,
@@ -41,6 +40,8 @@ export const defaultState: State = {
   currentUser: null,
   currentChat: null,
   users: new Map(),
+
+  unreadMessagesCounters: new Map(),
 
   searchValue: '',
 };
@@ -68,12 +69,12 @@ export const createReducer: StoreReducer<State> = (
     }
 
     case ACTION.SET_USERS: {
-      const usersMap = new Map(
-        action.payload.map((user) => [user.login, user])
-      );
+      const { users, unreadMessagesCounters } = action.payload;
+      const usersMap = new Map(users.map((user) => [user.login, user]));
       return {
         ...state,
         users: usersMap,
+        unreadMessagesCounters,
       };
     }
 

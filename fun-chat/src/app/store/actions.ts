@@ -44,12 +44,17 @@ export const changeCurrentUser = (
   payload: value,
 });
 
-export type UsersChange = ActionWithPayload<typeof ACTION.SET_USERS, User[]>;
+export type UsersChange = ActionWithPayload<typeof ACTION.SET_USERS, UsersData>;
 
-export const setUsers = (value: User[]): UsersChange => ({
+export const setUsers = (value: UsersData): UsersChange => ({
   type: ACTION.SET_USERS,
   payload: value,
 });
+
+export interface UsersData {
+  users: User[];
+  unreadMessagesCounters: Map<string, number>;
+}
 
 export type SearchInputChange = ActionWithPayload<
   typeof ACTION.SET_SEARCH_VALUE,

@@ -34,6 +34,7 @@ function restoreState(stored: StoredState): State {
     ...stored,
     isWebsocketOpen: false,
     users: new Map(),
+    unreadMessagesCounters: new Map(),
     currentChat: null,
   };
 }

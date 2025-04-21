@@ -144,7 +144,18 @@ export function markMessageAsRead(messageId: string): void {
     });
 }
 
-export function fetchMessageHistory(userLogin: string): void {
+export function fetchChatMessageHistory(userLogin: string): void {
+  fetchMessageHistory(userLogin)
+    .then((messages) => {
+      const payload = createCurrentChatState(userLogin, messages);
+      store.dispatch(setCurrentChat(payload));
+    })
+    .catch((error: unknown) => {
+      console.log(error);
+    });
+}
+
+export function fetchMessageHistory(userLogin: string): Promise<Message[]> {
   const client = getWebSocketClient();
 
   const id = crypto.randomUUID();
@@ -161,15 +172,9 @@ export function fetchMessageHistory(userLogin: string): void {
     type: CLIENT_REQUEST_TYPE.MSG_FROM_USER,
   };
 
-  client
+  return client
     .sendRequest<MessagesPayload>(request)
-    .then((response) => {
-      const payload = createCurrentChatState(userLogin, response.messages);
-      store.dispatch(setCurrentChat(payload));
-    })
-    .catch((error: unknown) => {
-      console.log(error);
-    });
+    .then((response) => response.messages);
 }
 
 function createCurrentChatState(

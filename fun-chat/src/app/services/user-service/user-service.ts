@@ -1,16 +1,19 @@
 import type { ClientRequestType } from '~/app/constants/constants';
+import type { UsersData } from '~/app/store/actions';
 import type {
   LoginRequestPayload,
   ClientRequest,
   UserDataPayload,
   CurrentUser,
   GetUsersResponsePayload,
+  Message,
 } from '~/app/types/interfaces';
 
 import { CLIENT_REQUEST_TYPE } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
 import { changeCurrentUser, setUsers } from '~/app/store/actions';
 
+import { fetchMessageHistory } from '../message-service';
 import { getWebSocketClient } from '../websocket/websocket-client';
 
 export function authorizeUser(login: string, password: string): Promise<void> {
@@ -57,16 +60,39 @@ function getUsers(
   return client.sendRequest<GetUsersResponsePayload>(request);
 }
 
-export function getAllUsers(): void {
+export function getAllUsersData(currentUser: string): void {
   Promise.all([
     getUsers(CLIENT_REQUEST_TYPE.USER_ACTIVE),
     getUsers(CLIENT_REQUEST_TYPE.USER_INACTIVE),
   ])
     .then((value) => {
-      const users = value.map((payload) => payload.users);
-      store.dispatch(setUsers(users.flat()));
+      const users = value.flatMap((payload) => payload.users);
+
+      return Promise.all(
+        users
+          .filter((user) => user.login !== currentUser)
+          .map((user) =>
+            fetchMessageHistory(user.login).then(
+              (messages): [string, number] => [
+                user.login,
+                calculateUnread(messages),
+              ]
+            )
+          )
+      ).then((unreadCounters) => {
+        const unreadCountersMap = new Map<string, number>(unreadCounters);
+        const usersData: UsersData = {
+          users,
+          unreadMessagesCounters: unreadCountersMap,
+        };
+        store.dispatch(setUsers(usersData));
+      });
     })
     .catch((error: unknown) => {
       console.log(error);
     });
+}
+
+function calculateUnread(messages: Message[]): number {
+  return messages.filter((message) => !message.status.isReaded).length;
 }
