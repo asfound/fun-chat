@@ -128,6 +128,9 @@ function handleChatMessageEvent(
             } else {
               if (isFocused) {
                 markMessageAsRead(message.id);
+              } else {
+                unreadMessages.push(message);
+                dispatchNotification(message.from, message.id);
               }
             }
 
@@ -179,6 +182,15 @@ function handleChatMessageEvent(
       }
     }
   }
+}
+
+function dispatchNotification(userLogin: string, messageId: string): void {
+  const notificationData: NotificationCountData = {
+    userID: userLogin,
+    messageId,
+  };
+
+  store.dispatch(updateNotificationCount(notificationData));
 }
 
 function handleFocus(): void {
