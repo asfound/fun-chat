@@ -77,7 +77,6 @@ export const createReducer: StoreReducer<State> = (
     case ACTION.SET_USERS: {
       const { users, unreadMessagesCounters } = action.payload;
       const usersMap = new Map(users.map((user) => [user.login, user]));
-      console.log('unread:', unreadMessagesCounters);
       return {
         ...state,
         users: usersMap,

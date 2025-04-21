@@ -33,6 +33,9 @@ export function createDialog(): HTMLElement {
   const render: Render = ({ currentUser, currentChat }) => {
     dialogContainer.replaceChildren();
     messagesMap.clear();
+    divider = null;
+    unreadMessages = [];
+    isFocused = true;
 
     if (currentUser && currentChat) {
       if (currentChat.messageHistory.length > EMPTY_VALUE) {
