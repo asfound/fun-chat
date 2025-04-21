@@ -1,5 +1,5 @@
 import type { ClientRequestType } from '~/app/constants/constants';
-import type { NotificationCountData, UsersData } from '~/app/store/actions';
+import type { UsersData } from '~/app/store/actions';
 import type {
   LoginRequestPayload,
   ClientRequest,
@@ -73,14 +73,14 @@ export function getAllUsersData(currentUser: string): void {
           .filter((user) => user.login !== currentUser)
           .map((user) =>
             fetchMessageHistory(user.login).then(
-              (messages): NotificationCountData => [
+              (messages): [string, string[]] => [
                 user.login,
-                calculateUnread(messages),
+                getAllUnreadId(currentUser, messages),
               ]
             )
           )
       ).then((unreadCounters) => {
-        const unreadCountersMap = new Map<string, number>(unreadCounters);
+        const unreadCountersMap = new Map<string, string[]>(unreadCounters);
         const usersData: UsersData = {
           users,
           unreadMessagesCounters: unreadCountersMap,
@@ -93,6 +93,10 @@ export function getAllUsersData(currentUser: string): void {
     });
 }
 
-function calculateUnread(messages: Message[]): number {
-  return messages.filter((message) => !message.status.isReaded).length;
+function getAllUnreadId(currentUser: string, messages: Message[]): string[] {
+  return messages
+    .filter(
+      (message) => !message.status.isReaded && message.from !== currentUser
+    )
+    .map((message) => message.id);
 }

@@ -1,8 +1,12 @@
 import type { CurrentUser, Message, User } from '~/app/types/interfaces';
 
-import type { AllActions, ChatMessageEventEmission } from './actions';
+import type {
+  AllActions,
+  ChatMessageEventEmission,
+  NotificationCountData,
+} from './actions';
 
-import { EMPTY_VALUE } from '../constants/constants';
+import { DEFAULT_INCREMENT } from '../services/server-request-handler';
 import { loadStateFromSessionStorage } from '../services/session-storage/session-storage';
 import {
   MESSAGE_EVENT_TYPE,
@@ -20,7 +24,8 @@ export interface State {
 
   users: Map<string, User>;
 
-  unreadMessagesCounters: Map<string, number>;
+  // type: <userID, messageID[]>
+  unreadMessagesCounters: Map<string, string[]>;
 
   searchValue: string;
 }
@@ -73,6 +78,7 @@ export const createReducer: StoreReducer<State> = (
     case ACTION.SET_USERS: {
       const { users, unreadMessagesCounters } = action.payload;
       const usersMap = new Map(users.map((user) => [user.login, user]));
+      console.log('unread:', unreadMessagesCounters);
       return {
         ...state,
         users: usersMap,
@@ -121,15 +127,11 @@ export const createReducer: StoreReducer<State> = (
     }
 
     case ACTION.UPDATE_NOTIFICATION_COUNT: {
-      const notifications: Map<string, number> = structuredClone(
-        state.unreadMessagesCounters
-      );
-
-      const count =
-        (notifications.get(action.payload[0]) ?? EMPTY_VALUE) +
-        action.payload[1];
-
-      notifications.set(action.payload[0], count);
+      const notifications: Map<string, string[]> =
+        handleNotificationCountUpdate(
+          structuredClone(state.unreadMessagesCounters),
+          action.payload
+        );
 
       return {
         ...state,
@@ -142,6 +144,29 @@ export const createReducer: StoreReducer<State> = (
     }
   }
 };
+
+function handleNotificationCountUpdate(
+  notifications: Map<string, string[]>,
+  payload: NotificationCountData
+): Map<string, string[]> {
+  if (payload.userID === undefined) {
+    for (const messageIds of notifications.values()) {
+      if (messageIds.includes(payload.messageId)) {
+        const index = messageIds.indexOf(payload.messageId);
+
+        messageIds.splice(index, DEFAULT_INCREMENT);
+      }
+    }
+  } else {
+    const userNotifications = notifications.get(payload.userID) ?? [];
+
+    userNotifications.push(payload.messageId);
+
+    notifications.set(payload.userID, userNotifications);
+  }
+
+  return notifications;
+}
 
 function handleEmitChatMessageEvent(
   event: ChatMessageEventEmission,

@@ -1,3 +1,4 @@
+import type { NotificationCountData } from '../store/actions';
 import type { ServerRequest } from '../types/interfaces';
 import type { EditMessageEvent } from '../types/message-events';
 
@@ -58,7 +59,12 @@ export function handleServerRequest(request: ServerRequest): void {
 
         store.dispatch(emitChatMessageEvent(event));
       } else {
-        store.dispatch(updateNotificationCount([data.from, DEFAULT_INCREMENT]));
+        const notificationData: NotificationCountData = {
+          userID: data.from,
+          messageId: data.id,
+        };
+
+        store.dispatch(updateNotificationCount(notificationData));
       }
 
       break;
@@ -91,6 +97,13 @@ export function handleServerRequest(request: ServerRequest): void {
       };
 
       store.dispatch(emitChatMessageEvent(event));
+
+      const notificationData: NotificationCountData = {
+        messageId: data.id,
+      };
+
+      store.dispatch(updateNotificationCount(notificationData));
+
       break;
     }
 

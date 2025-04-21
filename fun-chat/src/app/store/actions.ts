@@ -54,7 +54,7 @@ export const setUsers = (value: UsersData): UsersChange => ({
 
 export interface UsersData {
   users: User[];
-  unreadMessagesCounters: Map<string, number>;
+  unreadMessagesCounters: Map<string, string[]>;
 }
 
 export type SearchInputChange = ActionWithPayload<
@@ -111,7 +111,10 @@ export const updateNotificationCount = (
   payload: value,
 });
 
-export type NotificationCountData = [string, number];
+export interface NotificationCountData {
+  userID?: string;
+  messageId: string;
+}
 
 export type AllActions =
   | SocketStateChange

@@ -35,9 +35,8 @@ export function createUserList(): HTMLUListElement {
         className: styles.user,
       });
 
-      const notificationCount =
-        unreadMessagesCounters.get(contact.login) ?? EMPTY_VALUE;
-      updateBadge(userElement, notificationCount);
+      const notificationCount = unreadMessagesCounters.get(contact.login) ?? [];
+      updateBadge(userElement, notificationCount.length);
 
       if (contact.isLogined) {
         userElement.classList.add(styles.online);
