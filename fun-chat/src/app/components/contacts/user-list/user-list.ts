@@ -1,11 +1,14 @@
 import type { Render } from '~/app/types/types';
 
+import { EMPTY_VALUE, NOTIFICATION_VAR } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
 import { fetchMessageHistory } from '~/app/services/message-service';
 import { ACTION } from '~/app/store/actions';
 import { li, ul } from '~/app/utils/create-element';
 
 import styles from './user-list.module.css';
+
+const COUNT = 0;
 
 export function createUserList(): HTMLUListElement {
   const userList = ul({ className: styles.list });
@@ -29,6 +32,8 @@ export function createUserList(): HTMLUListElement {
         className: styles.user,
       });
 
+      updateBadge(userElement, COUNT);
+
       if (contact.isLogined) {
         userElement.classList.add(styles.online);
       }
@@ -48,4 +53,14 @@ export function createUserList(): HTMLUListElement {
   store.subscribe(ACTION.UPDATE_USER_STATUS, render);
 
   return userList;
+}
+
+function updateBadge(element: HTMLLIElement, value: number): void {
+  if (value === EMPTY_VALUE) {
+    element.style.setProperty(NOTIFICATION_VAR, '');
+    delete element.dataset.hasNotifications;
+  } else {
+    element.style.setProperty(NOTIFICATION_VAR, `"${value.toString()}"`);
+    element.dataset.hasNotifications = 'true';
+  }
 }

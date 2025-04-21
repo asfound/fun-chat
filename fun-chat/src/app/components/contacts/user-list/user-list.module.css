@@ -10,7 +10,7 @@
 
 .user {
   position: relative;
-  padding-left: 1.5em;
+  padding-left: 1.25em;
 }
 
 .user:hover {
@@ -22,12 +22,42 @@
   content: '●';
 
   position: absolute;
-  bottom: 0.05em;
+  bottom: 0.6em;
   left: 0.35em;
 
+  font-size: 0.7em;
+  line-height: 1;
   color: var(--invalid);
 }
 
 .user.online::before {
   color: var(--valid);
+}
+
+.user::after {
+  content: var(--after-content, '');
+
+  position: absolute;
+  right: 0.35em;
+  bottom: 0.35em;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 1.2em;
+  height: 1.2em;
+  border: 1px solid var(--primary-bright);
+  border-radius: 999px;
+
+  font-size: 0.7em;
+  line-height: 1;
+  color: var(--primary-medium);
+  white-space: nowrap;
+
+  background-color: var(--white);
+}
+
+.user[data-has-notifications]::after {
+  display: inline-flex;
 }

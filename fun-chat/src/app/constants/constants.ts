@@ -3,6 +3,8 @@ export const BASE_URL = 'http://127.0.0.1:4000';
 export const APP_NAME = 'Fun Chat';
 export const APP_YEAR = '2025';
 
+export const NOTIFICATION_VAR = '--after-content';
+
 export const BUTTON_TYPE = {
   BUTTON: 'button',
   SUBMIT: 'submit',
@@ -18,7 +20,7 @@ export const BUTTON_TEXT = {
 
 export const LOGIN_LENGTH = {
   MIN: 4,
-  MAX: 12,
+  MAX: 10,
 } as const;
 
 export const PASSWORD_LENGTH = {
