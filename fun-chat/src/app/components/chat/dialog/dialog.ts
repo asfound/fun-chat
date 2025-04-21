@@ -1,5 +1,6 @@
 import type { Unsubscribe } from '~/app/lib/store/store';
 import type { State } from '~/app/store/reducer';
+import type { Message } from '~/app/types/interfaces';
 import type { Render } from '~/app/types/types';
 
 import { EMPTY_VALUE, PLACEHOLDER } from '~/app/constants/constants';
@@ -14,7 +15,8 @@ import { createMessageDivider } from './divider/divider';
 import { createMessage } from './message/message';
 
 let isFocused = true;
-let divider: HTMLDivElement | undefined;
+let divider: HTMLDivElement | null;
+let unreadMessages: Message[] = [];
 
 export function createDialog(): HTMLElement {
   const dialogContainer = div({ className: styles.dialog });
@@ -37,14 +39,14 @@ export function createDialog(): HTMLElement {
         dialogContainer.append(expander);
 
         for (const message of currentChat.messageHistory) {
-          if (
-            message.from !== currentUser.login &&
-            !divider &&
-            !message.status.isReaded
-          ) {
-            isFocused = false;
-            divider = createMessageDivider();
-            dialogContainer.append(divider);
+          if (message.from !== currentUser.login && !message.status.isReaded) {
+            unreadMessages.push(message);
+
+            if (!divider) {
+              isFocused = false;
+              divider = createMessageDivider();
+              dialogContainer.append(divider);
+            }
           }
 
           const messageElement = createMessage(currentUser.login, message);
@@ -164,5 +166,11 @@ function handleChatMessageEvent(
 function handleFocus(): void {
   isFocused = true;
   divider?.remove();
-  divider = undefined;
+  divider = null;
+
+  for (const message of unreadMessages) {
+    markMessageAsRead(message.id);
+  }
+
+  unreadMessages = [];
 }
