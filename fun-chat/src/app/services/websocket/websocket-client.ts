@@ -51,7 +51,6 @@ export class WebSocketClient {
       this.webSocket.addEventListener(
         'open',
         () => {
-          console.log('open');
           if (this.retryTimeoutId !== null) {
             clearTimeout(this.retryTimeoutId);
           }
@@ -74,10 +73,6 @@ export class WebSocketClient {
       this.webSocket.addEventListener('message', (event) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         this.handleMessage(event.data);
-      });
-
-      this.webSocket.addEventListener('error', () => {
-        this.handleDisconnect();
       });
 
       this.webSocket.addEventListener('close', () => {

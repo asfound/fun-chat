@@ -13,7 +13,7 @@ export function createLoader(store: Store<State>): void {
     className: styles.spinner,
   });
 
-  const message = p({ textContent: 'Reconnecting...' });
+  const message = p({ textContent: 'Connecting...' });
 
   loaderElement.append(spinnerElement, message);
 
@@ -32,4 +32,6 @@ export function createLoader(store: Store<State>): void {
       showLoader();
     }
   });
+
+  showLoader();
 }

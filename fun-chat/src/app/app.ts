@@ -10,13 +10,13 @@ import { getWebSocketClient } from './services/websocket/websocket-client';
 import { div } from './utils/create-element';
 
 export function initApp(): void {
-  getWebSocketClient().open();
-
   const root = div({});
 
   document.body.append(root);
 
   createLoader(store);
+
+  getWebSocketClient().open();
 
   initRouter({
     root,
