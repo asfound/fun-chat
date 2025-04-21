@@ -66,6 +66,7 @@ export const createReducer: StoreReducer<State> = (
       return {
         ...state,
         currentUser: action.payload,
+        currentChat: null,
       };
     }
 
