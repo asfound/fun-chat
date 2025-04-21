@@ -184,7 +184,5 @@ function createCurrentChatState(
     messageHistory: messages,
     messages: messagesMap,
     updatesQueue: [],
-
-    isFocused: true,
   };
 }

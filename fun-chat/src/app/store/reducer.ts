@@ -28,8 +28,6 @@ export interface CurrentChat {
   messageHistory: Message[];
   messages: Map<string, Message>;
   updatesQueue: ChatMessageEvent[];
-
-  isFocused: boolean;
 }
 
 export type StoredState = Omit<

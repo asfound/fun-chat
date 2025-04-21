@@ -2,7 +2,7 @@ import { div, span } from '~/app/utils/create-element';
 
 import styles from './divider.module.css';
 
-export function createMessageDivider(): HTMLElement {
+export function createMessageDivider(): HTMLDivElement {
   const container = div({ className: styles.divider });
 
   const dividerText = span({

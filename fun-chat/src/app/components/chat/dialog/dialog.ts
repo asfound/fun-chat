@@ -10,6 +10,7 @@ import { MESSAGE_EVENT_TYPE } from '~/app/types/message-events';
 import { div } from '~/app/utils/create-element';
 
 import styles from './dialog.module.css';
+import { createMessageDivider } from './divider/divider';
 import { createMessage } from './message/message';
 
 export function createDialog(): HTMLElement {
@@ -18,6 +19,9 @@ export function createDialog(): HTMLElement {
   const messagesMap = new Map<string, HTMLDivElement>();
 
   let unsubscribe: Unsubscribe | undefined;
+  let divider: HTMLDivElement | undefined;
+
+  let isFocused = true;
 
   const render: Render = ({ currentUser, currentChat }) => {
     dialogContainer.replaceChildren();
@@ -30,22 +34,42 @@ export function createDialog(): HTMLElement {
         dialogContainer.append(expander);
 
         for (const message of currentChat.messageHistory) {
+          if (
+            message.from !== currentUser.login &&
+            !divider &&
+            !message.status.isReaded
+          ) {
+            isFocused = false;
+            divider = createMessageDivider();
+            dialogContainer.append(divider);
+          }
+
           const messageElement = createMessage(currentUser.login, message);
 
           dialogContainer.append(messageElement);
           messagesMap.set(message.id, messageElement);
         }
 
-        requestAnimationFrame(() => {
-          dialogContainer.scrollTop = dialogContainer.scrollHeight;
-        });
+        if (divider) {
+          divider.scrollIntoView();
+        } else {
+          requestAnimationFrame(() => {
+            dialogContainer.scrollTop = dialogContainer.scrollHeight;
+          });
+        }
       } else {
         const placeholder = div({ textContent: PLACEHOLDER.NO_MESSAGES });
         dialogContainer.append(placeholder);
       }
 
       unsubscribe = store.subscribe(ACTION.EMIT_CHAT_MESSAGE_EVENT, (state) => {
-        handleChatMessageEvent(dialogContainer, state, messagesMap);
+        handleChatMessageEvent(
+          dialogContainer,
+          state,
+          messagesMap,
+          isFocused,
+          divider
+        );
       });
     } else {
       const placeholder = div({ textContent: PLACEHOLDER.SELECT_CHAT });
@@ -68,7 +92,9 @@ export function createDialog(): HTMLElement {
 function handleChatMessageEvent(
   dialogContainer: HTMLDivElement,
   state: State,
-  messageElements: Map<string, HTMLDivElement>
+  messageElements: Map<string, HTMLDivElement>,
+  isFocused: boolean,
+  divider: HTMLDivElement | undefined
 ): void {
   const { currentUser, currentChat } = state;
 
@@ -89,13 +115,17 @@ function handleChatMessageEvent(
             dialogContainer.append(newMessageElement);
             messageElements.set(message.id, newMessageElement);
 
-            if (currentUser.login !== message.from && currentChat.isFocused) {
+            if (currentUser.login !== message.from && isFocused) {
               markMessageAsRead(message.id);
             }
 
-            requestAnimationFrame(() => {
-              dialogContainer.scrollTop = dialogContainer.scrollHeight;
-            });
+            if (divider) {
+              divider.scrollIntoView();
+            } else {
+              requestAnimationFrame(() => {
+                dialogContainer.scrollTop = dialogContainer.scrollHeight;
+              });
+            }
           }
 
           break;
