@@ -17,7 +17,6 @@
   color: var(--primary-dark);
   text-rendering: optimizelegibility;
 
-  color-scheme: light dark;
   background-color: var(--white);
 
   font-synthesis: none;

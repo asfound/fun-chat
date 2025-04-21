@@ -7,13 +7,13 @@
   margin-bottom: 0.5rem;
 }
 
-/* TODO var border rad */
 .input {
   padding: 0.25rem;
   border: 1px solid var(--primary-dark);
   border-radius: var(--border-radius);
 
   font-family: inherit;
+  color: var(--primary-dark);
 
   background-color: var(--white);
   outline: none;
