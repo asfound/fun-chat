@@ -74,6 +74,7 @@ function handleLogout(): void {
       .sendRequest<UserDataPayload>(request)
       .then(() => {
         store.dispatch(changeCurrentUser(null));
+        navigate(Route.LOGIN);
       })
       .catch((error: unknown) => {
         console.log(error);

@@ -20,7 +20,12 @@ export function createAboutPage(): HTMLDivElement {
     className: styles.link,
   });
 
-  const returnButton = createButton({ textContent: BUTTON_TEXT.RETURN });
+  const returnButton = createButton({
+    textContent: BUTTON_TEXT.RETURN,
+    onClick: () => {
+      history.back();
+    },
+  });
 
   container.append(aboutText, githubLink, returnButton);
 

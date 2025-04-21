@@ -13,7 +13,7 @@ import { changeCurrentUser, setUsers } from '~/app/store/actions';
 
 import { getWebSocketClient } from '../websocket/websocket-client';
 
-export function authorizeUser(login: string, password: string): void {
+export function authorizeUser(login: string, password: string): Promise<void> {
   const client = getWebSocketClient();
 
   const id = crypto.randomUUID();
@@ -31,19 +31,14 @@ export function authorizeUser(login: string, password: string): void {
     type: CLIENT_REQUEST_TYPE.USER_LOGIN,
   };
 
-  client
-    .sendRequest<UserDataPayload>(request)
-    .then((response) => {
-      const userData: CurrentUser = {
-        login: response.user.login,
-        password,
-      };
+  return client.sendRequest<UserDataPayload>(request).then((response) => {
+    const userData: CurrentUser = {
+      login: response.user.login,
+      password,
+    };
 
-      store.dispatch(changeCurrentUser(userData));
-    })
-    .catch((error: unknown) => {
-      console.log(error);
-    });
+    store.dispatch(changeCurrentUser(userData));
+  });
 }
 
 function getUsers(

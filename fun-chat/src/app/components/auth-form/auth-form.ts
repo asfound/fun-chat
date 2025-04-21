@@ -5,6 +5,8 @@ import {
   LEGEND_TEXT,
   PLACEHOLDER,
 } from '~/app/constants/constants';
+import { Route } from '~/app/router/route';
+import { navigate } from '~/app/router/router';
 import { authorizeUser } from '~/app/services/user-service/user-service';
 import { fieldset, form, legend } from '~/app/utils/create-element';
 
@@ -43,7 +45,13 @@ export function createAuthForm(): HTMLFormElement {
     disabled: true,
     onClick: (event) => {
       event?.preventDefault();
-      authorizeUser(loginInput.value, passwordInput.value);
+      authorizeUser(loginInput.value, passwordInput.value)
+        .then(() => {
+          navigate(Route.CHAT);
+        })
+        .catch((error: unknown) => {
+          console.log(error);
+        });
     },
   });
 

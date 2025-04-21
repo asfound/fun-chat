@@ -4,10 +4,9 @@ import { createAboutPage } from './pages/about/about-page';
 import { createChatPage } from './pages/chat/chat-page';
 import { createLoginPage } from './pages/login/login-page';
 import { Route } from './router/route';
-import { initRouter, navigate } from './router/router';
+import { initRouter } from './router/router';
 import { saveStateToSessionStorage } from './services/session-storage/session-storage';
 import { getWebSocketClient } from './services/websocket/websocket-client';
-import { ACTION } from './store/actions';
 import { div } from './utils/create-element';
 
 export function initApp(): void {
@@ -18,11 +17,6 @@ export function initApp(): void {
   document.body.append(root);
 
   createLoader(store);
-
-  store.subscribe(ACTION.SET_CURRENT_USER, ({ currentUser }) => {
-    const route = currentUser ? Route.CHAT : Route.LOGIN;
-    navigate(route);
-  });
 
   initRouter({
     root,

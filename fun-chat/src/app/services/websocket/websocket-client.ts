@@ -61,7 +61,11 @@ export class WebSocketClient {
           const { currentUser } = store.getState();
 
           if (currentUser) {
-            authorizeUser(currentUser.login, currentUser.password);
+            authorizeUser(currentUser.login, currentUser.password).catch(
+              (error: unknown) => {
+                console.log(error);
+              }
+            );
           }
         },
         { once: true }
