@@ -162,7 +162,6 @@ function handleNotificationCountUpdate(
       }
     }
   } else if (payload.userID !== undefined) {
-    console.log('have to remove all');
     notifications.set(payload.userID, []);
   }
 

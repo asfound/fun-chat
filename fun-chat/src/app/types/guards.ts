@@ -1,5 +1,5 @@
 import type { StoredState } from '../store/reducer';
-import type { CurrentUser } from './interfaces';
+import type { CurrentUser, ErrorResponsePayload } from './interfaces';
 
 export function isNonNullable<T>(value: T): value is NonNullable<T> {
   return value !== null && value !== undefined;
@@ -35,5 +35,25 @@ export function assertIsStoredStateProperties(
 ): asserts object is StoredState {
   if (!isStoredStateProperties(object)) {
     throw new TypeError('not valid state');
+  }
+}
+
+function isErrorResponsePayload(
+  object: unknown
+): object is ErrorResponsePayload {
+  const isObject = typeof object !== 'object' || object === null;
+
+  if (isObject || !('error' in object)) {
+    return false;
+  }
+
+  return typeof object.error === 'string';
+}
+
+export function assertErrorResponsePayload(
+  object: unknown
+): asserts object is ErrorResponsePayload {
+  if (!isErrorResponsePayload(object)) {
+    throw new TypeError('unknown payload');
   }
 }

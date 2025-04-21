@@ -8,9 +8,11 @@ import {
 import { store } from '~/app/lib/store/store';
 import { sendMessage } from '~/app/services/message-service';
 import { ACTION } from '~/app/store/actions';
+import { assertErrorResponsePayload } from '~/app/types/guards';
 import { form, textarea } from '~/app/utils/create-element';
 
 import { createButton } from '../../button/button';
+import { showModal } from '../../modal/modal';
 import styles from './message-form.module.css';
 
 export function createMessageForm(): HTMLFormElement {
@@ -46,7 +48,8 @@ export function createMessageForm(): HTMLFormElement {
             sendButton.disabled = true;
           })
           .catch((error: unknown) => {
-            console.log(error);
+            assertErrorResponsePayload(error);
+            showModal(error.error);
           });
       });
 

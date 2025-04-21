@@ -7,9 +7,11 @@ import type {
   ServerRequest,
 } from '~/app/types/interfaces';
 
+import { showModal } from '~/app/components/modal/modal';
 import { BASE_URL, SERVER_RESPONSE_TYPE } from '~/app/constants/constants';
 import { store, type Store } from '~/app/lib/store/store';
 import { setSocketState } from '~/app/store/actions';
+import { assertErrorResponsePayload } from '~/app/types/guards';
 
 import { handleServerRequest } from '../server-request-handler';
 import { authorizeUser } from '../user-service/user-service';
@@ -62,7 +64,8 @@ export class WebSocketClient {
           if (currentUser) {
             authorizeUser(currentUser.login, currentUser.password).catch(
               (error: unknown) => {
-                console.log(error);
+                assertErrorResponsePayload(error);
+                showModal(error.error);
               }
             );
           }
@@ -121,7 +124,7 @@ export class WebSocketClient {
 
         this.requests.delete(serverMessage.id);
       } else {
-        console.error('Received response for unknown request', serverMessage);
+        showModal('Received response for unknown request');
       }
     } else {
       handleServerRequest(serverMessage as ServerRequest);

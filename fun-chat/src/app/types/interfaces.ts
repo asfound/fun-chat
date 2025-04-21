@@ -86,7 +86,7 @@ export interface ServerResponse {
     | UserDataPayload
     | MessageDataPayload
     | MessagesPayload
-    | ErrorPayload;
+    | ErrorResponsePayload;
 }
 
 export interface UserDataPayload {
@@ -106,7 +106,7 @@ export interface MessagesPayload {
   messages: Message[];
 }
 
-export interface ErrorPayload {
+export interface ErrorResponsePayload {
   error: string;
 }
 

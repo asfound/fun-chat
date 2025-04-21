@@ -18,9 +18,11 @@ import type {
   EditMessageEvent,
 } from '../types/message-events';
 
+import { showModal } from '../components/modal/modal';
 import { CLIENT_REQUEST_TYPE } from '../constants/constants';
 import { store } from '../lib/store/store';
 import { emitChatMessageEvent, setCurrentChat } from '../store/actions';
+import { assertErrorResponsePayload } from '../types/guards';
 import { MESSAGE_EVENT_TYPE } from '../types/message-events';
 import { getWebSocketClient } from './websocket/websocket-client';
 
@@ -81,7 +83,8 @@ export function deleteMessage(messageId: string): void {
       store.dispatch(emitChatMessageEvent(event));
     })
     .catch((error: unknown) => {
-      console.log(error);
+      assertErrorResponsePayload(error);
+      showModal(error.error);
     });
 }
 
@@ -116,7 +119,8 @@ export function editMessage(messageId: string, text: string): void {
       store.dispatch(emitChatMessageEvent(event));
     })
     .catch((error: unknown) => {
-      console.log(error);
+      assertErrorResponsePayload(error);
+      showModal(error.error);
     });
 }
 
@@ -140,7 +144,8 @@ export function markMessageAsRead(messageId: string): void {
   client
     .sendRequest<ReadStatusChangePayload>(request)
     .catch((error: unknown) => {
-      console.log(error);
+      assertErrorResponsePayload(error);
+      showModal(error.error);
     });
 }
 
@@ -151,7 +156,8 @@ export function fetchChatMessageHistory(userLogin: string): void {
       store.dispatch(setCurrentChat(payload));
     })
     .catch((error: unknown) => {
-      console.log(error);
+      assertErrorResponsePayload(error);
+      showModal(error.error);
     });
 }
 

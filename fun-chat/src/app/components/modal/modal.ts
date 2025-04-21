@@ -7,7 +7,7 @@ import styles from './modal.module.css';
 const MODAL_TIMEOUT = 3000;
 
 function createModal(content: string): HTMLDialogElement {
-  const modalWindow = dialog({ className: styles.modal }, [content]);
+  const modalWindow = dialog({ className: styles.modal });
 
   const closeModal = (): void => {
     modalWindow.close();

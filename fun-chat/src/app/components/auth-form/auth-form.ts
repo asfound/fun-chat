@@ -8,9 +8,11 @@ import {
 import { Route } from '~/app/router/route';
 import { navigate } from '~/app/router/router';
 import { authorizeUser } from '~/app/services/user-service/user-service';
+import { assertErrorResponsePayload } from '~/app/types/guards';
 import { fieldset, form, legend } from '~/app/utils/create-element';
 
 import { createButton } from '../button/button';
+import { showModal } from '../modal/modal';
 import styles from './auth-form.module.css';
 import { createInput } from './input/input';
 import { validateLogin, validatePassword } from './utils/validators';
@@ -50,7 +52,8 @@ export function createAuthForm(): HTMLFormElement {
           navigate(Route.CHAT);
         })
         .catch((error: unknown) => {
-          console.log(error);
+          assertErrorResponsePayload(error);
+          showModal(error.error);
         });
     },
   });

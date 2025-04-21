@@ -9,9 +9,11 @@ import type {
   Message,
 } from '~/app/types/interfaces';
 
+import { showModal } from '~/app/components/modal/modal';
 import { CLIENT_REQUEST_TYPE } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
 import { changeCurrentUser, setUsers } from '~/app/store/actions';
+import { assertErrorResponsePayload } from '~/app/types/guards';
 
 import { fetchMessageHistory } from '../message-service';
 import { getWebSocketClient } from '../websocket/websocket-client';
@@ -89,7 +91,8 @@ export function getAllUsersData(currentUser: string): void {
       });
     })
     .catch((error: unknown) => {
-      console.log(error);
+      assertErrorResponsePayload(error);
+      showModal(error.error);
     });
 }
 
