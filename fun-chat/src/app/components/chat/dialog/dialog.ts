@@ -13,15 +13,18 @@ import styles from './dialog.module.css';
 import { createMessageDivider } from './divider/divider';
 import { createMessage } from './message/message';
 
+let isFocused = true;
+let divider: HTMLDivElement | undefined;
+
 export function createDialog(): HTMLElement {
   const dialogContainer = div({ className: styles.dialog });
 
   const messagesMap = new Map<string, HTMLDivElement>();
 
   let unsubscribe: Unsubscribe | undefined;
-  let divider: HTMLDivElement | undefined;
 
-  let isFocused = true;
+  dialogContainer.addEventListener('click', handleFocus);
+  dialogContainer.addEventListener('wheel', handleFocus);
 
   const render: Render = ({ currentUser, currentChat }) => {
     dialogContainer.replaceChildren();
@@ -63,13 +66,7 @@ export function createDialog(): HTMLElement {
       }
 
       unsubscribe = store.subscribe(ACTION.EMIT_CHAT_MESSAGE_EVENT, (state) => {
-        handleChatMessageEvent(
-          dialogContainer,
-          state,
-          messagesMap,
-          isFocused,
-          divider
-        );
+        handleChatMessageEvent(dialogContainer, state, messagesMap);
       });
     } else {
       const placeholder = div({ textContent: PLACEHOLDER.SELECT_CHAT });
@@ -92,9 +89,7 @@ export function createDialog(): HTMLElement {
 function handleChatMessageEvent(
   dialogContainer: HTMLDivElement,
   state: State,
-  messageElements: Map<string, HTMLDivElement>,
-  isFocused: boolean,
-  divider: HTMLDivElement | undefined
+  messageElements: Map<string, HTMLDivElement>
 ): void {
   const { currentUser, currentChat } = state;
 
@@ -115,8 +110,12 @@ function handleChatMessageEvent(
             dialogContainer.append(newMessageElement);
             messageElements.set(message.id, newMessageElement);
 
-            if (currentUser.login !== message.from && isFocused) {
-              markMessageAsRead(message.id);
+            if (currentUser.login === message.from) {
+              handleFocus();
+            } else {
+              if (isFocused) {
+                markMessageAsRead(message.id);
+              }
             }
 
             if (divider) {
@@ -160,4 +159,10 @@ function handleChatMessageEvent(
       }
     }
   }
+}
+
+function handleFocus(): void {
+  isFocused = true;
+  divider?.remove();
+  divider = undefined;
 }
