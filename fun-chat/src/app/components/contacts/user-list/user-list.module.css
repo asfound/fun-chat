@@ -10,7 +10,14 @@
 
 .user {
   position: relative;
+
+  overflow: hidden;
+
+  padding-right: 0.5rem;
   padding-left: 1.25em;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .user:hover {

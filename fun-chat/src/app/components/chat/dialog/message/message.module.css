@@ -29,6 +29,8 @@
   margin: 0.25rem 0 0.5rem;
   padding: inherit;
 
+  word-break: break-all;
+  overflow-wrap: break-word;
   white-space: pre-wrap;
 
   background-color: var(--white);
@@ -37,12 +39,17 @@
 .header,
 .footer {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   font-size: 0.8rem;
 }
 
 .header {
   justify-content: space-between;
+}
+
+.author {
+  margin-right: 0.5rem;
 }
 
 .footer {

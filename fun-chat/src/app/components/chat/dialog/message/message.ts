@@ -16,7 +16,7 @@ export function createMessage(
 
   const messageElement = div({ className: styles.message });
 
-  const author = div({ textContent: message.from });
+  const author = div({ textContent: message.from, className: styles.author });
 
   const date = div({ textContent: formatTime(message.datetime) });
 

@@ -20,7 +20,7 @@ export const BUTTON_TEXT = {
 
 export const LOGIN_LENGTH = {
   MIN: 4,
-  MAX: 10,
+  MAX: 12,
 } as const;
 
 export const PASSWORD_LENGTH = {
