@@ -46,9 +46,7 @@ export function authorizeUser(login: string, password: string): Promise<void> {
   });
 }
 
-function getUsers(
-  requestType: ClientRequestType
-): Promise<GetUsersResponsePayload> {
+function getUsers(requestType: ClientRequestType): Promise<GetUsersResponsePayload> {
   const client = getWebSocketClient();
 
   const id = crypto.randomUUID();
@@ -74,12 +72,10 @@ export function getAllUsersData(currentUser: string): void {
         users
           .filter((user) => user.login !== currentUser)
           .map((user) =>
-            fetchMessageHistory(user.login).then(
-              (messages): [string, string[]] => [
-                user.login,
-                getAllUnreadId(currentUser, messages),
-              ]
-            )
+            fetchMessageHistory(user.login).then((messages): [string, string[]] => [
+              user.login,
+              getAllUnreadId(currentUser, messages),
+            ])
           )
       ).then((unreadCounters) => {
         const unreadCountersMap = new Map<string, string[]>(unreadCounters);
@@ -98,8 +94,6 @@ export function getAllUsersData(currentUser: string): void {
 
 function getAllUnreadId(currentUser: string, messages: Message[]): string[] {
   return messages
-    .filter(
-      (message) => !message.status.isReaded && message.from !== currentUser
-    )
+    .filter((message) => !message.status.isReaded && message.from !== currentUser)
     .map((message) => message.id);
 }

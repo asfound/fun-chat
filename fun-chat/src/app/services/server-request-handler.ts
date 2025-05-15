@@ -4,11 +4,7 @@ import type { EditMessageEvent } from '../types/message-events';
 
 import { SERVER_REQUEST_TYPE } from '../constants/constants';
 import { store } from '../lib/store/store';
-import {
-  emitChatMessageEvent,
-  updateNotificationCount,
-  updateUserStatus,
-} from '../store/actions';
+import { emitChatMessageEvent, updateNotificationCount, updateUserStatus } from '../store/actions';
 import {
   MESSAGE_EVENT_TYPE,
   type AddMessageEvent,

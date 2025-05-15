@@ -90,14 +90,11 @@ export const SERVER_REQUEST_TYPE = {
   MSG_EDIT: 'MSG_EDIT',
 } as const;
 
-export type ClientRequestType =
-  (typeof CLIENT_REQUEST_TYPE)[keyof typeof CLIENT_REQUEST_TYPE];
+export type ClientRequestType = (typeof CLIENT_REQUEST_TYPE)[keyof typeof CLIENT_REQUEST_TYPE];
 
-export type ServerResponseType =
-  (typeof SERVER_RESPONSE_TYPE)[keyof typeof SERVER_RESPONSE_TYPE];
+export type ServerResponseType = (typeof SERVER_RESPONSE_TYPE)[keyof typeof SERVER_RESPONSE_TYPE];
 
-export type ServerRequestType =
-  (typeof SERVER_REQUEST_TYPE)[keyof typeof SERVER_REQUEST_TYPE];
+export type ServerRequestType = (typeof SERVER_REQUEST_TYPE)[keyof typeof SERVER_REQUEST_TYPE];
 
 export const EMPTY_STRING = '';
 export const EMPTY_VALUE = 0;

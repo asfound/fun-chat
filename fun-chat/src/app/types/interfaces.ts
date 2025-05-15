@@ -82,11 +82,7 @@ export type ServerMessage = ServerResponse | ServerRequest;
 export interface ServerResponse {
   id: string;
   type: ServerResponseType;
-  payload:
-    | UserDataPayload
-    | MessageDataPayload
-    | MessagesPayload
-    | ErrorResponsePayload;
+  payload: UserDataPayload | MessageDataPayload | MessagesPayload | ErrorResponsePayload;
 }
 
 export interface UserDataPayload {

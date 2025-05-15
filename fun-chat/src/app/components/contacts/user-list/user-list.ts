@@ -11,12 +11,7 @@ import styles from './user-list.module.css';
 export function createUserList(): HTMLUListElement {
   const userList = ul({ className: styles.list });
 
-  const render: Render = ({
-    users,
-    currentUser,
-    searchValue,
-    unreadMessagesCounters,
-  }) => {
+  const render: Render = ({ users, currentUser, searchValue, unreadMessagesCounters }) => {
     userList.replaceChildren();
 
     const contacts = [...users.values()]

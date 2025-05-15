@@ -1,10 +1,6 @@
 import type { Render } from '~/app/types/types';
 
-import {
-  BUTTON_TEXT,
-  BUTTON_TYPE,
-  EMPTY_STRING,
-} from '~/app/constants/constants';
+import { BUTTON_TEXT, BUTTON_TYPE, EMPTY_STRING } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
 import { sendMessage } from '~/app/services/message-service';
 import { ACTION } from '~/app/store/actions';

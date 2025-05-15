@@ -5,9 +5,7 @@ import { button } from '~/app/utils/create-element';
 
 import styles from './button.module.css';
 
-export const createButton = (
-  properties: ButtonProperties
-): HTMLButtonElement => {
+export const createButton = (properties: ButtonProperties): HTMLButtonElement => {
   const {
     textContent,
     type = BUTTON_TYPE.BUTTON,

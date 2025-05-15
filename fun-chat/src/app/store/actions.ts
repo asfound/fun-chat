@@ -23,10 +23,7 @@ export interface ActionWithPayload<A extends ActionType, T> {
 
 // TODO refactor to not duplicate
 
-export type SocketStateChange = ActionWithPayload<
-  typeof ACTION.SET_SOCKET_STATE,
-  boolean
->;
+export type SocketStateChange = ActionWithPayload<typeof ACTION.SET_SOCKET_STATE, boolean>;
 
 export const setSocketState = (value: boolean): SocketStateChange => ({
   type: ACTION.SET_SOCKET_STATE,
@@ -38,9 +35,7 @@ export type CurrentUserChange = ActionWithPayload<
   CurrentUser | null
 >;
 
-export const changeCurrentUser = (
-  value: CurrentUser | null
-): CurrentUserChange => ({
+export const changeCurrentUser = (value: CurrentUser | null): CurrentUserChange => ({
   type: ACTION.SET_CURRENT_USER,
   payload: value,
 });
@@ -57,20 +52,14 @@ export interface UsersData {
   unreadMessagesCounters: Map<string, string[]>;
 }
 
-export type SearchInputChange = ActionWithPayload<
-  typeof ACTION.SET_SEARCH_VALUE,
-  string
->;
+export type SearchInputChange = ActionWithPayload<typeof ACTION.SET_SEARCH_VALUE, string>;
 
 export const setSearchInputValue = (value: string): SearchInputChange => ({
   type: ACTION.SET_SEARCH_VALUE,
   payload: value,
 });
 
-export type UserStatusChange = ActionWithPayload<
-  typeof ACTION.UPDATE_USER_STATUS,
-  User
->;
+export type UserStatusChange = ActionWithPayload<typeof ACTION.UPDATE_USER_STATUS, User>;
 
 export const updateUserStatus = (value: User): UserStatusChange => ({
   type: ACTION.UPDATE_USER_STATUS,
@@ -82,9 +71,7 @@ export type CurrentChatChange = ActionWithPayload<
   CurrentChat | null
 >;
 
-export const setCurrentChat = (
-  value: CurrentChat | null
-): CurrentChatChange => ({
+export const setCurrentChat = (value: CurrentChat | null): CurrentChatChange => ({
   type: ACTION.SET_CURRENT_CHAT,
   payload: value,
 });
@@ -94,9 +81,7 @@ export type ChatMessageEventEmission = ActionWithPayload<
   ChatMessageEvent
 >;
 
-export const emitChatMessageEvent = (
-  value: ChatMessageEvent
-): ChatMessageEventEmission => ({
+export const emitChatMessageEvent = (value: ChatMessageEvent): ChatMessageEventEmission => ({
   type: ACTION.EMIT_CHAT_MESSAGE_EVENT,
   payload: value,
 });
@@ -106,9 +91,7 @@ export type NotificationCountUpdate = ActionWithPayload<
   NotificationCountData
 >;
 
-export const updateNotificationCount = (
-  value: NotificationCountData
-): NotificationCountUpdate => ({
+export const updateNotificationCount = (value: NotificationCountData): NotificationCountUpdate => ({
   type: ACTION.UPDATE_NOTIFICATION_COUNT,
   payload: value,
 });

@@ -8,10 +8,7 @@ import formatTime from '~/app/utils/format-time';
 
 import styles from './message.module.css';
 
-export function createMessage(
-  currentUser: string,
-  message: Message
-): HTMLDivElement {
+export function createMessage(currentUser: string, message: Message): HTMLDivElement {
   const container = div({ className: styles.container });
 
   const messageElement = div({ className: styles.message });
@@ -69,13 +66,7 @@ export function createMessage(
         textInput.scrollIntoView();
 
         editButton.replaceWith(
-          createEditControls(
-            editButton,
-            textInput,
-            messageText,
-            message.id,
-            messageElement
-          )
+          createEditControls(editButton, textInput, messageText, message.id, messageElement)
         );
       },
     });

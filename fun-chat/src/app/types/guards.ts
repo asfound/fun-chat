@@ -25,22 +25,16 @@ function isCurrentUserProperties(object: unknown): object is CurrentUser {
     return false;
   }
 
-  return (
-    typeof object.login === 'string' || typeof object.password === 'string'
-  );
+  return typeof object.login === 'string' || typeof object.password === 'string';
 }
 
-export function assertIsStoredStateProperties(
-  object: unknown
-): asserts object is StoredState {
+export function assertIsStoredStateProperties(object: unknown): asserts object is StoredState {
   if (!isStoredStateProperties(object)) {
     throw new TypeError('not valid state');
   }
 }
 
-function isErrorResponsePayload(
-  object: unknown
-): object is ErrorResponsePayload {
+function isErrorResponsePayload(object: unknown): object is ErrorResponsePayload {
   const isObject = typeof object !== 'object' || object === null;
 
   if (isObject || !('error' in object)) {

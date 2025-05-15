@@ -1,17 +1,10 @@
 import type { CurrentUser, Message, User } from '~/app/types/interfaces';
 
-import type {
-  AllActions,
-  ChatMessageEventEmission,
-  NotificationCountData,
-} from './actions';
+import type { AllActions, ChatMessageEventEmission, NotificationCountData } from './actions';
 
 import { DEFAULT_INCREMENT } from '../services/server-request-handler';
 import { loadStateFromSessionStorage } from '../services/session-storage/session-storage';
-import {
-  MESSAGE_EVENT_TYPE,
-  type ChatMessageEvent,
-} from '../types/message-events';
+import { MESSAGE_EVENT_TYPE, type ChatMessageEvent } from '../types/message-events';
 import { ACTION } from './actions';
 
 export type StoreReducer<S> = (state: S, action: AllActions) => S;
@@ -52,13 +45,9 @@ export const defaultState: State = {
   searchValue: '',
 };
 
-export const initialState: State =
-  loadStateFromSessionStorage() ?? defaultState;
+export const initialState: State = loadStateFromSessionStorage() ?? defaultState;
 
-export const createReducer: StoreReducer<State> = (
-  state: State,
-  action: AllActions
-) => {
+export const createReducer: StoreReducer<State> = (state: State, action: AllActions) => {
   switch (action.type) {
     case ACTION.SET_SOCKET_STATE: {
       return {
@@ -111,10 +100,7 @@ export const createReducer: StoreReducer<State> = (
 
     case ACTION.EMIT_CHAT_MESSAGE_EVENT: {
       if (state.currentChat) {
-        const updatedCurrentChat = handleEmitChatMessageEvent(
-          action,
-          state.currentChat
-        );
+        const updatedCurrentChat = handleEmitChatMessageEvent(action, state.currentChat);
         return {
           ...state,
           currentChat: updatedCurrentChat,
@@ -125,11 +111,10 @@ export const createReducer: StoreReducer<State> = (
     }
 
     case ACTION.UPDATE_NOTIFICATION_COUNT: {
-      const notifications: Map<string, string[]> =
-        handleNotificationCountUpdate(
-          structuredClone(state.unreadMessagesCounters),
-          action.payload
-        );
+      const notifications: Map<string, string[]> = handleNotificationCountUpdate(
+        structuredClone(state.unreadMessagesCounters),
+        action.payload
+      );
 
       return {
         ...state,

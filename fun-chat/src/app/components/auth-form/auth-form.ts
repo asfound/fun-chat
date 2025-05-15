@@ -37,13 +37,10 @@ export function createAuthForm(): HTMLFormElement {
   const fieldsetLegend = legend({ textContent: LEGEND_TEXT });
   fieldsetElement.append(fieldsetLegend);
 
-  const { container: nameContainer, input: loginInput } = createInput(
-    LOGIN_INPUT_PROPERTIES
-  );
+  const { container: nameContainer, input: loginInput } = createInput(LOGIN_INPUT_PROPERTIES);
 
-  const { container: passwordContainer, input: passwordInput } = createInput(
-    PASSWORD_INPUT_PROPERTIES
-  );
+  const { container: passwordContainer, input: passwordInput } =
+    createInput(PASSWORD_INPUT_PROPERTIES);
 
   const submitButton = createButton({
     textContent: 'Start',

@@ -1,8 +1,4 @@
-import {
-  LOGIN_LENGTH,
-  PASSWORD_LENGTH,
-  VALIDATION_ERROR,
-} from '~/app/constants/constants';
+import { LOGIN_LENGTH, PASSWORD_LENGTH, VALIDATION_ERROR } from '~/app/constants/constants';
 
 export function validateLogin(value: string): string | null {
   if (value.length < LOGIN_LENGTH.MIN) {
@@ -29,9 +25,7 @@ export function validatePassword(value: string): string | null {
 
   if (!/[A-Z]/.test(value)) {
     const secondaryMessage = VALIDATION_ERROR.USE_CAPITAL_LETTER;
-    errorMessage = errorMessage
-      ? errorMessage + secondaryMessage
-      : secondaryMessage;
+    errorMessage = errorMessage ? errorMessage + secondaryMessage : secondaryMessage;
   }
 
   return errorMessage;

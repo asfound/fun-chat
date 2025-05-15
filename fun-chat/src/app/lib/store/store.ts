@@ -1,8 +1,4 @@
-import {
-  createReducer,
-  initialState,
-  type StoreReducer,
-} from '~/app/store/reducer.ts';
+import { createReducer, initialState, type StoreReducer } from '~/app/store/reducer.ts';
 import { EventEmitter } from '~/app/utils/event-emitter';
 
 import type { ActionType, AllActions } from '../../store/actions.ts';
@@ -19,10 +15,7 @@ export interface Store<S> {
   unsubscribeAll: (event: ActionType) => void;
 }
 
-export const createStore = <S>(
-  reducer: StoreReducer<S>,
-  initialState: S
-): Store<S> => {
+export const createStore = <S>(reducer: StoreReducer<S>, initialState: S): Store<S> => {
   let state = structuredClone(initialState);
   const eventEmitter = new EventEmitter<S, ActionType>();
 
@@ -34,10 +27,7 @@ export const createStore = <S>(
       eventEmitter.emit(action.type, state);
     },
 
-    subscribe: (
-      event: ActionType,
-      listener: (payload: S) => void
-    ): Unsubscribe => {
+    subscribe: (event: ActionType, listener: (payload: S) => void): Unsubscribe => {
       eventEmitter.subscribe(event, listener);
 
       return () => {

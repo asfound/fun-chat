@@ -141,12 +141,10 @@ export function markMessageAsRead(messageId: string): void {
     type: CLIENT_REQUEST_TYPE.MSG_READ,
   };
 
-  client
-    .sendRequest<ReadStatusChangePayload>(request)
-    .catch((error: unknown) => {
-      assertErrorResponsePayload(error);
-      showModal(error.error);
-    });
+  client.sendRequest<ReadStatusChangePayload>(request).catch((error: unknown) => {
+    assertErrorResponsePayload(error);
+    showModal(error.error);
+  });
 }
 
 export function fetchChatMessageHistory(userLogin: string): void {
@@ -178,15 +176,10 @@ export function fetchMessageHistory(userLogin: string): Promise<Message[]> {
     type: CLIENT_REQUEST_TYPE.MSG_FROM_USER,
   };
 
-  return client
-    .sendRequest<MessagesPayload>(request)
-    .then((response) => response.messages);
+  return client.sendRequest<MessagesPayload>(request).then((response) => response.messages);
 }
 
-function createCurrentChatState(
-  userLogin: string,
-  messages: Message[]
-): CurrentChat {
+function createCurrentChatState(userLogin: string, messages: Message[]): CurrentChat {
   const messagesMap = new Map(messages.map((message) => [message.id, message]));
 
   return {

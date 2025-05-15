@@ -1,14 +1,6 @@
-import type {
-  ClientRequest,
-  LogoutRequestPayload,
-  UserDataPayload,
-} from '~/app/types/interfaces';
+import type { ClientRequest, LogoutRequestPayload, UserDataPayload } from '~/app/types/interfaces';
 
-import {
-  APP_NAME,
-  BUTTON_TEXT,
-  CLIENT_REQUEST_TYPE,
-} from '~/app/constants/constants';
+import { APP_NAME, BUTTON_TEXT, CLIENT_REQUEST_TYPE } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
 import { Route } from '~/app/router/route';
 import { navigate } from '~/app/router/router';
@@ -41,10 +33,7 @@ export function createHeader(): HTMLElement {
     onClick: handleLogout,
   });
 
-  const titleContainer = div({ className: styles.titleContainer }, [
-    appName,
-    currentUser,
-  ]);
+  const titleContainer = div({ className: styles.titleContainer }, [appName, currentUser]);
 
   headerElement.append(aboutButton, titleContainer, logoutButton);
 

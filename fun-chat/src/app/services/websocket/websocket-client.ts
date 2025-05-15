@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { State } from '~/app/store/reducer';
-import type {
-  ClientRequest,
-  ServerMessage,
-  ServerRequest,
-} from '~/app/types/interfaces';
+import type { ClientRequest, ServerMessage, ServerRequest } from '~/app/types/interfaces';
 
 import { showModal } from '~/app/components/modal/modal';
 import { BASE_URL, SERVER_RESPONSE_TYPE } from '~/app/constants/constants';
@@ -62,12 +58,10 @@ export class WebSocketClient {
           const { currentUser } = store.getState();
 
           if (currentUser) {
-            authorizeUser(currentUser.login, currentUser.password).catch(
-              (error: unknown) => {
-                assertErrorResponsePayload(error);
-                showModal(error.error);
-              }
-            );
+            authorizeUser(currentUser.login, currentUser.password).catch((error: unknown) => {
+              assertErrorResponsePayload(error);
+              showModal(error.error);
+            });
           }
         },
         { once: true }
@@ -113,10 +107,7 @@ export class WebSocketClient {
       const promiseToResolve = this.requests.get(serverMessage.id);
 
       if (promiseToResolve) {
-        if (
-          serverMessage.type === SERVER_RESPONSE_TYPE.ERROR &&
-          'error' in serverMessage.payload
-        ) {
+        if (serverMessage.type === SERVER_RESPONSE_TYPE.ERROR && 'error' in serverMessage.payload) {
           promiseToResolve.reject(serverMessage.payload);
         } else {
           promiseToResolve.resolve(serverMessage.payload);

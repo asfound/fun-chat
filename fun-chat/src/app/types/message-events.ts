@@ -9,8 +9,7 @@ export const MESSAGE_EVENT_TYPE = {
   READ_UPDATE: 'readUpdate',
 } as const;
 
-export type MessageEventType =
-  (typeof MESSAGE_EVENT_TYPE)[keyof typeof MESSAGE_EVENT_TYPE];
+export type MessageEventType = (typeof MESSAGE_EVENT_TYPE)[keyof typeof MESSAGE_EVENT_TYPE];
 
 export interface AddMessageEvent {
   kind: typeof MESSAGE_EVENT_TYPE.ADD_MESSAGE;

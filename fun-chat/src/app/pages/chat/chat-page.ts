@@ -30,10 +30,7 @@ export function createChatPage(): HTMLDivElement {
 
   const chat = createChat();
 
-  const sectionElement = section({ className: styles.section }, [
-    contactList,
-    chat,
-  ]);
+  const sectionElement = section({ className: styles.section }, [contactList, chat]);
 
   const footer = createFooter();
 
