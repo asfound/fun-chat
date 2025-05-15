@@ -30,7 +30,8 @@
     "src",
     "eslint.config.js",
     "vite.config.js",
-    "src/app/types/enums.ts"
+    "src/app/types/enums.ts",
+    "src/app/components/chat/dialog/message-handler.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }
