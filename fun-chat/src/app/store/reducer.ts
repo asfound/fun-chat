@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import type { CurrentUser, Message, User } from '~/app/types/interfaces';
 
 import type { AllActions, ChatMessageEventEmission, NotificationCountData } from './actions';
