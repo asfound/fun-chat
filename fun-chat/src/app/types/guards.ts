@@ -1,10 +1,6 @@
 import type { StoredState } from '../store/reducer';
 import type { CurrentUser, ErrorResponsePayload } from './interfaces';
 
-export function isNonNullable<T>(value: T): value is NonNullable<T> {
-  return value !== null && value !== undefined;
-}
-
 function isStoredStateProperties(object: unknown): object is StoredState {
   const isObject = typeof object !== 'object' || object === null;
 

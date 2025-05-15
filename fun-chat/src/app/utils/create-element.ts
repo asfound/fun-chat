@@ -1,5 +1,3 @@
-import { isNonNullable } from '../types/guards';
-
 export type TagType = keyof HTMLElementTagNameMap;
 
 type Properties<T extends TagType> = Partial<HTMLElementTagNameMap[T]>;
@@ -29,7 +27,7 @@ function createElementFactory<T extends TagType>(tag: T) {
     }
 
     if (children) {
-      element.append(...children.filter((child) => isNonNullable(child)));
+      element.append(...children.filter((child) => child != null));
     }
 
     return element;
