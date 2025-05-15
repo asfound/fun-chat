@@ -13,16 +13,9 @@ export function createMessage(currentUser: string, message: Message): HTMLDivEle
 
   const messageElement = div({ className: styles.message });
 
-  const author = div({ textContent: message.from, className: styles.author });
+  const messageHeader = createMessageHeader(message);
 
-  const date = div({ textContent: formatTime(message.datetime) });
-
-  const messageHeader = div({ className: styles.header }, [author, date]);
-
-  const messageText = p({
-    textContent: message.text,
-    className: styles.text,
-  });
+  const messageText = p({ textContent: message.text, className: styles.text });
 
   const isEdited = div({
     textContent: message.status.isEdited ? 'Edited' : '',
@@ -38,41 +31,11 @@ export function createMessage(currentUser: string, message: Message): HTMLDivEle
         ? 'Delivered'
         : 'Sent';
 
-    const messageStatus = div({
-      textContent: messageDeliveryStatus,
-      className: styles.status,
-    });
+    const messageStatus = div({ textContent: messageDeliveryStatus, className: styles.status });
 
-    const deleteButton = createButton({
-      textContent: EMPTY_STRING,
-      onClick: () => {
-        deleteMessage(message.id);
-      },
-    });
-    const deleteIcon = icon({});
-    deleteIcon.classList.add('fas', 'fa-trash'); //fa-xmark
-    deleteButton.append(deleteIcon);
+    const deleteButton = createDeleteButton(message);
 
-    const editButton = createButton({
-      textContent: EMPTY_STRING,
-      onClick: () => {
-        const textInput = textarea({
-          value: message.text,
-          className: styles.text,
-        });
-
-        messageText.replaceWith(textInput);
-        textInput.style.height = `${textInput.scrollHeight.toString()}px`;
-        textInput.scrollIntoView();
-
-        editButton.replaceWith(
-          createEditControls(editButton, textInput, messageText, message.id, messageElement)
-        );
-      },
-    });
-    const editIcon = icon({});
-    editIcon.classList.add('fas', 'fa-pen-to-square');
-    editButton.append(editIcon);
+    const editButton = createEditButton(message, messageText, messageElement);
 
     messageFooter.append(messageStatus, editButton, deleteButton);
   } else {
@@ -121,4 +84,52 @@ function createEditControls(
   controls.append(confirmButton, discardButton);
 
   return controls;
+}
+
+function createMessageHeader(message: Message): HTMLDivElement {
+  const author = div({ textContent: message.from, className: styles.author });
+  const date = div({ textContent: formatTime(message.datetime) });
+  return div({ className: styles.header }, [author, date]);
+}
+
+function createEditButton(
+  message: Message,
+  messageText: HTMLParagraphElement,
+  messageElement: HTMLDivElement
+): HTMLButtonElement {
+  const editButton = createButton({
+    textContent: EMPTY_STRING,
+    onClick: () => {
+      const textInput = textarea({ value: message.text, className: styles.text });
+
+      messageText.replaceWith(textInput);
+      textInput.style.height = `${textInput.scrollHeight.toString()}px`;
+      textInput.scrollIntoView();
+
+      editButton.replaceWith(
+        createEditControls(editButton, textInput, messageText, message.id, messageElement)
+      );
+    },
+  });
+
+  const editIcon = icon({});
+  editIcon.classList.add('fas', 'fa-pen-to-square');
+  editButton.append(editIcon);
+
+  return editButton;
+}
+
+function createDeleteButton(message: Message): HTMLButtonElement {
+  const deleteButton = createButton({
+    textContent: EMPTY_STRING,
+    onClick: () => {
+      deleteMessage(message.id);
+    },
+  });
+
+  const deleteIcon = icon({});
+  deleteIcon.classList.add('fas', 'fa-trash');
+  deleteButton.append(deleteIcon);
+
+  return deleteButton;
 }
