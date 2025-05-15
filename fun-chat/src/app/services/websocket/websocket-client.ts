@@ -68,8 +68,9 @@ export class WebSocketClient {
       );
 
       this.webSocket.addEventListener('message', (event) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        this.handleMessage(event.data);
+        if (typeof event.data === 'string') {
+          this.handleMessage(event.data);
+        }
       });
 
       this.webSocket.addEventListener('close', () => {
