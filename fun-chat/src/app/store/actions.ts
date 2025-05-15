@@ -21,8 +21,6 @@ export interface ActionWithPayload<A extends ActionType, T> {
   payload: T;
 }
 
-// TODO refactor to not duplicate
-
 export type SocketStateChange = ActionWithPayload<typeof ACTION.SET_SOCKET_STATE, boolean>;
 
 export const setSocketState = (value: boolean): SocketStateChange => ({

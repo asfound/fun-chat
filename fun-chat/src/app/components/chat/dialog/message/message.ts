@@ -1,7 +1,7 @@
 import type { Message } from '~/app/types/interfaces';
 
 import { createButton } from '~/app/components/button/button';
-import { EMPTY_STRING } from '~/app/constants/constants';
+import { EMPTY_STRING, ICON_CODE, MESSAGE_STATUS_TEXT } from '~/app/constants/constants';
 import { deleteMessage, editMessage } from '~/app/services/message-service';
 import { div, icon, p, textarea } from '~/app/utils/create-element';
 import formatTime from '~/app/utils/format-time';
@@ -18,7 +18,7 @@ export function createMessage(currentUser: string, message: Message): HTMLDivEle
   const messageText = p({ textContent: message.text, className: styles.text });
 
   const isEdited = div({
-    textContent: message.status.isEdited ? 'Edited' : '',
+    textContent: message.status.isEdited ? MESSAGE_STATUS_TEXT.EDITED : '',
     className: styles.edited,
   });
 
@@ -26,10 +26,10 @@ export function createMessage(currentUser: string, message: Message): HTMLDivEle
 
   if (message.from === currentUser) {
     const messageDeliveryStatus = message.status.isReaded
-      ? 'Read'
+      ? MESSAGE_STATUS_TEXT.READ
       : message.status.isDelivered
-        ? 'Delivered'
-        : 'Sent';
+        ? MESSAGE_STATUS_TEXT.DELIVERED
+        : MESSAGE_STATUS_TEXT.SENT;
 
     const messageStatus = div({ textContent: messageDeliveryStatus, className: styles.status });
 
@@ -67,9 +67,9 @@ function createEditControls(
       messageElement.scrollIntoView();
     },
   });
-  const deleteIcon = icon({});
-  deleteIcon.classList.add('fas', 'fa-xmark');
-  discardButton.append(deleteIcon);
+  const discardIcon = icon({});
+  discardIcon.classList.add(ICON_CODE.LIB, ICON_CODE.DISCARD);
+  discardButton.append(discardIcon);
 
   const confirmButton = createButton({
     textContent: EMPTY_STRING,
@@ -78,7 +78,7 @@ function createEditControls(
     },
   });
   const confirmIcon = icon({});
-  confirmIcon.classList.add('fas', 'fa-check');
+  confirmIcon.classList.add(ICON_CODE.LIB, ICON_CODE.CONFIRM);
   confirmButton.append(confirmIcon);
 
   controls.append(confirmButton, discardButton);
@@ -113,7 +113,7 @@ function createEditButton(
   });
 
   const editIcon = icon({});
-  editIcon.classList.add('fas', 'fa-pen-to-square');
+  editIcon.classList.add(ICON_CODE.LIB, ICON_CODE.EDIT);
   editButton.append(editIcon);
 
   return editButton;
@@ -128,7 +128,7 @@ function createDeleteButton(message: Message): HTMLButtonElement {
   });
 
   const deleteIcon = icon({});
-  deleteIcon.classList.add('fas', 'fa-trash');
+  deleteIcon.classList.add(ICON_CODE.LIB, ICON_CODE.DELETE);
   deleteButton.append(deleteIcon);
 
   return deleteButton;

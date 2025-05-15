@@ -1,6 +1,6 @@
 import type { Render } from '~/app/types/types';
 
-import { EMPTY_VALUE, NOTIFICATION_VAR } from '~/app/constants/constants';
+import { EMPTY_VALUE, HAS_NOTIFICATIONS, NOTIFICATION_VAR } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
 import { fetchChatMessageHistory } from '~/app/services/message-service';
 import { ACTION } from '~/app/store/actions';
@@ -61,6 +61,6 @@ function updateBadge(element: HTMLLIElement, value: number): void {
     delete element.dataset.hasNotifications;
   } else {
     element.style.setProperty(NOTIFICATION_VAR, `"${value.toString()}"`);
-    element.dataset.hasNotifications = 'true';
+    element.dataset.hasNotifications = HAS_NOTIFICATIONS;
   }
 }

@@ -1,5 +1,7 @@
 import type { State } from '~/app/store/reducer';
 
+import { LOADER_TEXT } from '~/app/constants/constants';
+
 import type { Store } from '../../lib/store/store';
 
 import { ACTION } from '../../store/actions';
@@ -13,7 +15,7 @@ export function createLoader(store: Store<State>): void {
     className: styles.spinner,
   });
 
-  const message = p({ textContent: 'Connecting...' });
+  const message = p({ textContent: LOADER_TEXT });
 
   loaderElement.append(spinnerElement, message);
 

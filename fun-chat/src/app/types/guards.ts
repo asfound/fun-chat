@@ -1,6 +1,8 @@
 import type { StoredState } from '../store/reducer';
 import type { CurrentUser, ErrorResponsePayload } from './interfaces';
 
+import { ERROR_TEXT } from '../constants/constants';
+
 function isStoredStateProperties(object: unknown): object is StoredState {
   const isObject = typeof object !== 'object' || object === null;
 
@@ -26,7 +28,7 @@ function isCurrentUserProperties(object: unknown): object is CurrentUser {
 
 export function assertIsStoredStateProperties(object: unknown): asserts object is StoredState {
   if (!isStoredStateProperties(object)) {
-    throw new TypeError('not valid state');
+    throw new TypeError(ERROR_TEXT.INVALID_STATE);
   }
 }
 
@@ -44,6 +46,6 @@ export function assertErrorResponsePayload(
   object: unknown
 ): asserts object is ErrorResponsePayload {
   if (!isErrorResponsePayload(object)) {
-    throw new TypeError('unknown payload');
+    throw new TypeError(ERROR_TEXT.UNKNOWN_PAYLOAD);
   }
 }

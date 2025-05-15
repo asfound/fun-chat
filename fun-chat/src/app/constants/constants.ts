@@ -27,7 +27,7 @@ export const PASSWORD_LENGTH = {
   MIN: 6,
 } as const;
 
-export const VALIDATION_ERROR = {
+export const VALIDATION_ERROR_TEXT = {
   MIN_LOGIN: `Must be at least ${LOGIN_LENGTH.MIN.toString()} characters long.`,
   MAX_LOGIN: `Must be no more than ${LOGIN_LENGTH.MAX.toString()} characters long.`,
   NO_SPECIAL_CHARACTERS: 'Must contain only Latin letters and digits.',
@@ -51,6 +51,7 @@ export const PLACEHOLDER = {
   NO_MESSAGES: 'No messages',
   PASSWORD: 'Enter password',
   SELECT_CHAT: 'Select chat',
+  SEARCH: 'Find user...',
 } as const;
 
 export const LEGEND_TEXT = 'Login to start chatting';
@@ -101,3 +102,38 @@ export const EMPTY_VALUE = 0;
 
 export const ABOUT_TEXT =
   'App development is part of the JavaScript/Front-end 2024Q4 course at Rolling Scopes School. \nAuthor:';
+
+export const ERROR_TEXT = {
+  UNKNOWN_PAYLOAD: 'Unknown payload',
+  INVALID_STATE: 'Not a valid state',
+  SOCKET_CLOSED: 'Socket is closed',
+  REQUEST_UNKNOWN: 'Received response for unknown request',
+} as const;
+
+export const USER_STATUS = {
+  ONLINE: 'online',
+  OFFLINE: 'offline',
+} as const;
+
+export const DIVIDER_TEXT = 'Unread messages';
+
+export const MESSAGE_STATUS_TEXT = {
+  EDITED: 'Edited',
+  DELIVERED: 'Delivered',
+  READ: 'Read',
+  SENT: 'Sent',
+};
+
+export const ICON_CODE = {
+  LIB: 'fas',
+  DELETE: 'fa-trash',
+  DISCARD: 'fa-xmark',
+  CONFIRM: 'fa-check',
+  EDIT: 'fa-pen-to-square',
+} as const;
+
+export const HAS_NOTIFICATIONS = 'true';
+
+export const USER_LABEL = 'User: ';
+
+export const LOADER_TEXT = 'Connecting...';

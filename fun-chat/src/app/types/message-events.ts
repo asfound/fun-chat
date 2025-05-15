@@ -17,7 +17,6 @@ export interface AddMessageEvent {
   message: Message;
 }
 
-// TODO Add data type to use here and in payload {id: ..., status: ...}
 export interface DeleteMessageEvent {
   kind: typeof MESSAGE_EVENT_TYPE.DELETE_MESSAGE;
 

@@ -1,4 +1,4 @@
-import { INPUT_TYPE } from '~/app/constants/constants';
+import { INPUT_TYPE, PLACEHOLDER } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
 import { setSearchInputValue } from '~/app/store/actions';
 import { aside, input } from '~/app/utils/create-element';
@@ -11,7 +11,7 @@ export function createContacts(): HTMLElement {
 
   const searchInput = input({
     type: INPUT_TYPE.TEXT,
-    placeholder: 'Find user...',
+    placeholder: PLACEHOLDER.SEARCH,
     value: store.getState().searchValue,
     className: styles.input,
   });

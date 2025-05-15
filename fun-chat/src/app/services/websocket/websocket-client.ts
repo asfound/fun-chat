@@ -4,7 +4,7 @@ import type { State } from '~/app/store/reducer';
 import type { ClientRequest, ServerMessage, ServerRequest } from '~/app/types/interfaces';
 
 import { showModal } from '~/app/components/modal/modal';
-import { BASE_URL, SERVER_RESPONSE_TYPE } from '~/app/constants/constants';
+import { BASE_URL, ERROR_TEXT, SERVER_RESPONSE_TYPE } from '~/app/constants/constants';
 import { store, type Store } from '~/app/lib/store/store';
 import { setSocketState } from '~/app/store/actions';
 import { assertErrorResponsePayload } from '~/app/types/guards';
@@ -84,7 +84,7 @@ export class WebSocketClient {
           this.requests.set(request.id, { resolve, reject });
           this.webSocket?.send(JSON.stringify(request));
         })
-      : Promise.reject(new Error('socket is closed'));
+      : Promise.reject(new Error(ERROR_TEXT.SOCKET_CLOSED));
   }
 
   private reopen(): void {
@@ -115,7 +115,7 @@ export class WebSocketClient {
 
         this.requests.delete(serverMessage.id);
       } else {
-        showModal('Received response for unknown request');
+        showModal(ERROR_TEXT.REQUEST_UNKNOWN);
       }
     } else {
       handleServerRequest(serverMessage as ServerRequest);

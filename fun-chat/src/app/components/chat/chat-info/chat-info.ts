@@ -1,5 +1,6 @@
 import type { Render } from '~/app/types/types';
 
+import { USER_STATUS } from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
 import { ACTION } from '~/app/store/actions';
 import { div, h2 } from '~/app/utils/create-element';
@@ -54,10 +55,3 @@ export function createChatInfo(): HTMLElement {
 
   return container;
 }
-
-// TODO MOVE TO CONSTANTS
-
-const USER_STATUS = {
-  ONLINE: 'online',
-  OFFLINE: 'offline',
-};
