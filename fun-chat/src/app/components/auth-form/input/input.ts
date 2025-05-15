@@ -1,16 +1,24 @@
+import type { INPUT_TYPE, INPUT_NAME } from '~/app/constants/constants';
 import type { InputValidator } from '~/app/types/types';
 
 import { div, input, label } from '~/app/utils/create-element';
 
 import styles from './input.module.css';
 
-export function createInput(
-  type: string,
-  name: string,
-  placeholder: string,
-  validator: InputValidator
-): { container: HTMLElement; input: HTMLInputElement } {
+export interface InputProperties {
+  type: (typeof INPUT_TYPE)[keyof typeof INPUT_TYPE];
+  name: (typeof INPUT_NAME)[keyof typeof INPUT_NAME];
+  placeholder: string;
+  validator: (value: string) => string | null;
+}
+
+export function createInput(properties: InputProperties): {
+  container: HTMLElement;
+  input: HTMLInputElement;
+} {
   const container = div({ className: styles.container });
+
+  const { type, name, placeholder, validator } = properties;
 
   const inputElement = input({
     type,
