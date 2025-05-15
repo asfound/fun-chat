@@ -1,6 +1,11 @@
 import type { Render } from '~/app/types/types';
 
-import { EMPTY_VALUE, HAS_NOTIFICATIONS, NOTIFICATION_VAR } from '~/app/constants/constants';
+import {
+  EMPTY_STRING,
+  EMPTY_VALUE,
+  HAS_NOTIFICATIONS,
+  NOTIFICATION_VAR,
+} from '~/app/constants/constants';
 import { store } from '~/app/lib/store/store';
 import { fetchChatMessageHistory } from '~/app/services/message-service';
 import { ACTION } from '~/app/store/actions';
@@ -57,7 +62,7 @@ export function createUserList(): HTMLUListElement {
 
 function updateBadge(element: HTMLLIElement, value: number): void {
   if (value === EMPTY_VALUE) {
-    element.style.setProperty(NOTIFICATION_VAR, '');
+    element.style.setProperty(NOTIFICATION_VAR, EMPTY_STRING);
     delete element.dataset.hasNotifications;
   } else {
     element.style.setProperty(NOTIFICATION_VAR, `"${value.toString()}"`);

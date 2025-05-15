@@ -1,3 +1,4 @@
+import { EMPTY_STRING } from '../constants/constants';
 import { store } from '../lib/store/store';
 import { Route } from './route';
 
@@ -8,7 +9,7 @@ interface RouterProperties {
 
 export function initRouter({ root, routes }: RouterProperties): void {
   function handleHashChange(): void {
-    const hash = globalThis.location.hash.replace(/#/, '');
+    const hash = globalThis.location.hash.replace(/#/, EMPTY_STRING);
 
     if (!store.getState().currentUser && hash === Route.CHAT) {
       navigate(Route.LOGIN);

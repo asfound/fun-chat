@@ -1,6 +1,6 @@
-import type { INPUT_TYPE, INPUT_NAME } from '~/app/constants/constants';
 import type { InputValidator } from '~/app/types/types';
 
+import { type INPUT_TYPE, type INPUT_NAME, EMPTY_STRING } from '~/app/constants/constants';
 import { div, input, label } from '~/app/utils/create-element';
 
 import styles from './input.module.css';
@@ -45,7 +45,7 @@ function showError(
   labelElement: HTMLLabelElement,
   message: string | null
 ): void {
-  labelElement.textContent = message ?? '';
+  labelElement.textContent = message ?? EMPTY_STRING;
 
   if (message) {
     inputElement.classList.add(styles.error);

@@ -18,7 +18,7 @@ export function createMessage(currentUser: string, message: Message): HTMLDivEle
   const messageText = p({ textContent: message.text, className: styles.text });
 
   const isEdited = div({
-    textContent: message.status.isEdited ? MESSAGE_STATUS_TEXT.EDITED : '',
+    textContent: message.status.isEdited ? MESSAGE_STATUS_TEXT.EDITED : EMPTY_STRING,
     className: styles.edited,
   });
 

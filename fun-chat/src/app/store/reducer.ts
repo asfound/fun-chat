@@ -3,6 +3,7 @@ import type { CurrentUser, Message, User } from '~/app/types/interfaces';
 
 import type { AllActions, ChatMessageEventEmission, NotificationCountData } from './actions';
 
+import { EMPTY_STRING } from '../constants/constants';
 import { DEFAULT_INCREMENT } from '../services/server-request-handler';
 import { loadStateFromSessionStorage } from '../services/session-storage/session-storage';
 import { MESSAGE_EVENT_TYPE, type ChatMessageEvent } from '../types/message-events';
@@ -43,7 +44,7 @@ export const defaultState: State = {
 
   unreadMessagesCounters: new Map(),
 
-  searchValue: '',
+  searchValue: EMPTY_STRING,
 };
 
 export const initialState: State = loadStateFromSessionStorage() ?? defaultState;
