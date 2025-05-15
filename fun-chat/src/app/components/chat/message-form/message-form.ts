@@ -18,12 +18,8 @@ export function createMessageForm(): HTMLFormElement {
     messageForm.replaceChildren();
 
     const partnerLogin = currentChat?.userLogin;
-
     const isDisabled = partnerLogin === undefined;
-    const textField = textarea({
-      className: styles.textInput,
-      disabled: isDisabled,
-    });
+    const textField = textarea({ className: styles.textInput, disabled: isDisabled });
 
     const sendButton = createButton({
       textContent: BUTTON_TEXT.SEND,
@@ -31,32 +27,8 @@ export function createMessageForm(): HTMLFormElement {
       disabled: isDisabled || textField.value === EMPTY_STRING,
     });
 
-    const validateMessage = (): void => {
-      sendButton.disabled = textField.value === EMPTY_STRING;
-    };
-
     if (partnerLogin) {
-      sendButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        sendMessage(partnerLogin, textField.value)
-          .then(() => {
-            textField.value = EMPTY_STRING;
-            sendButton.disabled = true;
-          })
-          .catch((error: unknown) => {
-            assertErrorResponsePayload(error);
-            showModal(error.error);
-          });
-      });
-
-      textField.addEventListener('input', validateMessage);
-
-      textField.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' && !event.shiftKey) {
-          event.preventDefault();
-          sendButton.click();
-        }
-      });
+      setupMessageFormHandlers(sendButton, textField, partnerLogin);
     }
 
     messageForm.append(textField, sendButton);
@@ -67,4 +39,36 @@ export function createMessageForm(): HTMLFormElement {
   store.subscribe(ACTION.SET_CURRENT_CHAT, render);
 
   return messageForm;
+}
+
+function setupMessageFormHandlers(
+  sendButton: HTMLButtonElement,
+  textField: HTMLTextAreaElement,
+  partnerLogin: string
+): void {
+  const validateMessage = (): void => {
+    sendButton.disabled = textField.value === EMPTY_STRING;
+  };
+
+  sendButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    sendMessage(partnerLogin, textField.value)
+      .then(() => {
+        textField.value = EMPTY_STRING;
+        sendButton.disabled = true;
+      })
+      .catch((error: unknown) => {
+        assertErrorResponsePayload(error);
+        showModal(error.error);
+      });
+  });
+
+  textField.addEventListener('input', validateMessage);
+
+  textField.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      sendButton.click();
+    }
+  });
 }
