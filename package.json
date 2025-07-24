@@ -7,12 +7,12 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist -e fun-chat",
+    "deploy": "npm run build && gh-pages -d dist",
     "format": "prettier --write . --ignore-unknown",
     "lint": "eslint '**/*.{js,ts}'",
     "lint:fix": "eslint --fix .",
     "stylelint": "stylelint '**/*.css' --fix",
-    "prepare": "cd .. && husky fun-chat/.husky"
+    "prepare": "husky .husky"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
