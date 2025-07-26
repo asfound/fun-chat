@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://fun-chat-app-cj829.ondigitalocean.app:443';
+export const BASE_URL = 'https://rsschool.shubbush.xyz/fun-chat/';
 
 export const APP_NAME = 'Fun Chat';
 export const APP_YEAR = '2025';
